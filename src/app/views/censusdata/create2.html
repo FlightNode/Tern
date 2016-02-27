@@ -1,0 +1,64 @@
+<div class="container">    
+    <div ng-include="'/app/views/censusdata/progressBar.html'"></div>
+    {{censusForm.step = 2}}
+    <form class="form-horizontal" ng-submit="submit()" role="form"> 
+        <div class="form-group panel panel-primary">
+            <div class="panel-heading">Waterbird Survey</div>
+                <div class="panel-body">
+                    <div class="form-group">   
+                        <div class="col-md-12">        
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr class="info">
+                                        <th>Species
+                                        </th>
+                                        <th>No. of Adults</th>
+                                        <th>No. of Juvenile</th>
+                                        <th>Primary Activity</th>
+                                        <th>Secondary Activity</th>
+                                        <th>Location/ Habitat Type</th>
+                                        <th>% Feeding Success Rate</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!--<pre>{{birdSpeciesList.count()}}</pre>-->
+                                    <tr ng-repeat="(i, bird) in birdSpeciesList | orderBy: 'commonName' track by $index">
+                                        <td>{{bird.commonName}}
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control" ng-model="censusForm.observations[i].adults" ng-change="setBirdId(i, bird.id)" placeholder="No. of Adults">
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control" ng-model="censusForm.observations[i].juvenile" placeholder="No. of Juvenile"></td>
+                                        <td>
+                                            <select name="primaryActivitySelect"  class="form-control" id="secondaryActivitySelect" ng-model="censusForm.observations[i].primaryActivityId">
+                                                <option ng-repeat="behaviorType in data.behaviorTypeInfo" value="{{behaviorType.Id}}">{{behaviorType.Description}}</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="secondaryActivitySelect" class="form-control" id="secondaryActivitySelect" ng-model="censusForm.observations[i].secondaryActivityId">
+                                                <option ng-repeat="behaviorType in data.behaviorTypeInfo" value="{{behaviorType.Id}}">{{behaviorType.Description}}</option>
+                                            </select>
+                                        </td>
+                                        <td><select name="habitatInfo" id="habitatInfo" class="form-control" ng-model="censusForm.observations[i].habitatId">
+                                            <option ng-repeat="habitat in data.habitatInfo" value="{{habitat.Id}}">{{habitat.Description}}</option>
+                                        </select></td>
+                                        <td><select name="feedingSuccess" id="feedingSuccess" class="form-control" ng-model="censusForm.observations[i].feedingId">
+                                        <option ng-repeat="feed in data.feedingRateInfo" value="{{feed.Id}}">{{feed.Description}}</option>                  
+                                        </select></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>    
+                    </div>  
+                    <div class="form-group">
+                        <label class="control-label col-md-3" for="surveyComments">Comments:</label>
+                        <div class="col-md-9">
+                            <textarea type="text" class="form-control" rows="5" id="surveyComments" placeholder="Enter Comments" ng-model="censusForm.surveyComments"></textarea>
+                        </div>    
+                    </div>          
+                </div>    
+            <div ng-include="'/app/views/censusdata/bottomBar.html'"></div>
+        </div>  
+    </form>
+</div>

@@ -1,0 +1,46 @@
+/* Global */
+a {
+  -moz-transition: color 0.15s;
+  -o-transition: color 0.15s;
+  -webkit-transition: color 0.15s;
+  transition: color 0.15s;
+  color: #0AA8E3;
+  text-decoration: none;
+  outline: 0 !important;
+  background: transparent;
+}
+body {
+    -moz-osx-font-smoothing: grayscale;
+    color: #404040;
+    font-family: "Noto Serif", Georgia, serif;
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 25.5px;
+}
+
+/* Top / breadcrumb */
+.top {
+  background-color: #262626;
+  color: #fff;
+  font-family: "Source Sans Pro", Verdana, sans-serif;
+  padding-top: 5px;
+}
+.top .breadcrumb a {
+  color: #aaa;
+}
+.breadcrumb > li + li::before {
+  padding: 0 5px;
+  content: "»";
+  color: #d4d4d4;
+}
+
+/* Top / header */
+.header {
+  font-family: "Source Sans Pro", Verdana, sans-serif;
+  background-color: #000;
+}
+.header-name {
+  margin-top: 1em;
+
+}
+

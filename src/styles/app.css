@@ -1,0 +1,45 @@
+.loading {
+  z-index:99;
+  position: fixed; /* or absolute */
+  top: 50%;
+  left: 50%;
+  margin-top: -32px;
+  margin-left: -32px;
+}
+
+/*
+ Validation and alers
+ */
+
+.validator {
+  padding-top: 2.25em;
+}
+span.error.bg-danger {
+  padding: 7px;
+  display: inline-block;
+  width: 100%;
+}
+
+
+/*
+ Form customizations
+ */
+form {
+  margin-top: 2em;
+}
+form h2 {
+  font-size: 1.5em;
+  border-bottom: 1px inset silver;
+  margin-top: 2em;
+}
+
+input.form-inline-small {
+  display: inline;
+  width: 4em;
+}
+select.form-inline-small {
+  display: inline;
+  width: 5em;
+}
+
+

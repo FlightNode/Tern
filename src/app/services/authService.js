@@ -79,6 +79,7 @@ angular.module('authService', [])
                     url: url,
                     method: verb,
                     data: data,
+                    //params:{id:1},
                     headers: headers
                 });
 

@@ -7,13 +7,33 @@
         <alert>
         </alert>
         <div class="form-group">
+            <label for="siteCode" class="col-sm-3 control-label">Site Code <span class="text-danger">*</span></label>
+            <div class="col-sm-9" ng-class="{'has-error': locationForm.siteCode.$error.required || locationForm.siteCode.$error.maxlength}">
+                <input type="text" class="form-control" ng-model="location.siteCode"
+                name="siteCode" placeholder="max length 1000 characters" required ng-maxlength="100">
+            </div>
+            <div role="alert" class="col-sm-9 col-sm-offset-3">
+                <span class="error bg-danger" ng-show="locationForm.siteCode.$error.maxlength">Max 100 characters</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="siteName" class="col-sm-3 control-label">Site Name <span class="text-danger">*</span></label>
+            <div class="col-sm-9" ng-class="{'has-error': locationForm.siteCode.$error.required || locationForm.siteName.$error.maxlength}">
+                <input type="text" class="form-control" ng-model="location.siteName"
+                name="siteName" placeholder="max length 1000 characters" required ng-maxlength="100">
+            </div>
+            <div role="alert" class="col-sm-9 col-sm-offset-3">
+                <span class="error bg-danger" ng-show="locationForm.sitesiteNameCode.$error.maxlength">Max 100 characters</span>
+            </div>
+        </div>
+        <div class="form-group">
             <label for="description" class="col-sm-3 control-label">Description <span class="text-danger">*</span></label>
             <div class="col-sm-9" ng-class="{'has-error': locationForm.description.$error.required || locationForm.description.$error.maxlength}">
                 <input type="text" class="form-control" ng-model="location.description"
                 name="description" placeholder="max length 1000 characters" required ng-maxlength="1000">
             </div>
             <div role="alert" class="col-sm-9 col-sm-offset-3">
-                <span class="error bg-danger" ng-show="locationForm.description.$error.maxlength">Max 100 characters</span>
+                <span class="error bg-danger" ng-show="locationForm.description.$error.maxlength">Max 1000 characters</span>
             </div>
         </div>
         <div class="form-group">

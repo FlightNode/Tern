@@ -21,7 +21,8 @@ angular
     'navigationService',
     'ui.bootstrap.modal',
     'ui.bootstrap.timepicker',
-    'ui.grid.selection'
+    'ui.grid.selection',
+    'censusFormService'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -138,6 +139,29 @@ angular
       .when('/logout', {
         templateUrl: 'app/views/main.html',
         controller: 'LogoutController'
+      })
+      .when('/censusdata/', {
+        templateUrl: 'app/views/censusdata/create.html',
+        controller: 'CensusDataCreateController',
+        title: 'FlightNode - Census Data - New'
+      })
+      .when('/censusdata/create', {
+        templateUrl: 'app/views/censusdata/create.html',
+        //TODO: Will think about should conroller be seperated out for each of these views.
+        controller: 'CensusDataCreateController',
+        title: 'FlightNode - Census Data - New'
+      })
+      .when('/censusdata/create2', {
+        templateUrl: 'app/views/censusdata/create2.html',
+        //TODO: Will think about should conroller be seperated out for each of these views.
+        controller: 'CensusDataCreateController',
+        title: 'FlightNode - Census Data - New'
+      })
+      .when('/censusdata/create3', {
+        templateUrl: 'app/views/censusdata/create3.html',
+        //TODO: Will think about should conroller be seperated out for each of these views.
+        controller: 'CensusDataCreateController',
+        title: 'FlightNode - Census Data - New'
       })
       .otherwise({
         templateUrl: 'app/views/404.html',
