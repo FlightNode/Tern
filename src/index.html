@@ -17,123 +17,135 @@
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/tern.css">
     <!-- endbuild -->
   </head>
-  <body ng-app="flightNodeApp">
-    <!--[if lt IE 7]>
-    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
-    <!-- Add your site or application content here -->
-    <div class="header">
-      <div class="navbar navbar-default" role="navigation">
-        <div class="container">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#/">FlightNode Demo</a>
-          </div>
-          <div role="navigation" ng-bind-html="navigation" class="collapse navbar-collapse" id="js-navbar-collapse">
-          </div>
-    <div class="display-name" ng-bind="display_name"></div>
+  <!--[if lt IE 7]>
+  <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
+  <div class="container top">
+    <div class="row">
+      <div class="col-md-12">
+        <a href="http://www.audubon.org"><img src="/images/wordmark-white.png" alt="Audubon"></a>
+        <ol class="breadcrumb">
+          <li><a href="http://www.audubon.org/central-flyway">Central Flyway</a></li>
+          <li><a href="http://tx.audubon.org/">Texas</a></li>
+          <li class="active">Texas Estuarine Resource Netowork</li>
+        </ol>
+      </div>
+    </div>
   </div>
-</div>
-</div>
-<div class="container">
-<div ng-view=""></div>
-</div>
-<div class="footer">
-<div class="container">
-  <p>
-    <span class="glyphicon glyphicon-wrench"></span> made by the <a href="http://flightnode.github.io">FlightNode</a> team. Eventually we'll have a full copyright section here. In the meantime, special thanks to <a href="http://glyphicons.com/">glyphicons</a>        for letting us use their glyphs.
-  </p>
-</div>
-</div>
-<!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
-<!--<script>
-!function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
-(A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
-r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
-}(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-ga('create', 'UA-XXXXX-X');
-ga('send', 'pageview');
-</script>-->
-<!-- build:js(.) scripts/vendor.js -->
-<!-- bower:js -->
-<script src="bower_components/jquery/dist/jquery.js"></script>
-<script src="bower_components/angular/angular.js"></script>
-<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
-<script src="bower_components/angular-animate/angular-animate.js"></script>
-<script src="bower_components/angular-cookies/angular-cookies.js"></script>
-<script src="bower_components/angular-resource/angular-resource.js"></script>
-<script src="bower_components/angular-route/angular-route.js"></script>
-<script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-<script src="bower_components/angular-touch/angular-touch.js"></script>
-<script src="bower_components/angular-ui-grid/ui-grid.js"></script>
-<script src="bower_components/moment/moment.js"></script>
-<script src="bower_components/lodash/lodash.js"></script>
-<script src="bower_components/requirejs/require.js"></script>
-<script src="bower_components/angular-jwt/dist/angular-jwt.js"></script>
-<script src="bower_components/ui-navbar/release/js/ui-navbar.js"></script>
-<script src="bower_components/ui-router/release/angular-ui-router.js"></script>
-<script src="bower_components/ng-csv/build/ng-csv.min.js"></script>
-<!-- endbower -->
-<!-- endbuild -->
-<!-- build:js(.) scripts/ui.bootstrap.js -->
-<script src="bower_components/ui.bootstrap/src/position/position.js"></script>
-<script src="bower_components/ui.bootstrap/src/stackedMap/stackedMap.js"></script>
-<script src="bower_components/ui.bootstrap/src/dateparser/dateparser.js"></script>
-<script src="bower_components/ui.bootstrap/src/datepicker/datepicker.js"></script>
-<script src="bower_components/ui.bootstrap/src/collapse/collapse.js"></script>
-<script src="bower_components/ui.bootstrap/src/tooltip/tooltip.js"></script>
-<script src="bower_components/ui.bootstrap/src/accordion/accordion.js"></script>
-<script src="bower_components/ui.bootstrap/src/popover/popover.js"></script>
-<script src="bower_components/ui.bootstrap/src/typeahead/typeahead.js"></script>
-<script src="bower_components/ui.bootstrap/src/tabs/tabs.js"></script>
-<script src="bower_components/ui.bootstrap/src/timepicker/timepicker.js"></script>
-<script src="bower_components/ui.bootstrap/src/modal/modal.js"></script>
-<script src="bower_components/ui.bootstrap/src/alert/alert.js"></script>
-<script src="bower_components/ui.bootstrap/src/buttons/buttons.js"></script>
-<script src="bower_components/ui.bootstrap/src/carousel/carousel.js"></script>
-<script src="bower_components/ui.bootstrap/src/pagination/pagination.js"></script>
-<script src="bower_components/ui.bootstrap/src/progressbar/progressbar.js"></script>
-<script src="bower_components/ui.bootstrap/src/rating/rating.js"></script>
-<!-- endbuild -->
-<!-- build:js({.tmp,app}) scripts/scripts.js -->
-<script src="app/app.js"></script>
-<script src="app/controllers/main.js"></script>
-<script src="app/controllers/login.js"></script>
-<script src="app/controllers/users/list.js"></script>
-<script src="app/controllers/users/create.js"></script>
-<script src="app/controllers/users/register.js"></script>
-<script src="app/controllers/users/edit.js"></script>
-<script src="app/controllers/users/pending.js"></script>
-<script src="app/controllers/users/profile.js"></script>
-<script src="app/controllers/workdays/create.js"></script>
-<script src="app/controllers/workdays/createForUser.js"></script>
-<script src="app/controllers/workdays/edit.js"></script>
-<script src="app/controllers/workdays/list.js"></script>
-<script src="app/controllers/workdays/mylist.js"></script>
-<script src="app/controllers/worktypes/list.js"></script>
-<script src="app/controllers/worktypes/create.js"></script>
-<script src="app/controllers/worktypes/edit.js"></script>
-<script src="app/controllers/locations/list.js"></script>
-<script src="app/controllers/locations/create.js"></script>
-<script src="app/controllers/locations/edit.js"></script>
-<script src="app/controllers/birdspecies/create.js"></script>
-<script src="app/controllers/birdspecies/edit.js"></script>
-<script src="app/controllers/birdspecies/list.js"></script>
-<script src="app/controllers/logout.js"></script>
-<script src="app/services/userMessages.js"></script>
-<script src="app/services/roleProxy.js"></script>
-<script src="app/services/userProxy.js"></script>
-<script src="app/services/authService.js"></script>
-<script src="app/services/navigationService.js"></script>
-<script src="app/services/config.js"></script>
-<script src="app/directives/userForm.js"></script>
-<!-- endbuild -->
+  <div class="header">
+    <a href="/#" class="header-name">Texas Estuarine Resource Network</a>
+    <div class="navbar navbar-default" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#/">FlightNode Demo</a>
+        </div>
+        <div role="navigation" ng-bind-html="navigation" class="collapse navbar-collapse" id="js-navbar-collapse">
+        </div>
+        <div class="display-name" ng-bind="display_name"></div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div ng-view=""></div>
+  </div>
+  <div class="footer">
+    <div class="container">
+      <p>
+        <span class="glyphicon glyphicon-wrench"></span> made by the <a href="http://flightnode.github.io">FlightNode</a> team. Eventually we'll have a full copyright section here. In the meantime, special thanks to <a href="http://glyphicons.com/">glyphicons</a>        for letting us use their glyphs.
+      </p>
+    </div>
+  </div>
+  <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+  <!--<script>
+  !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
+  (A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
+  r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
+  }(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-XXXXX-X');
+  ga('send', 'pageview');
+  </script>-->
+  <!-- build:js(.) scripts/vendor.js -->
+  <!-- bower:js -->
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+  <script src="bower_components/angular-animate/angular-animate.js"></script>
+  <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+  <script src="bower_components/angular-resource/angular-resource.js"></script>
+  <script src="bower_components/angular-route/angular-route.js"></script>
+  <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+  <script src="bower_components/angular-touch/angular-touch.js"></script>
+  <script src="bower_components/angular-ui-grid/ui-grid.js"></script>
+  <script src="bower_components/moment/moment.js"></script>
+  <script src="bower_components/lodash/lodash.js"></script>
+  <script src="bower_components/requirejs/require.js"></script>
+  <script src="bower_components/angular-jwt/dist/angular-jwt.js"></script>
+  <script src="bower_components/ui-navbar/release/js/ui-navbar.js"></script>
+  <script src="bower_components/ui-router/release/angular-ui-router.js"></script>
+  <script src="bower_components/ng-csv/build/ng-csv.min.js"></script>
+  <!-- endbower -->
+  <!-- endbuild -->
+  <!-- build:js(.) scripts/ui.bootstrap.js -->
+  <script src="bower_components/ui.bootstrap/src/position/position.js"></script>
+  <script src="bower_components/ui.bootstrap/src/stackedMap/stackedMap.js"></script>
+  <script src="bower_components/ui.bootstrap/src/dateparser/dateparser.js"></script>
+  <script src="bower_components/ui.bootstrap/src/datepicker/datepicker.js"></script>
+  <script src="bower_components/ui.bootstrap/src/collapse/collapse.js"></script>
+  <script src="bower_components/ui.bootstrap/src/tooltip/tooltip.js"></script>
+  <script src="bower_components/ui.bootstrap/src/accordion/accordion.js"></script>
+  <script src="bower_components/ui.bootstrap/src/popover/popover.js"></script>
+  <script src="bower_components/ui.bootstrap/src/typeahead/typeahead.js"></script>
+  <script src="bower_components/ui.bootstrap/src/tabs/tabs.js"></script>
+  <script src="bower_components/ui.bootstrap/src/timepicker/timepicker.js"></script>
+  <script src="bower_components/ui.bootstrap/src/modal/modal.js"></script>
+  <script src="bower_components/ui.bootstrap/src/alert/alert.js"></script>
+  <script src="bower_components/ui.bootstrap/src/buttons/buttons.js"></script>
+  <script src="bower_components/ui.bootstrap/src/carousel/carousel.js"></script>
+  <script src="bower_components/ui.bootstrap/src/pagination/pagination.js"></script>
+  <script src="bower_components/ui.bootstrap/src/progressbar/progressbar.js"></script>
+  <script src="bower_components/ui.bootstrap/src/rating/rating.js"></script>
+  <!-- endbuild -->
+  <!-- build:js({.tmp,app}) scripts/scripts.js -->
+  <script src="app/app.js"></script>
+  <script src="app/controllers/main.js"></script>
+  <script src="app/controllers/login.js"></script>
+  <script src="app/controllers/users/list.js"></script>
+  <script src="app/controllers/users/create.js"></script>
+  <script src="app/controllers/users/register.js"></script>
+  <script src="app/controllers/users/edit.js"></script>
+  <script src="app/controllers/users/pending.js"></script>
+  <script src="app/controllers/users/profile.js"></script>
+  <script src="app/controllers/workdays/create.js"></script>
+  <script src="app/controllers/workdays/createForUser.js"></script>
+  <script src="app/controllers/workdays/edit.js"></script>
+  <script src="app/controllers/workdays/list.js"></script>
+  <script src="app/controllers/workdays/mylist.js"></script>
+  <script src="app/controllers/worktypes/list.js"></script>
+  <script src="app/controllers/worktypes/create.js"></script>
+  <script src="app/controllers/worktypes/edit.js"></script>
+  <script src="app/controllers/locations/list.js"></script>
+  <script src="app/controllers/locations/create.js"></script>
+  <script src="app/controllers/locations/edit.js"></script>
+  <script src="app/controllers/birdspecies/create.js"></script>
+  <script src="app/controllers/birdspecies/edit.js"></script>
+  <script src="app/controllers/birdspecies/list.js"></script>
+  <script src="app/controllers/logout.js"></script>
+  <script src="app/services/userMessages.js"></script>
+  <script src="app/services/roleProxy.js"></script>
+  <script src="app/services/userProxy.js"></script>
+  <script src="app/services/authService.js"></script>
+  <script src="app/services/navigationService.js"></script>
+  <script src="app/services/config.js"></script>
+  <script src="app/directives/userForm.js"></script>
+  <!-- endbuild -->
 </body>
 </html>
