@@ -29,14 +29,28 @@ a:hover, a:focus {
   src: url("../fonts/audubon.eot?#iefix") format("embedded-opentype"), url("../fonts/audubon.woff") format("woff"), url("../fonts/audubon.ttf") format("truetype"), url("../fonts/audubon.svg#audubon") format("svg");
 }
 
+h2 {
+  color: rgb(38, 38, 38);
+  font-family: "Source Sans Pro",Verdana,sans-serif;
+  font-size: 33px;
+  font-weight: 300;
+  letter-spacing: -0.5px;
+  line-height: 38px;
+  margin: 25.5px 0 25.5px 0;
+}
+h3 { 
+  color: rgb(38, 38, 38);
+  font-family: "Source Sans Pro",Verdana,sans-serif;
+}
+
 /* Top / breadcrumb */
-.top {
+.metastripe {
   background-color: #262626;
   color: #fff;
   font-family: "Source Sans Pro", Verdana, sans-serif;
   padding: 10px 0 10px 0;
 }
-.top img {
+.metastripe img {
   height: 20px;
   width: 94px;
   float: left;
@@ -355,7 +369,7 @@ button.tomato, .button.tomato {
 
 /* Main content */
 .content {
-  padding: 5em 0 5em 0;
+  padding: 1em 0 1em 0;
 }
 
 .steps .col-md-3 {
@@ -376,6 +390,14 @@ button.tomato, .button.tomato {
   font-size: 3em;
 }
 
+.sidebar {
+  background-color: silver;
+}
+.sidebar p {
+  font-size: 0.9em;
+  font-family: "Source Sans Pro", Verdana, sans-serif;
+}
+
 /* Footer */
 .footer {
   padding-top: 20px;
@@ -391,10 +413,71 @@ button.tomato, .button.tomato {
 .foot-info {
   padding-top: 30px;
 }
-.where-we-are a {
-  font-size: 0.9em;
-  color: rgba(255, 255, 255, 0.85);
+.copyright {
+  font-size: 0.75em;
+  color: rgb(212, 212, 212);
 }
-.where-we-are a:hover {
+.copyright a { 
   color: white;
+  padding-left: 5px;
+}
+.copyright a:hover {
+  color: gray;
+}
+
+/* Login */
+.login-link {
+  float: left;
+  margin-right: 2em;
+}
+.login-link a {
+  font-size: .9em;
+}
+
+
+
+/*
+ Survey
+ */
+.data h3 {
+  background-color: gray;
+  color: white;
+  font-size: 1.5em;
+  text-transform: uppercase;
+  margin: 0;
+  padding: 3px 0 3px 0;
+  width: 100%;
+  position: relative;
+  bottom: 0px;
+  text-align: center;
+  font-family: "Source Sans Pro", Verdana, sans-serif;
+  font-weight: 300;
+}
+.data h3 a { 
+  color: white;
+ }
+
+.data .step {
+  height: 100px;
+  padding: 0;
+  position: relative;
+  font-size: 0.9em;
+}
+
+.data2 .step {
+  height: 550px;
+  padding: 0;
+  position: relative;
+  font-size: 0.9em;
+}
+.data img, .data2 img {
+  width: 100%;
+  height: auto;
+}
+.data2 h3, .data2 p {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.data2 a { 
+  font-style: oblique;
 }

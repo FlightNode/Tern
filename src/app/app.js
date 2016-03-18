@@ -2,7 +2,7 @@
 'use strict';
 
 var flnd = {}; // jshint ignore:line
-var site = 'TERN';
+var site = 'Audubon TERN';
 
 angular
   .module('flightNodeApp', [
@@ -167,6 +167,22 @@ angular
       .when('/violations', {
         templateUrl: 'app/views/violations.html',
         title:  site + ' - Reporting Violations'
+      })
+      .when('/faq', {
+        templateUrl: 'app/views/faq/index.html',
+        title: site + ' - Frequently Asked Questions'
+      })
+      .when('/contact', {
+        templateUrl: 'app/views/contact.html',
+        title: site + ' - Contact Us'
+      })
+      .when('/data', {
+        templateUrl: 'app/views/data.html',
+        title: site + ' - Submit Survey Data'
+      })
+      .when('/data2', {
+        templateUrl: 'app/views/data2.html',
+        title: site + ' - Submit Survey Data'
       })
       .otherwise({
         templateUrl: 'app/views/404.html',
