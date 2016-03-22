@@ -1,9 +1,8 @@
 <div class="panel-footer" ng-show="censusForm.step === 1">
     <div class="form-group">
         <div class="col-md-offset-8 col-md-4">     
-            <input type="submit" class="btn btn-default" value="Save for Later">
-            <!--<a role="button" class="btn btn-primary" href="#/censusdata/create2">Save &amp; Next &raquo;</a>-->
-            <input type="submit" class="btn btn-primary" value="Save &amp; Next &raquo;" ng-click="censusForm.saveAndMoveNext=true">
+            <input type="submit" class="btn btn-default" ng-click="censusForm.saveForLater=true" value="Save for Later">
+            <input type="submit" class="btn btn-primary" ng-click="censusForm.saveAndMoveNext=true" value="Save &amp; Next &raquo;">
         </div>    
     </div>  
 </div>
@@ -11,9 +10,10 @@
     <div class="form-group">
         <a role="button" class="btn btn-default col-md-offset-1 col-md-2" href="#/censusdata/create">&laquo; Step Back</a>             
         <div class="col-md-offset-5 col-md-4">     
-            <input type="submit" class="btn btn-default" value="Save for Later">
-            <!--<a role="button" class="btn btn-primary" href="#/censusdata/create3">Save &amp; Next &raquo;</a>-->
-            <input type="submit" class="btn btn-primary" value="Save &amp; Next &raquo;" ng-click="censusForm.saveAndMoveNext=true">
+            <input type="submit" class="btn btn-default" ng-click="censusForm.saveForLater=true" value="Save for Later">
+            <input type="button" class="btn btn-default" ng-click="censusForm.saveForLater=true" value="Save for LaterQ">
+            <input type="submit" class="btn btn-primary" ng-click="censusForm.saveAndMoveNext=true" value="Save &amp; Next &raquo;">
+            
         </div>    
     </div>  
 </div>
@@ -21,8 +21,9 @@
     <div class="form-group">
         <a role="button" class="btn btn-default col-md-offset-1 col-md-2" href="#/censusdata/create2">&laquo; Step Back</a>      
         <div class="col-md-offset-6 col-md-3">
-            <input type="submit" class="btn btn-default" value="Save for Later">
-            <input type="submit" class="btn btn-primary" value="Finish">
+            <input type="submit" class="btn btn-default" ng-click="censusForm.saveForLater=true" value="Save for Later">
+            <input type="submit" class="btn btn-primary" ng-click="censusForm.saveAndFinish=true" value="Finish">
+            
         </div>    
     </div>  
 </div>

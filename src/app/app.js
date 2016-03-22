@@ -163,6 +163,12 @@ angular
         controller: 'CensusDataCreateController',
         title: 'FlightNode - Census Data - New'
       })
+      .when('/censusdata/create4', {
+        templateUrl: 'app/views/censusdata/create4.html',
+        //TODO: Will think about should conroller be seperated out for each of these views.
+        controller: 'CensusDataCreateController',
+        title: 'FlightNode - Census Data - Finished'
+      })
       .otherwise({
         templateUrl: 'app/views/404.html',
         title: 'FlightNode - page not found'
