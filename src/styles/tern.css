@@ -356,4 +356,13 @@ button.tomato, .button.tomato {
 /* Main content */
 .content {
   padding-top: 5em;
+
+
+/* Audubon styles overriding bootstrap */
+
+.btn-primary {
+  background-color: #7BA701;
+}
+.btn-warning {
+  background-color: #838078;
 }
