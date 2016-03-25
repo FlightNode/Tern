@@ -2,6 +2,7 @@
 'use strict';
 
 var flnd = {}; // jshint ignore:line
+var site = 'Audubon TERN';
 
 angular
   .module('flightNodeApp', [
@@ -29,112 +30,112 @@ angular
       .when('/', {
         templateUrl: 'app/views/main.html',
         controller: 'MainController',
-        title: 'FlightNode - Home'
+        title: site + ' - Home'
       })
       .when('/login', {
         templateUrl: 'app/views/login.html',
         controller: 'LoginController',
-        title: 'FlightNode - Login'
+        title: site + ' - Login'
       })
       .when('/users', {
         templateUrl: 'app/views/users/list.html',
         controller: 'UserListController',
-        title: 'FlightNode - Users - List'
+        title: site + ' - Users - List'
       })
       .when('/users/pending', {
         templateUrl: 'app/views/users/pending.html',
         controller: 'UserPendingController',
-        title: 'FlightNode - Pending Users'
+        title: site + ' - Pending Users'
       })
       .when('/users/new', {
         templateUrl: 'app/views/users/create.html',
         controller: 'UserCreateController',
-        title: 'FlightNode - Users - New'
+        title: site + ' - Users - New'
       })
       .when('/users/register', {
         templateUrl: 'app/views/users/register.html',
         controller: 'UserRegisterController',
-        title: 'FlightNode - Register New Account'
+        title: site + ' - Register New Account'
       })
       .when('/users/profile', {
         templateUrl: 'app/views/users/profile.html',
         controller: 'UserProfileController',
-        title: 'FlightNode - My Profile'
+        title: site + ' - My Profile'
       })
       .when('/users/:userId', {
         templateUrl: 'app/views/users/edit.html',
         controller: 'UserEditController',
-        title: 'FlightNode - Users - Edit'
+        title: site + ' - Users - Edit'
       })
       .when('/workdays/', {
         templateUrl: 'app/views/workdays/list.html',
         controller: 'WorkdayListController',
-        title: 'FlightNode - Work Day - List'
+        title: site + ' - Work Day - List'
       })
       .when('/workdays/new', {
         templateUrl: 'app/views/workdays/create.html',
         controller: 'WorkdayCreateController',
-        title: 'FlightNode - Work Day - New Log'
+        title: site + ' - Work Day - New Log'
       })
       .when('/workdays/newforuser', {
         templateUrl: 'app/views/workdays/createForUser.html',
         controller: 'WorkdayCreateForUserController',
-        title: 'FlightNode - Work Day - New Log for Another Person'
+        title: site + ' - Work Day - New Log for Another Person'
       })
       .when('/workdays/mylist', {
         templateUrl: 'app/views/workdays/mylist.html',
         controller: 'WorkdayMyListController',
-        title: 'FlightNode - User\'s Work Days'
+        title: site + ' - User\'s Work Days'
       })
       .when('/workdays/:id', {
         templateUrl: 'app/views/workdays/edit.html',
         controller: 'WorkdayEditController',
-        title: 'FlightNode - Work Day - Edit'
+        title: site + ' - Work Day - Edit'
       })
       .when('/worktypes', {
         templateUrl: 'app/views/worktypes/list.html',
         controller: 'WorktypeListController',
-        title: 'FlightNode - Work Types - List'
+        title: site + ' - Work Types - List'
       })
       .when('/worktypes/new', {
         templateUrl: 'app/views/worktypes/create.html',
         controller: 'WorktypeCreateController',
-        title: 'FlightNode - Work Types - New'
+        title: site + ' - Work Types - New'
       })
       .when('/worktypes/:id', {
         templateUrl: 'app/views/worktypes/edit.html',
         controller: 'WorktypeEditController',
-        title: 'FlightNode - FlightNode - Work Types - Edit'
+        title: site + ' - FlightNode - Work Types - Edit'
       })
       .when('/locations', {
         templateUrl: 'app/views/locations/list.html',
         controller: 'LocationListController',
-        title: 'FlightNode - Locations - List'
+        title: site + ' - Locations - List'
       })
       .when('/locations/new', {
         templateUrl: 'app/views/locations/create.html',
         controller: 'LocationCreateController',
-        title: 'FlightNode - Locations - New'
+        title: site + ' - Locations - New'
       })
       .when('/locations/:id', {
         templateUrl: 'app/views/locations/edit.html',
         controller: 'LocationEditController',
-        title: 'FlightNode - Locations - Edit'
+        title: site + ' - Locations - Edit'
       })
       .when('/species', {
         templateUrl: 'app/views/birdspecies/list.html',
         controller: 'BirdSpeciesListController',
-        title: 'FlightNode - Bird Species - List'
+        title: site + ' - Bird Species - List'
       })
       .when('/species/new', {
         templateUrl: 'app/views/birdspecies/create.html',
         controller: 'BirdSpeciesCreateController',
-        title: 'FlightNode - Bird Species - New'
+        title: site + ' - Bird Species - New'
       })
       .when('/species/:id', {
         templateUrl: 'app/views/birdspecies/edit.html',
         controller: 'BirdSpeciesEditController',
-        title: 'FlightNode - Bird Species - Edit'
+        title: site + ' - Bird Species - Edit'
       })
       .when('/logout', {
         templateUrl: 'app/views/main.html',
@@ -143,29 +144,49 @@ angular
       .when('/censusdata/', {
         templateUrl: 'app/views/censusdata/create.html',
         controller: 'CensusDataCreateController',
-        title: 'FlightNode - Census Data - New'
+        title: site + ' - Census Data - New'
       })
       .when('/censusdata/create', {
         templateUrl: 'app/views/censusdata/create.html',
         //TODO: Will think about should conroller be seperated out for each of these views.
         controller: 'CensusDataCreateController',
-        title: 'FlightNode - Census Data - New'
+        title: site + ' - Census Data - New'
       })
       .when('/censusdata/create2', {
         templateUrl: 'app/views/censusdata/create2.html',
         //TODO: Will think about should conroller be seperated out for each of these views.
         controller: 'CensusDataCreateController',
-        title: 'FlightNode - Census Data - New'
+        title: site + ' - Census Data - New'
       })
       .when('/censusdata/create3', {
         templateUrl: 'app/views/censusdata/create3.html',
         //TODO: Will think about should conroller be seperated out for each of these views.
         controller: 'CensusDataCreateController',
-        title: 'FlightNode - Census Data - New'
+        title: site + ' - Census Data - New'
+      })
+      .when('/violations', {
+        templateUrl: 'app/views/violations.html',
+        title:  site + ' - Reporting Violations'
+      })
+      .when('/faq', {
+        templateUrl: 'app/views/faq/index.html',
+        title: site + ' - Frequently Asked Questions'
+      })
+      .when('/contact', {
+        templateUrl: 'app/views/contact.html',
+        title: site + ' - Contact Us'
+      })
+      .when('/data', {
+        templateUrl: 'app/views/data.html',
+        title: site + ' - Submit Survey Data'
+      })
+      .when('/data2', {
+        templateUrl: 'app/views/data2.html',
+        title: site + ' - Submit Survey Data'
       })
       .otherwise({
         templateUrl: 'app/views/404.html',
-        title: 'FlightNode - page not found'
+        title: site + ' - page not found'
       });
   })
   .run(function(authService, $rootScope, $route, $window, $log, navigationService) {
