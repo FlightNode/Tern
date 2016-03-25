@@ -1,20 +1,26 @@
-<alert>
-</alert>
-
-<div class="row">
-	<div class="col-sm-6 col-sm-offset-3" id="login">
-		<form ng-submit="submit()" name="loginForm">
-			<div class="form-group">
-				<label for="userName">User Name</label>
-				<input class="form-control" ng-model="userName" id="userName" placeholder="Enter your Username" required>
-			</div>
-			<div class="form-group">
-				<label for="password">Password</label>
-				<input type="password" ng-model="password" class="form-control" id="password" placeholder="Enter your password" required>
-			</div>
-			<button type="submit" ng-disabled="loginForm.$invalid" class="btn btn-primary">Sign In</button>
-		</form>
-	</div>
+<div class="container">
+    <div class="row content">
+        <alert>
+        </alert>
+        <div class="col-sm-6 col-sm-offset-3 login">
+            <h2>Log in and Get Started</h2>
+            <p>If you are an Audubon volunteer or member, please enter
+            your credentials now.</p>
+            <form ng-submit="submit()" name="loginForm">
+                <div class="form-group">
+                    <label for="userName" class="control-label">User Name</label>
+                    <input class="form-control" ng-model="userName" id="userName" placeholder="Enter your Username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="control-label">Password</label>
+                    <input type="password" ng-model="password" class="form-control" id="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" ng-disabled="loginForm.$invalid" 
+                    class="btn btn-primary login-link">Submit</button>
+                <span class="login-link"><a href="">Create an account</a></span>
+                <span class="login-link"><a href="">Forgot information?</a></span>
+            </form>
+        </div>
+    </div>
+    <loading></loading>
 </div>
-
-<loading></loading>

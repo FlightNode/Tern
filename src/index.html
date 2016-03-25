@@ -9,7 +9,7 @@
     <!-- fill in once we have determined the ultimate URL -->
     <!-- <meta property="og:url" content="http://tx.audubon.org/"> -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="favicon.png" type="image/png">
+    <link rel="shortcut icon" href="/images/favicon.png" type="image/png">
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/angular-ui-grid/ui-grid.css" />
@@ -31,7 +31,7 @@
     <!--[if lt IE 7]>
     <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-    <div class="container top">
+    <div class="container metastripe">
       <div class="row">
         <a href="http://www.audubon.org"><img src="/images/wordmark-white.png" alt="Audubon"></a>
         <ol class="breadcrumb">
@@ -43,7 +43,7 @@
     <div class="container header">
       <div class="row">
         <div class="navbar navbar-default" role="navigation">
-          <div class="col-md-9">
+          <div class="col-md-9" style="margin-left: -15px">
             <a href="/#" class="header-name">Texas Estuarine Resource Network</a>
             <div class="navbar-header">
               <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
@@ -76,17 +76,16 @@
               </li>
             </ul>
           </div>
-          <div role="navigation" class="collapse navbar-collapse col-md-11" id="js-navbar-collapse">
-            <ul class="nav nav-pills">
+          <div role="navigation" ng-bind-html="navigation" class="collapse navbar-collapse col-md-11" id="js-navbar-collapse">
+<!--             <ul class="nav nav-pills">
               <li role="presentation"><a href="#/">Home</a></li>
-              <li role="presentation"><a href="#/">Submit Data</a></li>
-              <li role="presentation"><a href="#/">Contact Us</a></li>
-              <li role="presentation"><a href="#/">FAQ</a></li>
-              <li role="presentation" class="search"><a href="#/"><i class="icon-magnifier"></i></a></li>
-            </ul>
+              <li role="presentation"><a href="#/data">Submit Data</a></li>
+              <li role="presentation"><a href="#/contact">Contact Us</a></li>
+              <li role="presentation"><a href="#/faq">FAQ</a></li>
+            </ul> -->
           </div>
           <div class="where-we-are pull-right">
-            <a href="http://tx.audubon.org/aboutus/where-we-are">Where We Are</a>
+            <a href="http://tx.audubon.org/aboutus/where-we-are" target="_blank">Where We Are</a>
           </div>
           <div class="col-md-12 display-name" ng-bind="display_name"></div>
         </div>
@@ -94,14 +93,66 @@
     </div>
     
     <div ng-view=""></div>
+
+<div class="container" style="height: 300px;">
+<div role="navigation" ng-bind-html="navigation" class="collapse navbar-collapse col-md-11" id="js-navbar-collapse">
+<!--             <ul class="nav nav-pills">
+              <li role="presentation"><a href="#/">Home</a></li>
+              <li role="presentation"><a href="#/data">Submit Data</a></li>
+              <li role="presentation"><a href="#/contact">Contact Us</a></li>
+              <li role="presentation"><a href="#/faq">FAQ</a></li>
+            </ul> -->
+          </div>
+</div>
+
     
     <div class="container footer">
       <div class="row">
-        <!-- <p>
-          <span class="glyphicon glyphicon-wrench"></span> made by the <a href="http://flightnode.github.io">FlightNode</a> team. Eventually we'll have a full copyright section here. In the meantime, special thanks to <a href="http://glyphicons.com/">glyphicons</a>        for letting us use their glyphs.
-        </p> -->
+        <div class="col-md-4">
+          <img src="/images/audubonTexasCoastalConservation.png" style="width: 260px; height: auto; margin-left: -30px;"
+          alt="Audubon Texas Coastal Conservation">
+          <h4>Audubon Texas</h4>
+          <p>Our mission is to conserve and restore natural ecosystems, focusing on birds, other wildlife, and their habitats for the benefit of humanity and the earth’s biological diversity.</p>
+        </div>
+        <div class="col-md-3 col-md-offset-1">
+          <div class="foot-info">
+            <p><b>WITNESS A VIOLATION?</b></p>
+            <p>Report violations to<br>
+            800-792-4263</p>
+            <p><a href="#/violations">Learn more about what you need to file a complaint. &gt;</a></p>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="foot-info where-we-are">
+            <p><a href="#/">Home</a></p>
+            <p><a href="#/data">Submit Data</a></p>
+            <p><a href="#/contact">Contact Us</a></p>
+            <p><a href="#/faq">FAQ</a></p>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="foot-info where-we-are">
+            <p><a href="http://tx.audubon.org/aboutus/contact-us" target="_blank">Contact Us</a></p>
+            <p><a href="http://eepurl.com/ONWfT" target="_blank">Newsletter</a></p>
+            <p><a href="http://tx.audubon.org/aboutus/where-we-are" target="_blank">Where We Are</a></p>
+            <p><a href="https://give.audubon.org/Giving/Page/121/1/121">Donate</a></p>
+          </div>
+        </div>
       </div>
     </div>
+    <div class="container metastripe copyright">
+      <div class="row">
+        <p>
+          National Audubon Society
+          <span class="footer-copyright-links">
+            <a href="http://www.audubon.org/legal-notice" target="_blank">Legal Notices</a>
+            <a href="http://www.audubon.org/privacy-policy" target="_blank">Privacy Policy</a>
+            <a href="http://www.audubon.org/contact-us" target="_blank">Contact National Audubon</a>
+          </span>
+        </p>
+        
+      </div>
+    </section>
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
     <!--<script>
     !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
