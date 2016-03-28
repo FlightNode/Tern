@@ -32,6 +32,7 @@ module.exports = function(config) {
       'bower_components/angular-touch/angular-touch.js',
       'bower_components/angular-ui-grid/ui-grid.js',
       'bower_components/moment/moment.js',
+      'bower_components/lodash/lodash.js',
       'bower_components/requirejs/require.js',
       'bower_components/angular-jwt/dist/angular-jwt.js',
       'bower_components/ui-navbar/release/js/ui-navbar.js',

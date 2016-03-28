@@ -485,9 +485,14 @@ button.tomato, .button.tomato {
 
 /* Audubon styles overriding bootstrap */
 
-.btn-primary {
-  background-color: #7BA701;
+.btn .btn-primary {
+  background-color: #f15936 !important;
+  border-color: #dd360f;
+  color: white !important;
+  border-radius: 3px;
 }
-.btn-warning {
-  background-color: #838078;
+.btn .btn-warning {
+  background-color: #838078 !important;
+  color: white !important;
+  border-radius: 3px;
 }
