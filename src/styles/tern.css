@@ -148,9 +148,12 @@ h3 {
 .nav .li .search {
   border-right: none;
 }
-.nav-pills > li > a {
-  border-radius: 0;
-  padding: 10px;
+.navbar-default .navbar-nav > li > a {
+  color: #0aa8e3;
+}
+.navbar-default .navbar-nav > li > a:hover {
+  color: #000;
+  background-color: #fff;
 }
 .nav > li + li::before {
   color: #404040;
@@ -159,6 +162,12 @@ h3 {
   top: 9px;
   left: -1px;    
 }
+.dropdown-menu {
+  border-radius: 0;
+  font-size: 17px;
+  border: none;
+}
+
 .icon-magnifier {
   font-size: 20px;
   position: relative;
@@ -322,6 +331,13 @@ h3 {
 }
 
 /* Forms */
+.error { 
+  color: #f15936;
+  font-size: 0.75em;
+}
+form {
+    font-family: "Source Sans Pro", Verdana, sans-serif;
+}
 button, .button {
     border-style: solid;
     border-width: 0px;

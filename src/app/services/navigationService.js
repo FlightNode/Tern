@@ -109,7 +109,7 @@ angular.module('navigationService', [])
                             nav += '<ul class="';
 
                             if (topLevel) {
-                                nav += 'nav nav-pills">';
+                                nav += 'nav navbar-nav">';
                                 topLevel = false;
                             } else {
                                 nav += ' dropdown-menu">';
@@ -123,7 +123,7 @@ angular.module('navigationService', [])
                                 if (hasChildren) {
                                     nav += 'dropdown"><a ng-href="' + child.entry.path;
                                     nav += '" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">';
-                                    nav += child.entry.title + ' <span class="caret"></span></a>';
+                                    nav += child.entry.title + '</a>';
                                 } else {
                                     if (child.entry && child.entry.path && child.entry.title) {
                                         nav += '"><a href="' + child.entry.path + '">' + child.entry.title + '</a>';

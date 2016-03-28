@@ -212,14 +212,16 @@ angular
     return {
       restrict: 'E',
       replace: true,
-      template: '<div class="loading"><img class="loadingImage" src="http://www.nasa.gov/multimedia/videogallery/ajax-loader.gif" width="64" height="64" /></div>',
+      template: '<div class="loading" ng-show="loading"><img class="loadingImage" src="http://www.nasa.gov/multimedia/videogallery/ajax-loader.gif" width="64" height="64" /></div>',
       link: function (scope, element) {
         scope.$watch('loading', function (val) {
           if (val) {
-            $(element).show();
+            scope.loading = true;
+            //$(element).show();
           }
           else {
-            $(element).hide();
+            scope.loading = false;
+            // $(element).hide();
           }
         });
       }
