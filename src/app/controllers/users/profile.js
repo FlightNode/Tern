@@ -11,6 +11,10 @@ angular.module('flightNodeApp')
     .controller('UserProfileController', ['$scope', '$log', 'messenger', 'roleProxy', 'authService', 'userProxy', '$location',
         function($scope, $log, messenger, roleProxy, authService, userProxy, $location) {
 
+            if (authService.isAnonymous()) {
+	        $location.path('/login');
+	    }
+
             $scope.loading = true;
             $scope.data = {};
             $scope.showRoles = false;

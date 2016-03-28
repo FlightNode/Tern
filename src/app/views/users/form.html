@@ -14,7 +14,7 @@
                     <input type="text" class="form-control" ng-model="user.userName" name="userName" placeholder="Min 6, max 256; letters numbers @ and . allowed" required ng-pattern="/^[0-9a-zA-Z@\.]{6,256}$/">
                 </div>
                 <div role="alert" class="col-sm-9 col-sm-offset-3">
-                    <span class="error bg-danger" ng-show="userForm.userName.$error.pattern">Must contain at 6 to 256 characters. Can be an e-mail address.</span>
+                    <span class="error" ng-show="userForm.userName.$error.pattern">Must contain at 6 to 256 characters. Can be an e-mail address.</span>
                 </div>
             </div>
             <div class="form-group">
@@ -23,7 +23,7 @@
                     <input type="text" class="form-control" ng-model="user.password" name="password" placeholder="Min 6, max 50; at least 1 digit. Leave blank to keep existing password." ng-pattern="/((?=.*\d){6,50})/">
                 </div>
                 <div role="alert" class="col-sm-9 col-sm-offset-3">
-                    <span class="error bg-danger" ng-show="userForm.password.$error.pattern">Must contain at least one digit and be 6 to 50 characters </span>
+                    <span class="error" ng-show="userForm.password.$error.pattern">Must contain at least one digit and be 6 to 50 characters </span>
                 </div>
             </div>
             <div class="form-group" ng-show="{{showRoles}}">
@@ -50,7 +50,7 @@
                     required>
                 </div>
                 <div role="alert" class="col-sm-9 col-sm-offset-3">
-                    <span class="error bg-danger" ng-show="userForm.givenName.$error.maxlength">Max 50 characters</span>
+                    <span class="error" ng-show="userForm.givenName.$error.maxlength">Max 50 characters</span>
                 </div>
             </div>
             <div class="form-group">
@@ -60,7 +60,7 @@
                     required>
                 </div>
                 <div role="alert" class="col-sm-9 col-sm-offset-3">
-                    <span class="error bg-danger" ng-show="userForm.familyName.$error.maxlength">Max 50 characters</span>
+                    <span class="error" ng-show="userForm.familyName.$error.maxlength">Max 50 characters</span>
                 </div>
             </div>
         </fieldset>
@@ -75,8 +75,8 @@
                     </div>
                 </div>
                 <div role="alert" class="col-sm-9 col-sm-offset-3">
-                    <span class="error bg-danger" ng-show="userForm.email.$error.maxlength">Max 256 characters</span>
-                    <span class="error bg-danger" ng-show="userForm.email.$error.pattern">Does not look like an e-mail address</span>
+                    <span class="error" ng-show="userForm.email.$error.maxlength">Max 256 characters</span>
+                    <span class="error" ng-show="userForm.email.$error.pattern">Does not look like an e-mail address</span>
                 </div>
             </div>
             <div class="form-group">
@@ -89,7 +89,7 @@
                     </div>
                 </div>
                 <div role="alert" class="col-sm-9 col-sm-offset-3">
-                    <span class="error bg-danger" ng-show="userForm.primaryPhoneNumber.$error.pattern">Invalid phone number</span>
+                    <span class="error" ng-show="userForm.primaryPhoneNumber.$error.pattern">Invalid phone number</span>
                 </div>
             </div>
             <div class="form-group">
@@ -102,7 +102,7 @@
                     </div>
                 </div>
                 <div role="alert" class="col-sm-9 col-sm-offset-3">
-                    <span class="error bg-danger" ng-show="userForm.secondaryPhoneNumber.$error.pattern">Invalid phone number</span>
+                    <span class="error" ng-show="userForm.secondaryPhoneNumber.$error.pattern">Invalid phone number</span>
                 </div>
             </div>
         </fieldset>
@@ -113,7 +113,7 @@
                     <input type="text" ng-model="user.county" class="form-control" name="county" placeholder="Max 50 characters" required ng-maxlength="50">
                 </div>
                 <div role="alert" class="col-sm-9 col-sm-offset-3">
-                    <span class="error bg-danger" ng-show="userForm.county.$error.maxlength">Maximum 50 characters</span>
+                    <span class="error" ng-show="userForm.county.$error.maxlength">Maximum 50 characters</span>
                 </div>
             </div>
             <div class="form-group">
@@ -122,7 +122,7 @@
                     <input type="text" ng-model="user.mailingAddress" class="form-control" name="mailingAddress" placeholder="Max 100 characters" ng-maxlength="100">
                 </div>
                 <div role="alert" class="col-sm-9 col-sm-offset-3">
-                    <span class="error bg-danger" ng-show="userForm.mailingAddress.$error.maxlength">Maximum 100 characters</span>
+                    <span class="error" ng-show="userForm.mailingAddress.$error.maxlength">Maximum 100 characters</span>
                 </div>
             </div>
             <div class="form-group">
@@ -131,7 +131,7 @@
                     <input type="text" ng-model="user.city" class="form-control" name="city" placeholder="Max 50 characters" ng-maxlength="50">
                 </div>
                 <div role="alert" class="col-sm-9 col-sm-offset-3">
-                    <span class="error bg-danger" ng-show="userForm.city.$error.maxlength">Maximum 50 characters</span>
+                    <span class="error" ng-show="userForm.city.$error.maxlength">Maximum 50 characters</span>
                 </div>
             </div>
             <div class="form-group">
@@ -140,7 +140,7 @@
                     <input type="text" ng-model="user.state" class="form-control" name="state" placeholder="Max 2 characters"  ng-maxlength="2">
                 </div>
                 <div role="alert" class="col-sm-9 col-sm-offset-3">
-                    <span class="error bg-danger" ng-show="userForm.state.$error.maxlength">Maximum 2 characters</span>
+                    <span class="error" ng-show="userForm.state.$error.maxlength">Maximum 2 characters</span>
                 </div>
             </div>
             <div class="form-group">
@@ -149,7 +149,7 @@
                     <input type="text" ng-model="user.zipCode" class="form-control" name="zipCode" placeholder="5 or 9 digit zip code"  ng-pattern="/^\d{5}(-\d{4})?$/">
                 </div>
                 <div role="alert" class="col-sm-9 col-sm-offset-3">
-                    <span class="error bg-danger" ng-show="userForm.zipCode.$error.pattern">Enter either 5 digit or 5+4 zip code</span>
+                    <span class="error" ng-show="userForm.zipCode.$error.pattern">Enter either 5 digit or 5+4 zip code</span>
                 </div>
             </div>
         </fieldset>
