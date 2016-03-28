@@ -172,7 +172,7 @@ angular.module('authService', [])
                 return _.includes($this._getRoles(), 'Reporter');                
             },
 
-	    isAnonymous = function() {
+	    isAnonymous: function() {
 	        var $this = this;
 
 		return ($this.userId || 0) === 0;
