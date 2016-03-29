@@ -79,3 +79,9 @@
 .hover-pointer:hover {
   cursor: pointer;
 }
+
+
+.error { 
+  color: red;
+  font-size: 0.8em;
+}

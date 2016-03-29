@@ -56,7 +56,8 @@ angular.module('flightNodeApp')
                 columnDefs: [
                     { field: 'siteCode', displayName: 'Site Code' },
                     { field: 'siteName', displayName: 'Site Name' },
-                    { field: 'description', displayName: 'Description' },
+                    { field: 'county', displayName: 'County' },
+                    { field: 'city', displayName: 'City' },
                     { field: 'latitude', displayName: 'Latitude' },
                     { field: 'longitude', displayName: 'Longitude' },                    
                     {

@@ -6,84 +6,159 @@ angular.module('navigationService', [])
             var KEY = 'NAVIGATION_TREE';
 
             return {
-                createAnonymousTree: function() {
-                    var tree =  [
+                createTree: function() {
+                    var tree = [
                         {
-                            children: [],
                             entry: {
                                 title: 'Home',
                                 path: '#/'
-                            }
-                        }, {
-                            children: [],
+                            },
+                            children: []
+                        },
+                    ];
+
+                    if (authService.isAnonymous()) {
+                        $log.info('building anonymous tree');
+                        tree.push({
                             entry: {
-                                title: 'Submit Data',
-                                path: '#/data'
-                            }
-                        }, {
-                            children: [],
+                                title: 'Login',
+                                path: '#/login'
+                            },
+                            children: []
+                        });
+                    } else { // signed-in successfully
+                        if (authService.isReporter()) {
+                            $log.info('building reporter tree');
+                            tree.push({
+                                entry: {
+                                    title: 'Submit Data',
+                                    path: '#/data'
+                                },
+                                children: [
+                                    {
+                                      entry: {
+                                        title: 'Workday Logging',
+                                        path: '#/workdays'
+                                      },
+                                      children: []
+                                    }
+                                ]
+                            });
+                        }
+                        if (authService.isAdministrator()) {
+                            $log.info('building administrator tree');
+                            tree.push({
+                                entry: {
+                                    title: 'Manage',
+                                    path: ''
+                                },
+                                children: [
+                                    {
+                                        entry: {
+                                            title: 'Approved Users',
+                                            path: '#/users'
+                                        }
+                                    },
+                                    {
+                                        entry: {
+                                            title: 'Pending Users',
+                                            path: '#/users/pending'
+                                        }
+                                    },
+                                    {
+                                        entry: {    // will create a divider
+                                            title: '',
+                                            path: ''
+                                        }
+                                    },
+                                    {
+                                        entry: {
+                                            title: 'Volunteer Tracking',
+                                            path: ''    // will create a header
+                                        }
+                                    },
+                                    {
+                                        entry: {
+                                            title: 'Work Days',
+                                            path: '#/workdays'
+                                        }
+                                    },
+                                    {
+                                        entry: {
+                                            title: 'Work Types',
+                                            path: '#/worktypes'
+                                        }
+                                    },
+                                    {
+                                        entry: {
+                                            title: 'Locations',
+                                            path: '#/locations'
+                                        }
+                                    },
+                                    {
+                                        entry: {    // will create a divider
+                                            title: '',
+                                            path: ''
+                                        }
+                                    },
+                                    {
+                                        entry: {
+                                            title: 'Bird Surveys',
+                                            path: '' // will create a header
+                                        }
+                                    },
+                                    {
+                                        entry: {
+                                            title: 'Species',
+                                            path: '#/species'
+                                        }
+                                    }
+                                ]
+                            });
+                        }
+                    }
+
+                    tree.push({
                             entry: {
                                 title: 'Contact Us',
                                 path: '#/contact'
-                            }
-                        }, {
-                            children: [],
+                            },
+                            children: []
+                        });
+                    tree.push({
                             entry: {
                                 title: 'FAQ',
                                 path: '#/faq'
-                            }
-                        }];
-                    return tree;
-                },
-                createAuthenticatedTree: function() {
-                    var tree =  [
-                        {
-                            children: [],
-                            entry: {
-                                title: 'Home',
-                                path: '#/'
-                            }
-                        }, {
-                            children: [
-                                {
-                                  children: [],
-                                  entry: {
-                                    title: 'Workday Logging',
-                                    path: '#/workdays'
-                                  }
-                                }
-                            ],
-                            entry: {
-                                title: 'Submit Data',
-                                path: '#/data'
-                            }
-                        }, {
-                            children: [],
-                            entry: {
-                                title: 'Contact Us',
-                                path: '#/contact'
-                            }
-                        }, {
-                            children: [],
-                            entry: {
-                                title: 'FAQ',
-                                path: '#/faq'
-                            }
-                        }, {
-                            children: [],
+                            },
+                            children: []
+                        });
+
+                    if (!authService.isAnonymous()) {
+                        tree.push({
                             entry: {
                                 title: 'My Account',
                                 path: '#/users/profile'
-                            }
-                        }];
+                            },
+                            children: []
+                        });
+                        tree.push({
+                            entry: {
+                                title: 'Sign Off',
+                                path: '#/logout'
+                            },
+                            children: []
+                        });
+                    }
+
                     return tree;
                 },
+
                 getTree: function(callback) {
                     var tree = sessionStorage.getItem(KEY);
 
                     if (tree === null || tree === 'null') {
 
-                      var tree = this.createAuthenticatedTree();
+                      var tree = this.createTree(); //createAuthenticatedTree();
                       callback(tree);
 
                     } else {
@@ -109,7 +184,7 @@ angular.module('navigationService', [])
                             nav += '<ul class="';
 
                             if (topLevel) {
-                                nav += 'nav nav-pills">';
+                                nav += 'nav navbar-nav">';
                                 topLevel = false;
                             } else {
                                 nav += ' dropdown-menu">';
@@ -123,7 +198,7 @@ angular.module('navigationService', [])
                                 if (hasChildren) {
                                     nav += 'dropdown"><a ng-href="' + child.entry.path;
                                     nav += '" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">';
-                                    nav += child.entry.title + ' <span class="caret"></span></a>';
+                                    nav += child.entry.title + '</a>';
                                 } else {
                                     if (child.entry && child.entry.path && child.entry.title) {
                                         nav += '"><a href="' + child.entry.path + '">' + child.entry.title + '</a>';

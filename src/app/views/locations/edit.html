@@ -13,7 +13,7 @@
                 name="siteCode" placeholder="max length 1000 characters" required ng-maxlength="100">
             </div>
             <div role="alert" class="col-sm-9 col-sm-offset-3">
-                <span class="error bg-danger" ng-show="locationForm.siteCode.$error.maxlength">Max 100 characters</span>
+                <span class="error" ng-show="locationForm.siteCode.$error.maxlength">Max 100 characters</span>
             </div>
         </div>
         <div class="form-group">
@@ -23,17 +23,27 @@
                 name="siteName" placeholder="max length 1000 characters" required ng-maxlength="100">
             </div>
             <div role="alert" class="col-sm-9 col-sm-offset-3">
-                <span class="error bg-danger" ng-show="locationForm.sitesiteNameCode.$error.maxlength">Max 100 characters</span>
+                <span class="error" ng-show="locationForm.sitesiteNameCode.$error.maxlength">Max 100 characters</span>
             </div>
         </div>
         <div class="form-group">
-            <label for="description" class="col-sm-3 control-label">Description <span class="text-danger">*</span></label>
-            <div class="col-sm-9" ng-class="{'has-error': locationForm.description.$error.required || locationForm.description.$error.maxlength}">
-                <input type="text" class="form-control" ng-model="location.description"
-                name="description" placeholder="max length 1000 characters" required ng-maxlength="1000">
+            <label for="county" class="col-sm-3 control-label">County <span class="text-danger">*</span></label>
+            <div class="col-sm-9" ng-class="{'has-error': locationForm.county.$error.required || locationForm.county.$error.maxlength}">
+                <input type="text" class="form-control" ng-model="location.county"
+                name="county" placeholder="max length 100 characters" required ng-maxlength="100">
             </div>
             <div role="alert" class="col-sm-9 col-sm-offset-3">
-                <span class="error bg-danger" ng-show="locationForm.description.$error.maxlength">Max 1000 characters</span>
+                <span class="error" ng-show="locationForm.county.$error.maxlength">Max 100 characters</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="city" class="col-sm-3 control-label">City <span class="text-danger">*</span></label>
+            <div class="col-sm-9" ng-class="{'has-error': locationForm.city.$error.required || locationForm.city.$error.maxlength}">
+                <input type="text" class="form-control" ng-model="location.city"
+                name="city" placeholder="max length 100 characters" required ng-maxlength="100">
+            </div>
+            <div role="alert" class="col-sm-9 col-sm-offset-3">
+                <span class="error" ng-show="locationForm.city.$error.maxlength">Max 100 characters</span>
             </div>
         </div>
         <div class="form-group">
@@ -43,7 +53,7 @@
                 required ng-pattern="/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?)$/">
             </div>
             <div role="alert" class="col-sm-9 col-sm-offset-3">
-                <span class="error bg-danger" ng-show="locationForm.latitude.$error.pattern">Illegal latitude</span>
+                <span class="error" ng-show="locationForm.latitude.$error.pattern">Illegal latitude</span>
             </div>
         </div>
         <div class="form-group">
@@ -53,7 +63,7 @@
                 required ng-pattern="/^[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/">
             </div>
             <div role="alert" class="col-sm-9 col-sm-offset-3">
-                <span class="error bg-danger" ng-show="locationForm.longitude.$error.pattern">Illegal longitude</span>
+                <span class="error" ng-show="locationForm.longitude.$error.pattern">Illegal longitude</span>
             </div>
         </div>
     </div>

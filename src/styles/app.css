@@ -8,7 +8,7 @@
 }
 
 /*
- Validation and alers
+ Validation and alerts
  */
 
 .validator {
@@ -40,4 +40,12 @@ input.form-inline-small {
 select.form-inline-small {
   display: inline;
   width: 5em;
+}
+
+
+
+
+
+.dropdown:hover .dropdown-menu {
+  display: block;
 }
