@@ -197,6 +197,10 @@ h3 {
 .where-we-are a:hover {
   color: white;
 }
+.display-name { 
+  margin-bottom: 0.5em;
+  color: #fff;
+ }
 
 /* jumbo */
 .jumbo {
@@ -358,7 +362,7 @@ button, .button {
     font-size: 17px;
     background-color: #f15936;
     border-color: #dd360f;
-    color: white !important;
+    /*color: white !important;*/
     border-radius: 3px;
     transition: background-color 300ms ease-out;
 }
