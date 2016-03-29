@@ -172,11 +172,11 @@ angular.module('authService', [])
                 return _.includes($this._getRoles(), 'Reporter');                
             },
 
-	    isAnonymous: function() {
-	        var $this = this;
+            isAnonymous: function() {
+                var $this = this;
 
-		return ($this.userId || 0) === 0;
-	    }
+                return ($this.getUserId() || -1) === -1;
+            }
 
         };
     }]);
