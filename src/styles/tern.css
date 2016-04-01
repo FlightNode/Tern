@@ -505,7 +505,7 @@ button.tomato, .button.tomato {
 
 /* Audubon styles overriding bootstrap */
 
-.btn .btn-primary {
+.btn-primary {
   background-image: -webkit-linear-gradient(top, #f15936 0%, #db350f 100%) !important;
   background-image: -o-linear-gradient(top, #f15936 0%, #db350f 100%) !important;
   background-image: -webkit-gradient(linear, left top, left bottom, from(#f15936), to(#db350f)) !important;
