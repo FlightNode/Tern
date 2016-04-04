@@ -21,7 +21,7 @@ angular.module('authService', [])
 
         return {
 
-            getToken: function() {
+            getToken: function() {c
                 return $cookies.get(TOKEN_KEY);
             },
 
@@ -111,6 +111,13 @@ angular.module('authService', [])
                 $log.info('DELETE ', url);
 
                 return $this._request(url, 'DELETE');
+            },
+
+            patch: function(url) {
+                var $this = this;
+                $log.info('PATCH ', url);
+
+                return $this._request(url, 'PATCH');
             },
 
             // There is a good argument that this service is not doing "just one thing"...

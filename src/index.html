@@ -13,6 +13,7 @@
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/angular-ui-grid/ui-grid.css" />
+    <link rel="stylesheet" href="bower_components/angular-toggle-switch/angular-toggle-switch.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.) styles/bootstrap.css -->
@@ -183,26 +184,10 @@
     <script src="bower_components/ng-csv/build/ng-csv.min.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
-    <!-- build:js(.) scripts/ui.bootstrap.js -->
-    <script src="bower_components/ui.bootstrap/src/position/position.js"></script>
-    <script src="bower_components/ui.bootstrap/src/stackedMap/stackedMap.js"></script>
-    <script src="bower_components/ui.bootstrap/src/dateparser/dateparser.js"></script>
-    <script src="bower_components/ui.bootstrap/src/datepicker/datepicker.js"></script>
-    <script src="bower_components/ui.bootstrap/src/collapse/collapse.js"></script>
-    <script src="bower_components/ui.bootstrap/src/tooltip/tooltip.js"></script>
-    <script src="bower_components/ui.bootstrap/src/accordion/accordion.js"></script>
-    <script src="bower_components/ui.bootstrap/src/popover/popover.js"></script>
-    <script src="bower_components/ui.bootstrap/src/typeahead/typeahead.js"></script>
-    <script src="bower_components/ui.bootstrap/src/tabs/tabs.js"></script>
-    <script src="bower_components/ui.bootstrap/src/timepicker/timepicker.js"></script>
-    <script src="bower_components/ui.bootstrap/src/modal/modal.js"></script>
-    <script src="bower_components/ui.bootstrap/src/alert/alert.js"></script>
-    <script src="bower_components/ui.bootstrap/src/buttons/buttons.js"></script>
-    <script src="bower_components/ui.bootstrap/src/carousel/carousel.js"></script>
-    <script src="bower_components/ui.bootstrap/src/pagination/pagination.js"></script>
-    <script src="bower_components/ui.bootstrap/src/progressbar/progressbar.js"></script>
-    <script src="bower_components/ui.bootstrap/src/rating/rating.js"></script>
-    <!-- endbuild -->
+<!-- build:js({.tmp,app}) scripts/ui-bootstrap.js -->
+<script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+<!-- endbuild -->
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="app/app.js"></script>
     <script src="app/controllers/main.js"></script>

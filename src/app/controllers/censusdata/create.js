@@ -5,7 +5,7 @@ flnd.censusDataCreate = {
 
         $scope.birdSpeciesList = {};
 
-        authService.get(config.birdspeciesBySurveyType)        
+        authService.get(config.birdspecies + "?surveyTypeId=2")        
             .then(function success(response) {
 
                 $scope.birdSpeciesList = response.data;
