@@ -21,7 +21,7 @@ angular.module('authService', [])
 
         return {
 
-            getToken: function() {c
+            getToken: function() {
                 return $cookies.get(TOKEN_KEY);
             },
 
@@ -179,11 +179,11 @@ angular.module('authService', [])
                 return _.includes($this._getRoles(), 'Reporter');                
             },
 
-	    isAnonymous: function() {
-	        var $this = this;
+            isAnonymous: function() {
+                var $this = this;
 
-		return ($this.userId || 0) === 0;
-	    }
+                return ($this.userId || 0) === 0;
+            }
 
         };
     }]);

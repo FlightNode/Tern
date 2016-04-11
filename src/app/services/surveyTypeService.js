@@ -8,30 +8,20 @@
  * Service for information about survey types
  */
 angular.module('surveyTypeService', [])
-    .factory('authService',
-        ['$log', 'authService', '$configService',
-         function ($log, authService, configService) {
+    .factory('surveyTypeService',
+        ['$log', 'authService', 'config',
+         function ($log, authService, config) {
 
-         	return {
+            return {
 
-         		getAll: function() {
+                getAll: function() {
 
-         			var url = configService.surveyTypes;
+                    var url = config.surveyTypes;
 
-         			authService.get(url)
-         			.then(function success(response){
+                    return authService.get(url)
+                }   
 
-         				// todo
-
-         			}, function error(response) {
-
-						//todo
-
-         			});
-
-         		}	
-
-         	}
+            }
       }
   ]
 );
