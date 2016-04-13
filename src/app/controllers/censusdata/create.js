@@ -5,7 +5,7 @@ flnd.censusDataCreate = {
 
         $scope.birdSpeciesList = {};
 
-        authService.get(config.birdspecies + "?surveyTypeId=2")        
+        authService.get(config.birdspecies + '?surveyTypeId=2')        
             .then(function success(response) {
 
                 $scope.birdSpeciesList = response.data;
@@ -16,13 +16,13 @@ flnd.censusDataCreate = {
 
             });
     },
-    configureSubmit: function($scope, config, messenger, authService, censusFormService, $location){
+    configureSubmit: function($scope, config, messenger, authService, censusFormService, $location, $log){
         return function(){
             $scope.loading = true;
             
         
-            console.log('now what: ' + censusFormService.censusForm.saveForLater);
-            console.log('now what: ' + $scope.censusForm.saveForLater);
+            $log.info('now what: ' + censusFormService.censusForm.saveForLater);
+            $log.info('now what: ' + $scope.censusForm.saveForLater);
             //TODO: This function further needs tidying up. Mainly focusing upon upon integration with backend. Once basic flow start to work, will clean it.
             //EX: Instead of manually making PutUrl, need to fetch the Location from header of POST reposnse and then use that as PUT URL.
             if($scope.censusForm.surveyId === undefined) //First time POST
@@ -30,21 +30,21 @@ flnd.censusDataCreate = {
                 authService.post(config.waterbirdForagingSurvey, $scope.censusForm)
                     .then(function success(response){
                             var currentStep = censusFormService.censusForm.step;
-                            // console.log('Local URL:' + response.headers('Location'));
-                            // console.log('before' + censusFormService.censusForm.saveAndMoveNext);
+                            // $log.info('Local URL:' + response.headers('Location'));
+                            // $log.info('before' + censusFormService.censusForm.saveAndMoveNext);
                             var toMoveNext = censusFormService.censusForm.saveAndMoveNext;
                             var saveForLater = censusFormService.censusForm.saveForLater;
                             //var saveForLater = $scope.saveForLater;
-                            console.log("saveForLater:"+saveForLater);
+                            $log.info('saveForLater:'+saveForLater);
                             //Load the response data from the API back into scope.
                             $scope.censusForm = response.data;
-                            $scope.censusForm.PutUrl = config.waterbirdForagingSurvey + response.data.surveyIdentifier
+                            $scope.censusForm.PutUrl = config.waterbirdForagingSurvey + response.data.surveyIdentifier;
                             $scope.censusForm.step = currentStep;
                             $scope.censusForm.saveForLater = saveForLater;
-                            console.log('save for later11: ' + $scope.censusForm.saveForLater); 
+                            $log.info('save for later11: ' + $scope.censusForm.saveForLater); 
                             censusFormService.censusForm = $scope.censusForm;
                             //$scope.saveForLater = true;
-                            console.log('save for later: ' + censusFormService.censusForm.saveForLater);
+                            $log.info('save for later: ' + censusFormService.censusForm.saveForLater);
 
                             if (toMoveNext && censusFormService.censusForm.step === 1){
                                 $location.path('/censusdata/create2');                
@@ -60,21 +60,21 @@ flnd.censusDataCreate = {
                     });
             }
             else { //Subsequent updates
-                console.log('step value of finish click: ' + $scope.censusForm.step);
-                console.log('saveForLater1: ' + $scope.censusForm.saveForLater);
-                console.log('saveForLater2: ' + censusFormService.censusForm.saveForLater);
+                $log.info('step value of finish click: ' + $scope.censusForm.step);
+                $log.info('saveForLater1: ' + $scope.censusForm.saveForLater);
+                $log.info('saveForLater2: ' + censusFormService.censusForm.saveForLater);
                 var saveForLater = censusFormService.censusForm.saveForLater;
-                console.log('save for later valuexx: ' + saveForLater);
+                $log.info('save for later valuexx: ' + saveForLater);
                 var toFinish = censusFormService.censusForm.saveAndFinish;
                 if(toFinish){
                     censusFormService.censusForm.step = 4;
                     $scope.censusForm.step = 4;
                 }
-                var putUrl = config.waterbirdForagingSurvey + $scope.censusForm.surveyIdentifier
-                console.log('updated census form object: ' + $scope.censusForm);
+                var putUrl = config.waterbirdForagingSurvey + $scope.censusForm.surveyIdentifier;
+                $log.info('updated census form object: ' + $scope.censusForm);
                 authService.put(putUrl, $scope.censusForm)
                     .then(function success(response){
-                            console.log('put method output: ' + response);
+                            $log.info('put method output: ' + response);
                             var currentStep = censusFormService.censusForm.step;
                             var toMoveNext = censusFormService.censusForm.saveAndMoveNext;
                             
@@ -86,9 +86,9 @@ flnd.censusDataCreate = {
                             $scope.censusForm = response.data;
                             $scope.censusForm.step = currentStep;
                             $scope.censusForm.saveForLater = saveForLater;
-                            console.log('save for later value: ' + saveForLater);
+                            $log.info('save for later value: ' + saveForLater);
                             
-                            censusFormService.censusForm = $scope.censusForm
+                            censusFormService.censusForm = $scope.censusForm;
                             if (toMoveNext && censusFormService.censusForm.step === 1){
                                 $location.path('/censusdata/create2');                
                             }
@@ -99,7 +99,7 @@ flnd.censusDataCreate = {
                                 $location.path('/censusdata/create4');
                             }
                         }, function error(response){
-                            console.log(response);
+                            $log.info(response);
                             messenger.displayErrorResponse($scope, response);
                         })
                     .finally(function(){
@@ -119,9 +119,9 @@ flnd.censusDataCreate = {
  */
 angular.module('flightNodeApp')
     .controller('CensusDataCreateController', 
-    ['$scope', 'authService', 'config', 'messenger', 'censusFormService','$filter','$location',
-    function ($scope, authService, config, messenger, censusFormService, $filter, $location) {
-        $scope.loading = true;
+    ['$scope', 'authService', 'config', 'messenger', 'censusFormService','$filter','$location', '$log',
+    function ($scope, authService, config, messenger, censusFormService, $filter, $location, $log) {
+		$scope.loading = true;
         $scope.saveForLater=false;
         $scope.data = {};
         
@@ -154,12 +154,12 @@ angular.module('flightNodeApp')
         
         // //Method to mark the final step on click of Finish from the UI.
         // $scope.markAsFinalStep = function(){
-        //     console.log('before changing value: ' + $scope.censusForm.step);
-        //     console.log('before changing value: ' + censusFormService.censusForm.step);
+        //     $log.info('before changing value: ' + $scope.censusForm.step);
+        //     $log.info('before changing value: ' + censusFormService.censusForm.step);
         //     censusFormService.censusForm.step = 4;
         //     $scope.censusForm.step = 4;
-        //     console.log('after changing value: ' + $scope.censusForm.step);
-        //     console.log('after changing value: ' + censusFormService.censusForm.step);
+        //     $log.info('after changing value: ' + $scope.censusForm.step);
+        //     $log.info('after changing value: ' + censusFormService.censusForm.step);
         // };
         
       //  censusFormService.censusForm.saveForLater = $scope.saveForLater;
@@ -167,7 +167,7 @@ angular.module('flightNodeApp')
         //main payload which will be delivered to api for persistence.
         $scope.censusForm = censusFormService.censusForm;
         
-        $scope.submit = flnd.censusDataCreate.configureSubmit($scope, config, messenger, authService, censusFormService, $location);
+        $scope.submit = flnd.censusDataCreate.configureSubmit($scope, config, messenger, authService, censusFormService, $location, $log);
         
         // $scope.submitAndMoveNext = function(){
         //     flnd.censusDataCreate.configureSubmit($scope, config, messenger, authService, censusFormService);
@@ -178,7 +178,7 @@ angular.module('flightNodeApp')
         //     if (censusFormService.censusForm.step==2){            
         //         $location.path('/censusdata/create3');                
         //     }
-        //     ///console.log("button clicked;");          
+        //     ///$log.info('button clicked;');          
         //     
         // };
         

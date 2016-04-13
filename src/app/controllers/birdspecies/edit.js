@@ -40,10 +40,10 @@ flnd.birdSpeciesEdit = {
         // This hard-coding is nasty but useful due to time constraints
         birdspecies.surveyTypeNames = [];
         if (birdspecies.surveyTypeRookery) {
-            birdspecies.surveyTypeNames.push("TERN Rookery Survey");
+            birdspecies.surveyTypeNames.push('TERN Rookery Survey');
         }
         if (birdspecies.surveyTypeForaging) {
-            birdspecies.surveyTypeNames.push("TERN Waterbird Foraging Survey");
+            birdspecies.surveyTypeNames.push('TERN Waterbird Foraging Survey');
         }
     },
 
@@ -80,8 +80,8 @@ flnd.birdSpeciesEdit = {
  */
 angular.module('flightNodeApp')
     .controller('BirdSpeciesEditController',
-        ['$scope', '$http', '$log', '$location', 'messenger', 'authService', '$routeParams', 'config', '$uibModalInstance', 'id', 'surveyTypeService',
-            function ($scope, $http, $log, $location, messenger, authService, $routeParams, config, $uibModalInstance, id, surveyTypeService) {
+        ['$scope', '$http', '$log', '$location', 'messenger', 'authService', '$routeParams', 'config', '$uibModalInstance', 'id',
+            function ($scope, $http, $log, $location, messenger, authService, $routeParams, config, $uibModalInstance, id) {
 
                 if (!(authService.isAdministrator() ||
                       authService.isCoordinator())) {

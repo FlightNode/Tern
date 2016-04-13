@@ -143,12 +143,8 @@ angular.module('flightNodeApp')
                     $scope.loading = true;
                     var url  = config.usersPending;
 
-                    var data = {
-                        ids: ids
-                    };
-
                     authService.post(url, ids)
-                        .then(function success(response) {
+                        .then(function success() {
                             messenger.showSuccessMessage($scope, msg);
                             done();
                         }, function error(response) {

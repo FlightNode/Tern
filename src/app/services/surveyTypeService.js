@@ -18,10 +18,9 @@ angular.module('surveyTypeService', [])
 
                     var url = config.surveyTypes;
 
-                    return authService.get(url)
+                    return authService.get(url);
                 }   
-
-            }
+            };
       }
   ]
 );
