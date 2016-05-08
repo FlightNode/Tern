@@ -12,7 +12,10 @@ flnd.myWorkDayList = {
             .then(function success(response) {
                 $scope.list = response.data;
 
+                $scope.loading = false;
+
             }, function error(response) {
+                $scope.loading = false;
                 messenger.displayErrorResponse($scope, response);
                 return null;
             });
@@ -48,10 +51,11 @@ angular.module('flightNodeApp')
                     //   displayName: 'Month'
                     // },
                     { field: 'workDate', display: 'Date' },
-                    { field: 'locationName', displayName: 'Location' },
-                    { field: 'workHours', displayName: 'Work Hours' },
-                    { field: 'travelTimeHours', displayName: 'Travel Hours' },
-                    { field: 'workType', displayName: 'Work Type' },
+                    { name: 'county', displayName: 'County'},
+                    { name: 'siteName', displayName: 'Site Name' },
+                    { name: 'numberOfVolunteers', displayName: '# Volunteers'},
+                    { name: 'workHours', displayName: 'Work Hours' },
+                    { name: 'travelTimeHours', displayName: 'Travel Hours' },
                     {
                         field: 'id',
                         displayName: '',
@@ -110,9 +114,7 @@ angular.module('flightNodeApp')
             };
 
             $scope.getHeader = function() {
-                return [ 'Id', 'Month', 'WorkDate', 'WorkHours', 'TravelTimeHours', 'WorkType', 'Location' ];
+                return [ 'Id', 'WorkDate', 'Activity', 'County', 'SiteName', 'NumberOfVolunteers', 'WorkHours', 'TravelTimeHours', 'Volunteer', 'TasksCompleted', 'UserId' ];
             };
-
-            $scope.loading = false;
 
         }]);

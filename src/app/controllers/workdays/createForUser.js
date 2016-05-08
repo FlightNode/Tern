@@ -124,7 +124,9 @@ flnd.workDayCreateForUser = {
             workDate: $scope.workday.workDate,
             workHours:  $this.dateToHours($scope.workday.workTime),
             workTypeId: $scope.workday.workType,
-            userId: $scope.workday.userId
+            userId: $scope.workday.userId,
+            numberOfVolunteers: $scope.workday.numberOfVolunteers,
+            tasksCompleted: $scope.workday.tasksCompleted
         };
 
         authService.post(config.workLogs, msg)

@@ -109,7 +109,9 @@ flnd.workDayEdit = {
             workHours:  $this.dateToHours($scope.workday.workTime),
             workTypeId: $scope.workday.workType,
             userId: $scope.workday.userId,
-            id: $scope.workday.id
+            id: $scope.workday.id,
+            numberOfVolunteers: $scope.workday.numberOfVolunteers,
+            tasksCompleted: $scope.workday.tasksCompleted
         };
 
         authService.put(config.workLogs + id, msg)
@@ -130,21 +132,26 @@ flnd.workDayEdit = {
     return $scope;
   },
 
-  loadRecord: function(id, $scope, $log, messenger, authService, config) {
+  loadRecord: function(id, $scope, $log, messenger, authService, config, _) {
     var $this = this;
 
     authService.get(config.workLogs + id)
         .then(function success(response) {
+
+            $log.info(response.data);
+
             $scope.hstep = 1;
             $scope.mstep = 1;
             $scope.workday = {
                 location: response.data.locationId,
-                workDate: response.data.workDate,
+                workDate: $this.stripTime(response.data.workDate),
                 workType: response.data.workTypeId,
                 id: response.data.id,
                 userId: response.data.userId,
                 workTime: $this.hoursToDate(response.data.workHours),
-                travelTime: $this.hoursToDate(response.data.travelTimeHours)
+                travelTime: $this.hoursToDate(response.data.travelTimeHours),
+                numberOfVolunteers: response.data.numberOfVolunteers,
+                tasksCompleted: response.data.tasksCompleted || ''
             };
 
         }, function error(response) {
@@ -160,11 +167,24 @@ flnd.workDayEdit = {
   },
 
   hoursToDate: function(hours) {
+    var $this = this;
     var parts = hours.toString().split('.');
     var toParse = { hour: parts[0], minute: 0 };
-    if(parts[1]) { toParse.minute = _.padRight(parts[1],2,'0') * 0.6; }
+    if(parts[1]) { toParse.minute = $this.padRight(parts[1],2,'0') * 0.6; }
     return moment(toParse).format();
   },
+
+  padRight: function(input, length, padChar) {
+    var output = input;
+    while (output.length < length-1) {
+        output += padChar;
+    }
+    return output;
+  },
+
+  stripTime: function(dateTime) {
+    return moment(dateTime).format('YYYY-MM-DD');
+  }
 };
 
 /**
