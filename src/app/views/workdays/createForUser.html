@@ -89,8 +89,7 @@
         <div class="form-group">
             <label for="tasksCompleted" class="col-sm-3 control-label">Tasks Completed <span class="text-danger">*</span></label>
             <div class="col-sm-9" ng-class="{'has-error': workdayForm.tasksCompleted.$error.required}">
-                <textarea name="tasksCompleted" id="tasksCompleted" ng-model="workday.tasksCompleted"
-                style="width: 90%; height: 6em;">
+                <textarea name="tasksCompleted" id="tasksCompleted" ng-model="workday.tasksCompleted" required style="width: 90%; height: 6em;">
                 </textarea>
             </div>
             <div role="alert" class="col-sm-9 col-sm-offset-3">
