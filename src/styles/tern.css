@@ -193,6 +193,7 @@ h3 {
 .jumbo {
   width: 100%;
   position: relative;
+  margin-bottom: 2em;
 }
 .jumbo h1 {
   color: #fff;
