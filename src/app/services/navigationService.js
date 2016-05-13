@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('navigationService', [])
-    .factory('navigationService', ['authService', '$log', '$rootScope', 'config',
-        function(authService, $log, $rootScope, config) {
+    .factory('navigationService', ['authService', '$log', 'config', '$rootScope', '$sce', 
+        function(authService, $log, config, $rootScope, $sce) {
             var KEY = 'NAVIGATION_TREE';
 
             return {
@@ -109,7 +109,7 @@ angular.module('navigationService', [])
                             nav += '<ul class="';
 
                             if (topLevel) {
-                                nav += 'nav nav-pills">';
+                                nav += 'nav navbar-nav">';
                                 topLevel = false;
                             } else {
                                 nav += ' dropdown-menu">';
@@ -121,8 +121,7 @@ angular.module('navigationService', [])
                                 nav += '\r<li role="presentation" class="';
 
                                 if (hasChildren) {
-                                    nav += 'dropdown"><a ng-href="' + child.entry.path;
-                                    nav += '" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">';
+                                    nav += 'dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">';
                                     nav += child.entry.title + ' <span class="caret"></span></a>';
                                 } else {
                                     if (child.entry && child.entry.path && child.entry.title) {
@@ -149,7 +148,7 @@ angular.module('navigationService', [])
 
                         build(top);
 
-                        $rootScope.navigation = nav;
+                        $rootScope.navigation = $sce.trustAsHtml(nav);
                     });
                 }
             };

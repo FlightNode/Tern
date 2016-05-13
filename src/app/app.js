@@ -191,7 +191,7 @@ angular
         title: site + ' - page not found'
       });
   })
-  .run(function(authService, $rootScope, $route, $window, $log, navigationService) {
+  .run(function(authService, $rootScope, $route, $window, $log, navigationService, $sce) {
     var display = authService.getDisplayName();
     if (display) {
       $rootScope.display_name = 'Welcome, ' + display;
