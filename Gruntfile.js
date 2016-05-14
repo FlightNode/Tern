@@ -85,6 +85,10 @@ module.exports = function (grunt) {
                 '/src/styles',
                 connect.static('./src/styles')
               ),
+              connect().use(
+                '/bootstrap',
+                connect.static('./bootstrap')
+              ),
               connect.static(appConfig.app)
             ];
           }
@@ -100,6 +104,10 @@ module.exports = function (grunt) {
               connect().use(
                 '/bower_components',
                 connect.static('./bower_components')
+              ),
+              connect().use(
+                '/bootstrap',
+                connect.static('./bootstrap')
               ),
               connect.static(appConfig.app)
             ];

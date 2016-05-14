@@ -1,6 +1,8 @@
 <div class="container">    
     <div ng-include="'/app/views/censusdata/progressBar.html'"></div>
     {{censusForm.step = 2}}
+    {{censusForm.saveForLater = false}}
+
     <form class="form-horizontal" ng-submit="submit()" role="form"> 
         <div class="form-group panel panel-primary">
             <div class="panel-heading">Waterbird Survey</div>

@@ -1,5 +1,5 @@
 {
-  "name": "flightnode-app",
+  "name": "tern-app",
   "version": "0.0.2",
   "dependencies": {
     "moment": "momentjs#^2.12.0",
