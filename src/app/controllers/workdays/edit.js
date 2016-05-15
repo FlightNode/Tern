@@ -132,7 +132,7 @@ flnd.workDayEdit = {
     return $scope;
   },
 
-  loadRecord: function(id, $scope, $log, messenger, authService, config, _) {
+  loadRecord: function(id, $scope, $log, messenger, authService, config) {
     var $this = this;
 
     authService.get(config.workLogs + id)

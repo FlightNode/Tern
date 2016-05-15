@@ -34,6 +34,11 @@ angular.module('flightNodeApp')
      ['$scope', '$http', '$log', 'messenger', '$location', 'authService', 'config','$uibModal',
         function ($scope, $http, $log, messenger, $location, authService, config, $uibModal) {
 
+            if (!authService.isReporter()) {
+                $location.path('/login').search('redirect','/workdays/mylist');
+                return;
+            }
+
             $scope.loading = true;
 
             flnd.myWorkDayList.retrieveRecords(config, $scope, messenger, authService);
@@ -46,10 +51,6 @@ angular.module('flightNodeApp')
                 },
                 data: 'list',
                 columnDefs: [
-                    // { 
-                    //   field: 'workMonth',
-                    //   displayName: 'Month'
-                    // },
                     { field: 'workDate', display: 'Date' },
                     { name: 'county', displayName: 'County'},
                     { name: 'siteName', displayName: 'Site Name' },

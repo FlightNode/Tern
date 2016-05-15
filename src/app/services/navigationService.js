@@ -18,7 +18,6 @@ angular.module('navigationService', [])
                     ];
 
                     if (authService.isAnonymous()) {
-                        $log.info('building anonymous tree');
                         tree.push({
                             entry: {
                                 title: 'Login',
@@ -28,7 +27,6 @@ angular.module('navigationService', [])
                         });
                     } else { // signed-in successfully
                         if (authService.isReporter()) {
-                            $log.info('building reporter tree');
                             tree.push({
                                 entry: {
                                     title: 'Submit Data',
@@ -46,7 +44,6 @@ angular.module('navigationService', [])
                             });
                         }
                         if (authService.isAdministrator()) {
-                            $log.info('building administrator tree');
                             tree.push({
                                 entry: {
                                     title: 'Manage',
@@ -158,7 +155,7 @@ angular.module('navigationService', [])
 
                     if (tree === null || tree === 'null') {
 
-                      var tree = this.createTree();
+                      tree = this.createTree();
                       callback(tree);
 
                     } else {

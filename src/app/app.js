@@ -1,4 +1,3 @@
-/* global $ */
 'use strict';
 
 var flnd = {}; // jshint ignore:line
@@ -24,7 +23,6 @@ angular
     'ui.bootstrap.timepicker',
     'ui.grid.selection',
     'censusFormService',
-    'uiSwitch',
     'surveyTypeService'
   ])
   .config(function ($routeProvider) {
@@ -70,7 +68,7 @@ angular
         title: site + ' - Users - Edit'
       })
       .when('/workdays/', {
-        templateUrl: 'app/views/workdays/list.html',
+        templateUrl: 'app/views/workdays/mylist.html',
         controller: 'WorkdayListController',
         title: site + ' - Work Day - List'
       })
@@ -197,7 +195,7 @@ angular
         title: site + ' - page not found'
       });
   })
-  .run(function(authService, $rootScope, $route, $window, $log, navigationService, $sce) {
+  .run(function(authService, $rootScope, $route, $window, $log, navigationService) {
     var display = authService.getDisplayName();
     if (display) {
       $rootScope.display_name = 'Welcome, ' + display;
@@ -215,15 +213,13 @@ angular
       restrict: 'E',
       replace: true,
       template: '<div class="loading" ng-show="loading"><img class="loadingImage" src="http://www.nasa.gov/multimedia/videogallery/ajax-loader.gif" width="64" height="64" /></div>',
-      link: function (scope, element) {
+      link: function (scope) {
         scope.$watch('loading', function (val) {
           if (val) {
             scope.loading = true;
-            //$(element).show();
           }
           else {
             scope.loading = false;
-            // $(element).hide();
           }
         });
       }
