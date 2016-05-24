@@ -67,8 +67,8 @@ angular
         controller: 'UserEditController',
         title: site + ' - Users - Edit'
       })
-      .when('/workdays/', {
-        templateUrl: 'app/views/workdays/mylist.html',
+      .when('/workdays/all', {
+        templateUrl: 'app/views/workdays/list.html',
         controller: 'WorkdayListController',
         title: site + ' - Work Day - List'
       })
@@ -81,6 +81,11 @@ angular
         templateUrl: 'app/views/workdays/createForUser.html',
         controller: 'WorkdayCreateForUserController',
         title: site + ' - Work Day - New Log for Another Person'
+      })
+      .when('/workdays/', {
+        templateUrl: 'app/views/workdays/mylist.html',
+        controller: 'WorkdayMyListController',
+        title: site + ' - User\'s Work Days'
       })
       .when('/workdays/mylist', {
         templateUrl: 'app/views/workdays/mylist.html',

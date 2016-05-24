@@ -77,7 +77,7 @@ angular.module('navigationService', [])
                                     {
                                         entry: {
                                             title: 'Work Days',
-                                            path: '#/workdays'
+                                            path: '#/workdays/all'
                                         }
                                     },
                                     {

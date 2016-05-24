@@ -2,7 +2,7 @@
 
 flnd.workDayCreate = {
     // TODO: remove some code duplication in here, createForuser, and edit
-  configureDateField: function($scope) {
+  configureDateField: function($scope, $log) {
     $scope.workday = {};
 
     $scope.today = moment().format('MM/DD/YY');
@@ -24,6 +24,7 @@ flnd.workDayCreate = {
 
     $scope.open = function () {
         $scope.status.opened = true;
+        $log.info('datepicker opened');
     };
 
     $scope.setDate = function (year, month, day) {
@@ -166,7 +167,7 @@ angular.module('flightNodeApp')
                 $scope.loading = true;
                 $scope.data = {};
 
-                $scope = flnd.workDayCreate.configureDateField($scope);
+                $scope = flnd.workDayCreate.configureDateField($scope, $log);
                 flnd.workDayCreate.loadWorkTypes($scope, $log, messenger, authService, config);
                 flnd.workDayCreate.loadLocations($scope, $log, messenger, authService, config);
 

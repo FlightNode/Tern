@@ -12,13 +12,14 @@
         </div> -->
         <div class="form-group">
             <label for="workDate" class="col-sm-3 control-label">Date <span class="text-danger">*</span></label>
-            <div class="col-sm-9" ng-class="{'has-error': workdayForm.workDate.$error.required || workdayForm.workDate.$error.date}">
+            <div class="col-sm-9" 
+                ng-class="{'has-error': workdayForm.workDate.$error.required || workdayForm.workDate.$error.date}">
                 <div class="input-group">
-                    <input type="text" name="workDate" class="form-control" uib-datepicker-popup="{{format}}"
-                    ng-model="workday.workDate" is-open="status.opened"
-                    datepicker-options="dateOptions" ng-required="true" close-text="Close" placeholder="{{today}}" date />
+                    <input type="text" name="workDate" class="form-control" 
+                    placeholder="{{today}}" required date  
+                    ng-model="workday.workDate" ng-pattern="/(\d{4}-\d{2}\-\d{2})|(\d{2}/\d{2}/\d{4})/" />
                     <span class="input-group-btn">
-                        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                        <button type="button" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button>
                     </span>
                 </div>
                 <p class="form-control-static">
@@ -26,7 +27,7 @@
                 </p>
             </div>
             <div role="alert" class="col-sm-9 col-sm-offset-3">
-                <span class="error" ng-show="workdayForm.workDate.$error.date">Invalid date</span>
+                <span class="error" ng-show="workdayForm.workDate.$error.pattern">Invalid date: use YYYY-MM-DD or mm/dd/yyyy format</span>
             </div>
         </div>
         <div class="form-group">
