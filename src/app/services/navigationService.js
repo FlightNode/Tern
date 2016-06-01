@@ -15,7 +15,20 @@ angular.module('navigationService', [])
                             },
                             children: []
                         },
-                    ];
+                        {
+                            entry: {
+                                title: 'Contact Us',
+                                path: '#/contact'
+                            },
+                            children: []
+                        },
+                        {
+                            entry: {
+                                title: 'FAQ',
+                                path: '#/faq'
+                            },
+                            children: []
+                        }];
 
                     if (authService.isAnonymous()) {
                         tree.push({
@@ -114,21 +127,6 @@ angular.module('navigationService', [])
                             });
                         }
                     }
-
-                    tree.push({
-                            entry: {
-                                title: 'Contact Us',
-                                path: '#/contact'
-                            },
-                            children: []
-                        });
-                    tree.push({
-                            entry: {
-                                title: 'FAQ',
-                                path: '#/faq'
-                            },
-                            children: []
-                        });
 
                     if (!authService.isAnonymous()) {
                         tree.push({

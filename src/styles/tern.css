@@ -325,14 +325,169 @@ h3 {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
-.icon-facebook::before {
-    content: "b";
+
+.icon-mail:before {
+  content: "a";
 }
-.icon-instagram::before {
-    content: "f";
+
+.icon-facebook:before {
+  content: "b";
 }
-.icon-youtube::before {
-    content: "d";
+
+.icon-twitter:before {
+  content: "c";
+}
+
+.icon-youtube:before {
+  content: "d";
+}
+
+.icon-pinterest:before {
+  content: "e";
+}
+
+.icon-instagram:before {
+  content: "f";
+}
+
+.icon-quote:before {
+  content: "g";
+}
+
+.icon-info:before {
+  content: "h";
+}
+
+.icon-spin-widdershins:before {
+  content: "i";
+}
+
+.icon-spin-clockwise:before {
+  content: "j";
+}
+
+.icon-home:before {
+  content: "k";
+}
+
+.icon-delete:before {
+  content: "l";
+}
+
+.icon-chevron-right:before {
+  content: "m";
+}
+
+.icon-chevron-left:before {
+  content: "n";
+}
+
+.icon-music:before {
+  content: "o";
+}
+
+.icon-check:before {
+  content: "p";
+}
+
+.icon-arrow-right:before {
+  content: "q";
+}
+
+.icon-arrow-left:before {
+  content: "r";
+}
+
+.icon-expand:before {
+  content: "s";
+}
+
+.icon-zoom:before {
+  content: "t";
+}
+
+.icon-slides:before {
+  content: "u";
+}
+
+.icon-paper-airplane:before {
+  content: "v";
+}
+
+.icon-map:before {
+  content: "w";
+}
+
+.icon-marker:before {
+  content: "x";
+}
+
+.icon-grid:before {
+  content: "y";
+}
+
+.icon-burst:before {
+  content: "z";
+}
+
+.icon-chevron-up:before {
+  content: "A";
+}
+
+.icon-comment:before {
+  content: "B";
+}
+
+.icon-calendar:before {
+  content: "C";
+}
+
+.icon-newspaper:before {
+  content: "D";
+}
+
+.icon-camera:before {
+  content: "E";
+}
+
+.icon-video:before {
+  content: "F";
+}
+
+.icon-sound-off:before {
+  content: "G";
+}
+
+.icon-sound-half:before {
+  content: "H";
+}
+
+.icon-sound-full:before {
+  content: "I";
+}
+
+.icon-magnifier:before {
+  content: "J";
+}
+
+.icon-bookmark:before {
+  content: "K";
+}
+
+.icon-link:before {
+  content: "L";
+}
+
+.icon-zoomin:before, .lzoom_zoomin:before {
+  content: "\e037";
+}
+
+.icon-zoomout:before, .lzoom_zoomout:before {
+  content: "\e038";
+}
+
+.icon-fullscreen:before, .lzoom_fullscreen:before {
+  content: "\e128";
 }
 
 /* Forms */

@@ -15,6 +15,8 @@ angular.module('flightNodeApp')
                     return function() {
                         $scope.loading = true;
 
+                        $scope.user.active = true;
+
                         authService.post(config.users, $scope.user)
                             .then(function success() {
 
@@ -153,6 +155,15 @@ angular.module('flightNodeApp')
                         .finally(function() {
                             $scope.loading = false;
                         });
+                },
+
+                roleInfo: function($scope) {
+
+                    // Hard-code for now, think about alternatives in the future
+                    var header = 'Role Descriptions';
+                    var text = '<p>At this time, it is best to use either "Administrative user" or "Volunteer data reporter". The precise functionality for "Project Coordinator" and "Volunteer Team Lead" has not been fully defined, although "Coordinator" generally has similar rights as "Administrator" (so use with extreme caution).</p>';
+                    
+
                 }
             };
         }

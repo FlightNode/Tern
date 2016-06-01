@@ -30,11 +30,13 @@ angular.module('authService', [])
             },
 
             clearToken: function() {
-                roles = null;
-                userId = null;
-                userName = null;
-                displayName = null;
-                payload = null;
+                var $this = this;
+
+                $this.roles = null;
+                $this.userId = null;
+                $this.userName = null;
+                $this.displayName = null;
+                $this.payload = null;
                 $cookies.remove(TOKEN_KEY);
                 $rootScope.display_name = '';
             },
