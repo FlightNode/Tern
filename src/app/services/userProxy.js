@@ -5,7 +5,7 @@
  * @name flightNodeApp.Services:userProxy
  * @description
  * # userProxy
- * Controller for the create user page.
+ * Proxy service for working with user accounts
  */
 angular.module('flightNodeApp')
     .factory('userProxy', ['$http', '$log', 'authService', 'config', 'messenger',

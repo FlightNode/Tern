@@ -9,8 +9,8 @@
  */
 angular.module('authService', [])
     .factory('authService',
-        ['$cookies', '$http', 'jwtHelper', '$log', '$rootScope',
-         function ($cookies, $http, jwtHelper, $log, $rootScope) {
+        ['$cookies', '$http', 'jwtHelper', '$rootScope',
+         function ($cookies, $http, jwtHelper, $rootScope) {
 
         var TOKEN_KEY = 'org.flightnode.jwt';
         var roles;
@@ -81,7 +81,6 @@ angular.module('authService', [])
                     url: url,
                     method: verb,
                     data: data,
-                    //params:{id:1},
                     headers: headers
                 });
 
@@ -89,35 +88,30 @@ angular.module('authService', [])
 
             get: function(url) {
                 var $this = this;
-                $log.info('GET ', url);
 
                 return $this._request(url, 'GET');
             },
 
             post: function(url, data) {
                 var $this = this;
-                $log.info('POST ', url);
 
                 return $this._request(url, 'POST', data);
             },
 
             put: function(url, data) {
                 var $this = this;
-                $log.info('PUT ', url);
 
                 return $this._request(url, 'PUT', data);
             },
 
             delete: function(url) {
                 var $this = this;
-                $log.info('DELETE ', url);
 
                 return $this._request(url, 'DELETE');
             },
 
             patch: function(url) {
                 var $this = this;
-                $log.info('PATCH ', url);
 
                 return $this._request(url, 'PATCH');
             },

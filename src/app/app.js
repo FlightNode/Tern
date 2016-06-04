@@ -21,9 +21,7 @@ angular
     'navigationService',
     'ui.bootstrap.modal',
     'ui.bootstrap.timepicker',
-    'ui.grid.selection',
-    'censusFormService',
-    'surveyTypeService'
+    'ui.grid.selection'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -146,28 +144,28 @@ angular
         templateUrl: 'app/views/main.html',
         controller: 'LogoutController'
       })
-      .when('/censusdata/', {
-        templateUrl: 'app/views/censusdata/create.html',
-        controller: 'CensusDataCreateController',
-        title: site + ' - Census Data - New'
+      .when('/foraging/', {
+        templateUrl: 'app/views/foraging/create.html',
+        controller: 'ForagingCreateController',
+        title: site + ' - Waterbird Foraging Survey - New'
       })
-      .when('/censusdata/create', {
-        templateUrl: 'app/views/censusdata/create.html',
-        //TODO: Will think about should conroller be seperated out for each of these views.
-        controller: 'CensusDataCreateController',
-        title: site + ' - Census Data - New'
+      .when('/foraging/create', {
+        templateUrl: 'app/views/foraging/create.html',
+        //TODO: Will think about should conroller be separated out for each of these views.
+        controller: 'ForagingCreateController',
+        title: site + ' - Waterbird Foraging Survey - New'
       })
-      .when('/censusdata/create2', {
-        templateUrl: 'app/views/censusdata/create2.html',
-        //TODO: Will think about should conroller be seperated out for each of these views.
-        controller: 'CensusDataCreateController',
-        title: site + ' - Census Data - New'
+      .when('/foraging/create2', {
+        templateUrl: 'app/views/foraging/create2.html',
+        //TODO: Will think about should conroller be separated out for each of these views.
+        controller: 'ForagingCreateController',
+        title: site + ' - Waterbird Foraging Survey - New'
       })
-      .when('/censusdata/create3', {
-        templateUrl: 'app/views/censusdata/create3.html',
-        //TODO: Will think about should conroller be seperated out for each of these views.
-        controller: 'CensusDataCreateController',
-        title: site + ' - Census Data - New'
+      .when('/foraging/create3', {
+        templateUrl: 'app/views/foraging/create3.html',
+        //TODO: Will think about should conroller be separated out for each of these views.
+        controller: 'ForagingCreateController',
+        title: site + ' - Waterbird Foraging Survey - New'
       })
       .when('/violations', {
         templateUrl: 'app/views/violations.html',
@@ -189,11 +187,11 @@ angular
         templateUrl: 'app/views/data2.html',
         title: site + ' - Submit Survey Data'
       })
-      .when('/censusdata/create4', {
-        templateUrl: 'app/views/censusdata/create4.html',
-        //TODO: Will think about should conroller be seperated out for each of these views.
-        controller: 'CensusDataCreateController',
-        title: 'FlightNode - Census Data - Finished'
+      .when('/foraging/create4', {
+        templateUrl: 'app/views/foraging/create4.html',
+        //TODO: Will think about should conroller be separated out for each of these views.
+        controller: 'foragingCreateController',
+        title: 'FlightNode - Waterbird Foraging Survey - Finished'
       })
       .otherwise({
         templateUrl: 'app/views/404.html',
@@ -212,23 +210,6 @@ angular
 
     navigationService.buildNavigation();
 
-  })
-  .directive('loading', function () {
-    return {
-      restrict: 'E',
-      replace: true,
-      template: '<div class="loading" ng-show="loading"><img class="loadingImage" src="http://www.nasa.gov/multimedia/videogallery/ajax-loader.gif" width="64" height="64" /></div>',
-      link: function (scope) {
-        scope.$watch('loading', function (val) {
-          if (val) {
-            scope.loading = true;
-          }
-          else {
-            scope.loading = false;
-          }
-        });
-      }
-    };
   })
   .directive('alert', [function () {
     return {

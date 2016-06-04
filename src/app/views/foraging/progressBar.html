@@ -1,0 +1,30 @@
+<div class="well row">
+    <h4>Census participants please be as complete as possible:</h4>
+    <ul>
+        <li>Review form guidelines prior to census.</li>
+        <li>Always provide "number of adults and juveniles" data for species.</li>
+        <li>Always observe birds from at least 50 yards away.</li>
+    </ul>
+</div>
+<div class="row">
+    <pre>{{foragingSurvey | json }}</pre>
+    <!--<div>{{birdSpeciesList | limitTo: 1 | json }}</div>-->
+    <div class="alert alert-success row" ng-show="foragingSurvey.saveForLater">
+        <a class="close" data-dismiss="alert" aria-label="close">&times;</a> Partial survey results have been saved. You must click the Finish button for the survey to be completed and included in reports.
+    </div>
+    <div class="row" ng-show="foragingSurvey.step === 1">
+        <div class="col-md-4" style="border-top:3px solid #f0ad4e"><span class="label label-warning">1</span><span> Site Information</span></div>
+        <div class="col-md-4" style="border-top:3px solid grey"><span class="label label-default">2</span><span> Waterbird Survey</span></div>
+        <div class="col-md-4" style="border-top:3px solid gray"><span class="label label-default">3</span><span> Disturbance</span></div>
+    </div>
+    <div class="row" ng-show="foragingSurvey.step === 2">
+        <div class="col-md-4" style="border-top:3px solid #5cb85c"><span class="label label-success">1</span><span> <a href="#/foraging/create">Site Information</a></span></div>
+        <div class="col-md-4" style="border-top:3px solid #f0ad4e"><span class="label label-warning">2</span><span> Waterbird Survey</span></div>
+        <div class="col-md-4" style="border-top:3px solid gray"><span class="label label-default">3</span><span> Disturbance</span></div>
+    </div>
+    <div class="row" ng-show="foragingSurvey.step === 3">
+        <div class="col-md-4" style="border-top:3px solid #5cb85c"><span class="label label-success">1</span><span> <a href="#/foraging/create">Site Information</a></span></div>
+        <div class="col-md-4" style="border-top:3px solid #5cb85c"><span class="label label-success">2</span><span> <a href="#/foraging/create2">Waterbird Survey</a></span></div>
+        <div class="col-md-4" style="border-top:3px solid #f0ad4e"><span class="label label-warning">3</span><span> Disturbance</span></div>
+    </div>
+</div>
