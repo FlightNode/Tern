@@ -100,43 +100,102 @@ flnd.censusDataCreate = {
  * Controller for the create census form.
  */
 angular.module('flightNodeApp')
-    .controller('ForagingCreateController', ['$scope', 'authService', 'config', 'messenger', 
-        'foragingSurveyService', '$filter', '$location', '$log', 'locationProxy', 'enumsProxy',
-        function($scope, authService, config, messenger, 
-            foragingSurveyService, $filter, $location, $log, locationProxy, enumsProxy) {
+    .controller('ForagingCreateController', ['$scope', 'authService', 'config', 'messenger',
+        'foragingSurveyProxy', '$filter', '$location', '$log', 'locationProxy', 'enumsProxy',
+        function($scope, authService, config, messenger,
+            foragingSurveyProxy, $filter, $location, $log, locationProxy, enumsProxy) {
             $scope.loading = true;
+
             $scope.saveForLater = false;
-            $scope.data = {};
-            
 
-            flnd.censusDataCreate.retrieveBirds(config, $scope, messenger, authService);
+            var modelKey = 'foragingSurvey';
+            var enumsKey = 'enums';
+            var birdsKey = 'birdSpeciesList';
+            var locationsKey = 'locations';
 
-            locationProxy.get($scope, function(data) {
-                $scope.data = _.assign($scope.data, { locations: data });
-            });
+            var saveToSesion = function(key, data) {
+                sessionStorage.setItem(key, JSON.stringify(data));
+            };
 
-            enumsProxy.getForForagingSurvey($scope, function(data) {
-                $scope.data = _.assign($scope.data, data);
-            });
+            var pullFromSession = function(key) {
+                var stored = sessionStorage.getItem(key);
+                if (stored) {
+                    return JSON.parse(stored);
+                }
+                return null;
+            };
 
-
-            //main payload which will be delivered to api for persistence.
-            $scope.foragingSurvey = {
+            // Prepare data - first try pulling from sessionStorage if available
+            $scope.foragingSurvey = pullFromSession(modelKey);
+            if (!$scope.foragingSurvey) {
+                $scope.foragingSurvey = {
                     observations: [],
                     disturbances: [],
                     saveForLater: false,
                     saveAndMoveNext: false,
-                    saveAndFinish: false
+                    saveAndFinish: false,
+                    step: 1
                 };
+            }
+
+            var step = $scope.foragingSurvey.step;
+
+
+            $scope.enums = pullFromSession(enumsKey);
+            if (!$scope.enums) {
+                enumsProxy.getForForagingSurvey($scope, function(data) {
+                    $scope.enums = data;
+                    saveToSesion(enumsKey, data);
+                });
+            }
+
+            $scope.locations = pullFromSession(locationsKey);
+            if (!$scope.locations) {
+                locationProxy.get($scope, function(data) {
+                    $scope.locations = data;
+                    saveToSesion(locationsKey, data);
+                });
+            }
+
+            if (step === 2) {
+                $scope.birdSpeciesList = pullFromSession(birdsKey);
+                if (!$scope.birdSpeciesList) {
+
+                    // TODO: pull this into bird proxy with getBySurveyTypeId(id)
+                    authService.get(config.birdspecies + '?surveyTypeId=2')
+                        .then(function success(response) {
+
+                            $scope.birdSpeciesList = response.data;
+                            saveToSesion(birdsKey, $scope.birdSpeciesList);
+
+                        }, function error(response) {
+
+                            messenger.displayErrorResponse($scope, response);
+
+                        });
+                }
+            }
+
+            // don't load until needed in Step 2
+            // flnd.censusDataCreate.retrieveBirds(config, $scope, messenger, authService);
+
+            // TODO: these are running for every page, whether needed or not
+            // does Angular keep any of this in scope? don't think so.
+            // Need to use sessionstorage
+
+
+
+            //main payload which will be delivered to api for persistence.
+
 
             //Method to set the birdSpeciesId from the UI.
             $scope.setBirdId = function(index, birdSpeciesId) {
-                foragingSurveyService.foragingSurvey.observations[index].birdSpeciesId = birdSpeciesId;
+                // foragingSurveyService.foragingSurvey.observations[index].birdSpeciesId = birdSpeciesId;
             };
 
             //Method to set the disturbanceTypeId from the UI.
             $scope.setDisturbanceTypeId = function(index, disturbanceTypeId) {
-                foragingSurveyService.foragingSurvey.disturbances[index].disturbanceTypeId = disturbanceTypeId;
+                // foragingSurveyService.foragingSurvey.disturbances[index].disturbanceTypeId = disturbanceTypeId;
             };
 
             // //Method to mark the final step on click of Finish from the UI.
@@ -149,19 +208,57 @@ angular.module('flightNodeApp')
             //     $log.info('after changing value: ' + foragingSurveyService.foragingSurvey.step);
             // };
 
-            $scope.submitAndMoveNext = function() {
-                flnd.censusDataCreate.configureSubmit($scope, config, messenger, authService, foragingSurveyService);
+            // $scope.submitAndMoveNext = function() {
+            //     flnd.censusDataCreate.configureSubmit($scope, config, messenger, authService, foragingSurveyService);
 
-                if (foragingSurveyService.foragingSurvey.step == 1) {
-                    $location.path('/censusdata/create2');
-                }
-                if (foragingSurveyService.foragingSurvey.step == 2) {
-                    $location.path('/censusdata/create3');
-                }
-                ///console.log("button clicked;");          
+            //     if (foragingSurveyService.foragingSurvey.step == 1) {
+            //         $location.path('/censusdata/create2');
+            //     }
+            //     if (foragingSurveyService.foragingSurvey.step == 2) {
+            //         $location.path('/censusdata/create3');
+            //     }
+            //     ///console.log("button clicked;");          
 
+            // };
+
+            $scope.submit = function(step) {
+                var model = $scope.foragingSurvey;
+
+                var saveModelToSesion = function(data) {
+                    saveToSesion(modelKey, data);
+                };
+
+                switch (step) {
+                    case 1:
+                        if (model.surveyIdentifier) {
+                            foragingSurveyProxy.update($scope, model, function() {
+                                // save the original model to session for the next page
+                                model.step =2;
+                                saveModelToSesion(model);
+                                $location.path('/foraging/create2');
+                            });
+                        } else {
+                            foragingSurveyProxy.create($scope, model, function(data) {
+                                // save the modified model to session for the next page
+                                data.step = 2;
+                                saveModelToSesion(data);
+                                $location.path('/foraging/create2');
+                            });
+                        }
+                        break;
+                    case 2:
+                        foragingSurveyProxy.update($scope, model, function() {
+                            // save the original model to session for the next page
+                            model.step = 3;
+                            saveModelToSesion(model);
+                            $location.path('/foraging/create3');
+                        });
+                        break;
+                }
             };
 
             $scope.loading = false;
         }
     ]);
+
+// TODO: need to be able to clear session so that you can start a new survey

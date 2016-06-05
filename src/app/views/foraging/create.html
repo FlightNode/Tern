@@ -8,7 +8,7 @@
     <alert></alert>
 </div>
 <div class="row">
-    <form class="form-horizontal" ng-submit="submit()" role="form">
+    <form class="form-horizontal" ng-submit="submit(1)" role="form">
         <div class="form-group panel panel-primary">
             <div class="panel-heading">Site Information</div>
             <div class="panel-body">
@@ -16,34 +16,34 @@
                     <label class="control-label col-md-3" for="location">Location:</label>
                     <div class="col-md-9">
                         <select name="location" class="form-control" id="location" ng-model="foragingSurvey.locationId">
-                            <option ng-repeat="loc in data.locations" value="{{loc.id}}">{{loc.siteCode}} - {{loc.siteName}}
+                            <option ng-repeat="loc in locations" value="{{loc.id}}">{{loc.siteCode}} - {{loc.siteName}}
                                 <option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3" for="surveyDate">Survey Date:</label>
+                    <label class="control-label col-md-3" for="startDate">Survey Date:</label>
                     <div class="col-md-4">
-                        <input type="date" class="form-control" id="surveyDate" placeholder="Enter Survey Date" ng-model="foragingSurvey.surveyDate">
+                        <input type="date" class="form-control" id="startDate" placeholder="Enter Survey Date" ng-model="foragingSurvey.startDate">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3" for="timeStart">Time Start:</label>
+                    <label class="control-label col-md-3" for="startTime">Time Start:</label>
                     <div class="col-md-3">
-                        <input type="time" class="form-control" id="timeStart" placeholder="Enter Start Time" ng-model="foragingSurvey.timeStart">
+                        <input type="time" class="form-control" id="startTime" placeholder="Enter Start Time" ng-model="foragingSurvey.startTime">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3" for="timeEnd">Time End:</label>
+                    <label class="control-label col-md-3" for="endTime">Time End:</label>
                     <div class="col-md-3">
-                        <input type="time" class="form-control" id="timeEnd" placeholder="Enter End Time" ng-model="foragingSurvey.timeEnd">
+                        <input type="time" class="form-control" id="endTime" placeholder="Enter End Time" ng-model="foragingSurvey.endTime">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3">Site Type:</label>
                     <div class="col-md-9">
                         <div class="checkbox">
-                            <div ng-repeat="enum in data.siteTypeInfo">
+                            <div ng-repeat="enum in enums.siteTypeInfo">
                                 <input type="radio" id="site-type-{{enum.id}}" name="siteType" ng-model="foragingSurvey.siteTypeId" value="{{enum.id}}">
                                 <label for="site-type-{{enum.id}}">{{enum.description}}</label>
                             </div>
@@ -51,23 +51,23 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3">Temperature (&deg; F):</label>
+                    <label class="control-label col-md-3" for="temperature">Temperature (&deg; F):</label>
                     <div class="col-md-2">
                         <input type="number" class="form-control" name="temperature" ng-model="foragingSurvey.temperature">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3">Average Wind Speed:</label>
+                    <label class="control-label col-md-3" for="windSpeed">Average Wind Speed:</label>
                     <div class="col-md-2">
-                        <input type="number" class="form-control" name="AvgWindSpeed" ng-model="foragingSurvey.averageWindSpeed">
+                        <input type="number" class="form-control" name="windSpeed" ng-model="foragingSurvey.windSpeed">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3">Tides:</label>
                     <div class="col-md-9">
                         <div class="checkbox">
-                            <div ng-repeat="enum in data.tideInfo">
-                                <input type="radio" id="tide-{{enum.id}}" name="tideInfo" ng-model="foragingSurvey.tideInfoId" value="{{enum.id}}">
+                            <div ng-repeat="enum in enums.tideInfo">
+                                <input type="radio" id="tide-{{enum.id}}" name="tideInfo" ng-model="foragingSurvey.tideId" value="{{enum.id}}">
                                 <label for="tide-{{enum.id}}">{{enum.description}}</label>
                             </div>
                         </div>
@@ -77,8 +77,8 @@
                     <label class="control-label col-md-3">Weather:</label>
                     <div class="col-md-9">
                         <div class="checkbox">
-                            <div ng-repeat="enum in data.weatherInfo">
-                                <input type="radio" id="weather-{{enum.id}}" name="weatherInfo" ng-model="foragingSurvey.tideInfoId" value="{{enum.id}}">
+                            <div ng-repeat="enum in enums.weatherInfo">
+                                <input type="radio" id="weather-{{enum.id}}" name="weatherInfo" ng-model="foragingSurvey.weatherId" value="{{enum.id}}">
                                 <label for="weather-{{enum.id}}">{{enum.description}}</label>
                             </div>
                         </div>
@@ -94,8 +94,8 @@
                     <label class="control-label col-md-3">Survey Vantage Point:</label>
                     <div class="col-md-9">
                         <div class="checkbox">
-                            <div ng-repeat="enum in data.vantagePointInfo">
-                                <input type="radio" id="vantage-point-{{enum.id}}" name="vantagePointInfo" ng-model="foragingSurvey.vantagePointInfoId" value="{{enum.id}}">
+                            <div ng-repeat="enum in enums.vantagePointInfo">
+                                <input type="radio" id="vantage-point-{{enum.id}}" name="vantagePointId" ng-model="foragingSurvey.vantagePointId" value="{{enum.id}}">
                                 <label for="vantage-point-{{enum.id}}">{{enum.description}}</label>
                             </div>
                         </div>
@@ -105,8 +105,8 @@
                     <label class="control-label col-md-3">Survey Access Point:</label>
                     <div class="col-md-9">
                         <div class="checkbox">
-                            <div ng-repeat="enum in data.accessPointInfo">
-                                <input type="radio" id="access-point-{{enum.id}}" name="accessPointInfo" ng-model="foragingSurvey.accessPointInfoId" value="{{enum.id}}">
+                            <div ng-repeat="enum in enums.accessPointInfo">
+                                <input type="radio" id="access-point-{{enum.id}}" name="accessPointId" ng-model="foragingSurvey.accessPointId" value="{{enum.id}}">
                                 <label for="access-point-{{enum.id}}">{{enum.description}}</label>
                             </div>
                         </div>
