@@ -34,3 +34,40 @@ body {
     max-width: 1000px;
   }
 }
+
+
+/* adjustments to the bootstrap theming as applied to the survey forms */
+.survey-form .col-md-1,
+.survey-form .col-md-2 {
+  line-height: 1.2em;
+  min-height: 3em;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.header-row {
+  background-color: #262626;
+  color: #fff;
+  padding-top: 5px;
+}
+.odd-row { 
+  background-color: rgb(212, 212, 212) !important;
+  border-left: 1px solid #262626 !important;
+  border-right: 1px solid #262626 !important;
+}
+.even-row {
+  border-left: 1px solid #262626 !important;
+  border-right: 1px solid #262626 !important;
+}
+.last-row {
+  border-bottom: 1px solid #262626 !important;
+}
+
+.survey-form input, .survey-form select { 
+  margin-top: 0.5em;
+}
+
+.small-label {
+  padding-left: 5px;
+  font-size: 0.75em;
+}

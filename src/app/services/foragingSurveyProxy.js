@@ -65,8 +65,7 @@ angular.module('flightNodeApp')
 
                         }, function error(response) {
 
-                            $log.error('Foraging survey update: ', response);
-                            messenger.showErrorMessage($scope, response.data)
+                            messenger.showErrorMessage($scope, response)
                             
                         });
                 }

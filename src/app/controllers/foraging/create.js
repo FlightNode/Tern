@@ -191,11 +191,13 @@ angular.module('flightNodeApp')
             //Method to set the birdSpeciesId from the UI.
             $scope.setBirdId = function(index, birdSpeciesId) {
                 // foragingSurveyService.foragingSurvey.observations[index].birdSpeciesId = birdSpeciesId;
+                 $scope.foragingSurvey.observations[index].birdSpeciesId = birdSpeciesId;
             };
 
             //Method to set the disturbanceTypeId from the UI.
             $scope.setDisturbanceTypeId = function(index, disturbanceTypeId) {
                 // foragingSurveyService.foragingSurvey.disturbances[index].disturbanceTypeId = disturbanceTypeId;
+                $scope.foragingSurvey.disturbances[index].disturbanceTypeId = disturbanceTypeId;
             };
 
             // //Method to mark the final step on click of Finish from the UI.

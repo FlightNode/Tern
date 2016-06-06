@@ -2,68 +2,62 @@
 </div>
 <div class="row">
     <div>
-        Step: {{foragingSurvey.step = 2}}<br>
-        Save for later:  {{foragingSurvey.saveForLater = false}}
+        Step: {{foragingSurvey.step = 2}}
+        <br> Save for later: {{foragingSurvey.saveForLater = false}}
     </div>
     <alert></alert>
 </div>
 <div class="row">
-    <form class="form-horizontal" ng-submit="submit(2)" role="form">
+    <form class="form-horizontal survey-form" ng-submit="submit(2)" role="form">
         <div class="form-group panel panel-primary">
             <div class="panel-heading">Waterbird Survey</div>
             <div class="panel-body">
-                <div class="form-group">
-                    <div class="col-md-12">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr class="info">
-                                    <th>Species</th>
-                                    <th>No. of Adults</th>
-                                    <th>No. of Juvenile</th>
-                                    <th>Primary Activity</th>
-                                    <th>Secondary Activity</th>
-                                    <th>Location/ Habitat Type</th>
-                                    <th>% Feeding Success Rate</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!--<pre>{{birdSpeciesList.count()}}</pre>-->
-                                <tr ng-repeat="(i, bird) in birdSpeciesList | orderBy: 'commonName' track by $index">
-                                    <td>{{bird.commonName}}
-                                    </td>
-                                    <td>
-                                        <input type="number" class="form-control" ng-model="foragingSurvey.observations[i].adults" ng-change="setBirdId(i, bird.id)" placeholder="No. of Adults">
-                                    </td>
-                                    <td>
-                                        <input type="number" class="form-control" ng-model="foragingSurvey.observations[i].juvenile" placeholder="No. of Juvenile">
-                                    </td>
-                                    <td>
-                                        <select name="primaryActivitySelect" class="form-control" id="secondaryActivitySelect" ng-model="foragingSurvey.observations[i].primaryActivityId">
-                                            <option ng-repeat="behaviorType in enums.behaviorTypeInfo" value="{{behaviorType.id}}">{{behaviorType.description}}</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select name="secondaryActivitySelect" class="form-control" id="secondaryActivitySelect" ng-model="foragingSurvey.observations[i].secondaryActivityId">
-                                            <option ng-repeat="behaviorType in enums.behaviorTypeInfo" value="{{behaviorType.id}}">{{behaviorType.description}}</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select name="habitatInfo" id="habitatInfo" class="form-control" ng-model="foragingSurvey.observations[i].habitatId">
-                                            <option ng-repeat="habitat in enums.habitatInfo" value="{{habitat.id}}">{{habitat.description}}</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select name="feedingSuccess" id="feedingSuccess" class="form-control" ng-model="foragingSurvey.observations[i].feedingId">
-                                            <option ng-repeat="feed in enums.feedingRateInfo" value="{{feed.id}}">{{feed.description}}</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                <div class="row header-row">
+                    <div class="col-md-2">Species</div>
+                    <div class="col-md-1">No. of Adults</div>
+                    <div class="col-md-1">No. of Juvenile</div>
+                    <div class="col-md-2">Primary Activity</div>
+                    <div class="col-md-2">Secondary Activity</div>
+                    <div class="col-md-2">Location / Habitat Type</div>
+                    <div class="col-md-2">% Feeding Success Rate</div>
+                </div>
+                <div ng-class="{ 'row odd-row': $odd, 'row even-row': $even, 'last-row': $last }" ng-repeat="(i, bird) in birdSpeciesList | orderBy: 'commonName' track by $index">
+                    <div class="col-md-2"><b>{{bird.commonName}}</b></div>
+                    <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">Number of Adults</div>
+                    <div class="col-md-1">
+                        <input type="number" class="form-control" ng-model="foragingSurvey.observations[i].adults" ng-change="setBirdId(i, bird.id)" placeholder="Adults">
+                    </div>
+                    <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">Number of Juveniles</div>
+                    <div class="col-md-1">
+                        <input type="number" class="form-control" ng-model="foragingSurvey.observations[i].juvenile" ng-change="setBirdId(i, bird.id)" placeholder="Juveniles">
+                    </div>
+                    <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">Primary Activity</div>
+                    <div class="col-md-2">
+                        <select name="primaryActivitySelect" class="form-control" id="secondaryActivitySelect" ng-model="foragingSurvey.observations[i].primaryActivityId" ng-change="setBirdId(i, bird.id)">
+                            <option ng-repeat="behaviorType in enums.behaviorTypeInfo" value="{{behaviorType.id}}">{{behaviorType.description}}</option>
+                        </select>
+                    </div>
+                    <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">Secondary Activity</div>
+                    <div class="col-md-2">
+                        <select name="secondaryActivitySelect" class="form-control" id="secondaryActivitySelect" ng-model="foragingSurvey.observations[i].secondaryActivityId" ng-change="setBirdId(i, bird.id)">
+                            <option ng-repeat="behaviorType in enums.behaviorTypeInfo" value="{{behaviorType.id}}">{{behaviorType.description}}</option>
+                        </select>
+                    </div>
+                    <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">Location / Habitat Type</div>
+                    <div class="col-md-2">
+                        <select name="habitatInfo" id="habitatInfo" class="form-control" ng-model="foragingSurvey.observations[i].habitatId" ng-change="setBirdId(i, bird.id)">
+                            <option ng-repeat="habitat in enums.habitatInfo" value="{{habitat.id}}">{{habitat.description}}</option>
+                        </select>
+                    </div>
+                    <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">% Feeding Success Rate</div>
+                    <div class="col-md-2">
+                        <select name="feedingSuccess" id="feedingSuccess" class="form-control" ng-model="foragingSurvey.observations[i].feedingId" ng-change="setBirdId(i, bird.id)">
+                            <option ng-repeat="feed in enums.feedingRateInfo" value="{{feed.id}}">{{feed.description}}</option>
+                        </select>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="control-label col-md-3" for="surveyComments">Comments:</label>
+                <div class="row" style="margin-top: 1em;">
+                    <label class="control-label col-md-2" for="surveyComments">Comments</label>
                     <div class="col-md-9">
                         <textarea type="text" class="form-control" rows="5" id="surveyComments" placeholder="Enter Comments" ng-model="foragingSurvey.surveyComments"></textarea>
                     </div>
@@ -72,5 +66,4 @@
             <div ng-include="'/app/views/foraging/bottomBar.html'"></div>
         </div>
     </form>
-</div>
 </div>
