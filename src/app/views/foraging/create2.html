@@ -1,56 +1,64 @@
 <div ng-include="'/app/views/foraging/progressBar.html'">
 </div>
 <div class="row">
-    <div>
-        Step: {{foragingSurvey.step = 2}}
-        <br> Save for later: {{foragingSurvey.saveForLater = false}}
+    Step: {{foragingSurvey.step = 2}}
+    <br> Save for later: {{foragingSurvey.saveForLater = false}}
+</div>
+<alert></alert>
+<div class="row" ng-show="observationForm.invalid">
+    <div class="col-sm-8 col-sm-offset-2">
+        <div class="alert alert-danger" role="alert">
+            One or more observations is incomplete (pink row / species marked with **).
+        </div>
     </div>
-    <alert></alert>
 </div>
 <div class="row">
-    <form class="form-horizontal survey-form" ng-submit="submit(2)" role="form">
+    <form class="form-horizontal survey-form" ng-submit="submit(2)" role="form" name="observationForm">
         <div class="form-group panel panel-primary">
             <div class="panel-heading">Waterbird Survey</div>
             <div class="panel-body">
                 <div class="row header-row">
                     <div class="col-md-2">Species</div>
                     <div class="col-md-1">No. of Adults</div>
-                    <div class="col-md-1">No. of Juvenile</div>
+                    <div class="col-md-1">No. of Juveniles</div>
                     <div class="col-md-2">Primary Activity</div>
                     <div class="col-md-2">Secondary Activity</div>
                     <div class="col-md-2">Location / Habitat Type</div>
                     <div class="col-md-2">% Feeding Success Rate</div>
                 </div>
                 <div ng-class="{ 'row odd-row': $odd, 'row even-row': $even, 'last-row': $last }" ng-repeat="(i, bird) in birdSpeciesList | orderBy: 'commonName' track by $index">
-                    <div class="col-md-2"><b>{{bird.commonName}}</b></div>
+                    <div class="col-md-2" ng-class="{ 'bg-danger': foragingSurvey.observations[i].invalid }">
+                        <b ng-bind="bird.commonName"></b>
+                        <span ng-show="foragingSurvey.observations[i].invalid" class="text-warning">**</span>
+                    </div>
                     <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">Number of Adults</div>
-                    <div class="col-md-1">
-                        <input type="number" class="form-control" ng-model="foragingSurvey.observations[i].adults" ng-change="setBirdId(i, bird.id)" placeholder="Adults">
+                    <div class="col-md-1" ng-class="{ 'bg-danger': foragingSurvey.observations[i].invalid }">
+                        <input type="number" min="0" name="adults" class="form-control" ng-model="foragingSurvey.observations[i].adults" ng-change="setBirdId(i, bird.id)" placeholder="Adults">
                     </div>
                     <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">Number of Juveniles</div>
-                    <div class="col-md-1">
-                        <input type="number" class="form-control" ng-model="foragingSurvey.observations[i].juvenile" ng-change="setBirdId(i, bird.id)" placeholder="Juveniles">
+                    <div class="col-md-1" ng-class="{ 'bg-danger': foragingSurvey.observations[i].invalid }">
+                        <input type="number" name="juveniles" class="form-control" ng-model="foragingSurvey.observations[i].juveniles" ng-change="setBirdId(i, bird.id)" placeholder="Juveniles">
                     </div>
                     <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">Primary Activity</div>
-                    <div class="col-md-2">
-                        <select name="primaryActivitySelect" class="form-control" id="secondaryActivitySelect" ng-model="foragingSurvey.observations[i].primaryActivityId" ng-change="setBirdId(i, bird.id)">
+                    <div class="col-md-2" ng-class="{ 'bg-danger': foragingSurvey.observations[i].invalid }">
+                        <select name="primaryActivitySelect" class="form-control" id="primaryActivitySelect" ng-model="foragingSurvey.observations[i].primaryActivityId" ng-change="setBirdId(i, bird.id)">
                             <option ng-repeat="behaviorType in enums.behaviorTypeInfo" value="{{behaviorType.id}}">{{behaviorType.description}}</option>
                         </select>
                     </div>
                     <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">Secondary Activity</div>
-                    <div class="col-md-2">
+                    <div class="col-md-2" ng-class="{ 'bg-danger': foragingSurvey.observations[i].invalid }">
                         <select name="secondaryActivitySelect" class="form-control" id="secondaryActivitySelect" ng-model="foragingSurvey.observations[i].secondaryActivityId" ng-change="setBirdId(i, bird.id)">
                             <option ng-repeat="behaviorType in enums.behaviorTypeInfo" value="{{behaviorType.id}}">{{behaviorType.description}}</option>
                         </select>
                     </div>
                     <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">Location / Habitat Type</div>
-                    <div class="col-md-2">
+                    <div class="col-md-2" ng-class="{ 'bg-danger': foragingSurvey.observations[i].invalid }">
                         <select name="habitatInfo" id="habitatInfo" class="form-control" ng-model="foragingSurvey.observations[i].habitatId" ng-change="setBirdId(i, bird.id)">
                             <option ng-repeat="habitat in enums.habitatInfo" value="{{habitat.id}}">{{habitat.description}}</option>
                         </select>
                     </div>
                     <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">% Feeding Success Rate</div>
-                    <div class="col-md-2">
+                    <div class="col-md-2" ng-class="{ 'bg-danger': foragingSurvey.observations[i].invalid }">
                         <select name="feedingSuccess" id="feedingSuccess" class="form-control" ng-model="foragingSurvey.observations[i].feedingId" ng-change="setBirdId(i, bird.id)">
                             <option ng-repeat="feed in enums.feedingRateInfo" value="{{feed.id}}">{{feed.description}}</option>
                         </select>

@@ -20,8 +20,7 @@ angular.module('flightNodeApp')
 
                         }, function error(response) {
 
-                            $log.error('Foraging survey getById: ', response);
-                            messenger.showErrorMessage($scope, response.data)
+                            messenger.displayErrorResponse($scope, response);
                             
                         });
                 },
@@ -35,8 +34,7 @@ angular.module('flightNodeApp')
 
                         }, function error(response) {
 
-                            $log.error('Foraging survey getByUserId: ', response);
-                            messenger.showErrorMessage($scope, response.data)
+                            messenger.displayErrorResponse($scope, response);
                             
                         });
                 },
@@ -50,8 +48,7 @@ angular.module('flightNodeApp')
 
                         }, function error(response) {
 
-                            $log.error('Foraging survey create: ', response);
-                            messenger.showErrorMessage($scope, response.data)
+                            messenger.displayErrorResponse($scope, response);
                             
                         });
                 },
@@ -65,7 +62,7 @@ angular.module('flightNodeApp')
 
                         }, function error(response) {
 
-                            messenger.showErrorMessage($scope, response)
+                            messenger.displayErrorResponse($scope, response);
                             
                         });
                 }

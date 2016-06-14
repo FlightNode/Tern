@@ -44,7 +44,7 @@ angular.module('userMessage', [])
             unauthorized: function($scope) {
 
                 $scope.alerts = [
-                    { type: 'warning', msg: 'Must be logged in to use this page.' }
+                    { type: 'warning', msg: 'You are not logged in or your session has timed out. Please <a href="/#/login">sign in</a>.' }
                 ];
             },
 

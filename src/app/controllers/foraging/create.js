@@ -176,28 +176,35 @@ angular.module('flightNodeApp')
                 }
             }
 
-            // don't load until needed in Step 2
-            // flnd.censusDataCreate.retrieveBirds(config, $scope, messenger, authService);
-
-            // TODO: these are running for every page, whether needed or not
-            // does Angular keep any of this in scope? don't think so.
-            // Need to use sessionstorage
-
-
-
-            //main payload which will be delivered to api for persistence.
-
-
             //Method to set the birdSpeciesId from the UI.
             $scope.setBirdId = function(index, birdSpeciesId) {
-                // foragingSurveyService.foragingSurvey.observations[index].birdSpeciesId = birdSpeciesId;
-                 $scope.foragingSurvey.observations[index].birdSpeciesId = birdSpeciesId;
+                 var observation = $scope.foragingSurvey.observations[index];
+                 observation.birdSpeciesId = birdSpeciesId;
+                 observation.invalid = (
+                        (observation.adults > 0 ||
+                            observation.juveniles > 0 ) &&
+                        ( observation.primaryActivityId === undefined || 
+                            observation.secondaryActivityId === undefined || 
+                            observation.habitatId === undefined || 
+                            observation.feedingId === undefined )
+                    ) || observation.adults < 0 || observation.juveniles < 0;
+
+               
+                 $scope.observationForm.invalid = _.some($scope.foragingSurvey.observations, 'invalid');
             };
 
             //Method to set the disturbanceTypeId from the UI.
             $scope.setDisturbanceTypeId = function(index, disturbanceTypeId) {
-                // foragingSurveyService.foragingSurvey.disturbances[index].disturbanceTypeId = disturbanceTypeId;
-                $scope.foragingSurvey.disturbances[index].disturbanceTypeId = disturbanceTypeId;
+                var disturbance = $scope.foragingSurvey.disturbances[index];
+                disturbance.disturbanceTypeId = disturbanceTypeId;
+                disturbance.invalid = (
+                    // when any column is set
+                    (disturbance.quantity > 0 || disturbance.durationMinutes > 0 || disturbance.behavior)
+                    // then all of them are needed
+                    && !(disturbance.quantity > 0 && disturbance.durationMinutes > 0 && disturbance.behavior)
+                    );
+
+                 $scope.disturbanceForm.invalid = _.some($scope.foragingSurvey.disturbances, 'invalid');                
             };
 
             // //Method to mark the final step on click of Finish from the UI.
