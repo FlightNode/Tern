@@ -145,27 +145,31 @@ angular
         controller: 'LogoutController'
       })
       .when('/foraging/', {
-        templateUrl: 'app/views/foraging/create.html',
-        controller: 'ForagingCreateController',
-        title: site + ' - Waterbird Foraging Survey - New'
+        redirectTo: '/foraging/create1'
       })
-      .when('/foraging/create', {
-        templateUrl: 'app/views/foraging/create.html',
-        //TODO: Will think about should conroller be separated out for each of these views.
+      .when('/foraging/create1', {
+        templateUrl: 'app/views/foraging/create1.html',
         controller: 'ForagingCreateController',
-        title: site + ' - Waterbird Foraging Survey - New'
+        title: site + ' - Waterbird Foraging Survey - New',
+        step: 1
       })
       .when('/foraging/create2', {
         templateUrl: 'app/views/foraging/create2.html',
-        //TODO: Will think about should conroller be separated out for each of these views.
         controller: 'ForagingCreateController',
-        title: site + ' - Waterbird Foraging Survey - New'
+        title: site + ' - Waterbird Foraging Survey - New',
+        step: 2
       })
       .when('/foraging/create3', {
         templateUrl: 'app/views/foraging/create3.html',
-        //TODO: Will think about should conroller be separated out for each of these views.
         controller: 'ForagingCreateController',
-        title: site + ' - Waterbird Foraging Survey - New'
+        title: site + ' - Waterbird Foraging Survey - New',
+        step: 3
+      })
+      .when('/foraging/create4', {
+        templateUrl: 'app/views/foraging/create4.html',
+        controller: 'ForagingCreateController',
+        title: site + ' - Waterbird Foraging Survey - New',
+        step: 4
       })
       .when('/violations', {
         templateUrl: 'app/views/violations.html',

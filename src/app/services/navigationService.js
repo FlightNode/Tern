@@ -43,13 +43,27 @@ angular.module('navigationService', [])
                             tree.push({
                                 entry: {
                                     title: 'Submit Data',
-                                    path: '#/data'
+                                    path: ''
                                 },
                                 children: [
+                                    {
+                                        entry: {
+                                            title: 'Data Overview',
+                                            path: '#/data'
+                                        },
+                                        children: []
+                                    },
                                     {
                                       entry: {
                                         title: 'Workday Logging',
                                         path: '#/workdays'
+                                      },
+                                      children: []
+                                    },
+                                    {
+                                      entry: {
+                                        title: 'Foraging Survey',
+                                        path: '#/foraging'
                                       },
                                       children: []
                                     }

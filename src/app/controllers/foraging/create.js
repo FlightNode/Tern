@@ -1,97 +1,5 @@
 'use strict';
 
-flnd.censusDataCreate = {
-    retrieveBirds: function(config, $scope, messenger, authService) {
-
-        $scope.birdSpeciesList = {};
-
-        authService.get(config.birdspecies + '?surveyTypeId=2')
-            .then(function success(response) {
-
-                $scope.birdSpeciesList = response.data;
-
-            }, function error(response) {
-
-                messenger.displayErrorResponse($scope, response);
-
-            });
-    },
-    configureSubmit: function($scope, config, messenger, authService, foragingSurveyService, $location, $log) {
-        return function() {
-            $scope.loading = true;
-            // var currentStep = function(){
-            //         return foragingSurveyService.foragingSurvey.step;
-            //     };
-            //TODO: This function further needs tidying up. Mainly focusing upon upon integration with backend. Once basic flow start to work, will clean it.
-            //EX: Instead of manually making PutUrl, need to fetch the Location from header of POST reposnse and then use that as PUT URL.
-            if ($scope.foragingSurvey.surveyId === undefined) //First time POST
-            {
-                authService.post(config.waterbirdForagingSurvey, $scope.foragingSurvey)
-                    .then(function success(response) {
-                        var currentStep = foragingSurveyService.foragingSurvey.step;
-                        console.log('post');
-                        // console.log('Local URL:' + response.headers('Location'));
-                        // console.log('before' + foragingSurveyService.foragingSurvey.saveAndMoveNext);
-                        var toMoveNext = foragingSurveyService.foragingSurvey.saveAndMoveNext;
-                        $scope.foragingSurvey = response.data;
-                        $scope.foragingSurvey.PutUrl = config.waterbirdForagingSurvey + response.data.surveyIdentifier;
-                        $scope.foragingSurvey.step = currentStep;
-                        console.log($scope.foragingSurvey.step);
-                        foragingSurveyService.foragingSurvey = $scope.foragingSurvey;
-                        $scope.saveForLater = true;
-
-                        if (toMoveNext && foragingSurveyService.foragingSurvey.step === 1) {
-                            $location.path('/censusdata/create2');
-                        }
-                        if (toMoveNext && foragingSurveyService.foragingSurvey.step === 2) {
-                            $location.path('/censusdata/create3');
-                        }
-                    }, function error(response) {
-                        messenger.displayErrorResponse($scope, response);
-                    })
-                    .finally(function() {
-                        $scope.loading = false;
-                    });
-            } else { //Subsequent updates
-                console.log('put');
-                var putUrl = config.waterbirdForagingSurvey + $scope.foragingSurvey.surveyIdentifier
-                console.log('updated census form object: ' + $scope.foragingSurvey);
-                authService.put(putUrl, $scope.foragingSurvey)
-                    .then(function success(response) {
-                        $log.info('put method output: ' + response);
-                        var currentStep = foragingSurveyService.foragingSurvey.step;
-                        var toMoveNext = foragingSurveyService.foragingSurvey.saveAndMoveNext;
-
-                        var saveForLater = foragingSurveyService.foragingSurvey.saveForLater;
-                        //var saveForLater = $scope.saveForLater;
-
-                        //var saveForLater = foragingSurveyService.foragingSurvey.saveForLater;
-                        //Load the response data from the API back into scope.
-                        $scope.foragingSurvey = response.data;
-                        $scope.foragingSurvey.step = currentStep;
-                        $scope.foragingSurvey.saveForLater = saveForLater;
-                        $log.info('save for later value: ' + saveForLater);
-
-                        foragingSurveyService.foragingSurvey = $scope.foragingSurvey;
-                        if (toMoveNext && foragingSurveyService.foragingSurvey.step === 1) {
-                            $location.path('/censusdata/create2');
-                        } else if (toMoveNext && foragingSurveyService.foragingSurvey.step === 2) {
-                            $location.path('/censusdata/create3');
-                        } else if (toFinish) {
-                            $location.path('/censusdata/create4');
-                        }
-                    }, function error(response) {
-                        $log.info(response);
-                        messenger.displayErrorResponse($scope, response);
-                    })
-                    .finally(function() {
-                        $scope.loading = false;
-                    });
-            }
-        };
-    }
-};
-
 /**
  * @ngdoc function
  * @name flightNodeApp.controller:ForagingCreateController
@@ -102,16 +10,31 @@ flnd.censusDataCreate = {
 angular.module('flightNodeApp')
     .controller('ForagingCreateController', ['$scope', 'authService', 'config', 'messenger',
         'foragingSurveyProxy', '$filter', '$location', '$log', 'locationProxy', 'enumsProxy',
+        '$route', '$uibModal',
         function($scope, authService, config, messenger,
-            foragingSurveyProxy, $filter, $location, $log, locationProxy, enumsProxy) {
+            foragingSurveyProxy, $filter, $location, $log, locationProxy, enumsProxy,
+            $route, $uibModal) {
             $scope.loading = true;
-
-            $scope.saveForLater = false;
 
             var modelKey = 'foragingSurvey';
             var enumsKey = 'enums';
             var birdsKey = 'birdSpeciesList';
             var locationsKey = 'locations';
+
+            // Setup datepicker
+            $scope.startDateOpened = false;
+            $scope.dateOptions = {
+                formatYear: 'yy',
+                maxDate: new Date(2021, 1, 1),
+                minDate: new Date(1990, 1, 1),
+                startingDay: 1
+            };
+            $scope.openStartDate = function() {
+                $scope.startDateOpened = true;
+                $log.info('open button clicked');
+            };
+
+
 
             var saveToSesion = function(key, data) {
                 sessionStorage.setItem(key, JSON.stringify(data));
@@ -130,16 +53,9 @@ angular.module('flightNodeApp')
             if (!$scope.foragingSurvey) {
                 $scope.foragingSurvey = {
                     observations: [],
-                    disturbances: [],
-                    saveForLater: false,
-                    saveAndMoveNext: false,
-                    saveAndFinish: false,
-                    step: 1
+                    disturbances: []
                 };
             }
-
-            var step = $scope.foragingSurvey.step;
-
 
             $scope.enums = pullFromSession(enumsKey);
             if (!$scope.enums) {
@@ -156,6 +72,11 @@ angular.module('flightNodeApp')
                     saveToSesion(locationsKey, data);
                 });
             }
+
+
+            var step = $route.current.step;
+            $scope.canGoBack = (step > 1);
+            $scope.canSaveForLater = (step < 4);
 
             if (step === 2) {
                 $scope.birdSpeciesList = pullFromSession(birdsKey);
@@ -178,19 +99,19 @@ angular.module('flightNodeApp')
 
             //Method to set the birdSpeciesId from the UI.
             $scope.setBirdId = function(index, birdSpeciesId) {
-                 var observation = $scope.foragingSurvey.observations[index];
-                 observation.birdSpeciesId = birdSpeciesId;
-                 observation.invalid = (
-                        (observation.adults > 0 ||
-                            observation.juveniles > 0 ) &&
-                        ( observation.primaryActivityId === undefined || 
-                            observation.secondaryActivityId === undefined || 
-                            observation.habitatId === undefined || 
-                            observation.feedingId === undefined )
-                    ) || observation.adults < 0 || observation.juveniles < 0;
+                var observation = $scope.foragingSurvey.observations[index];
+                observation.birdSpeciesId = birdSpeciesId;
+                observation.invalid = (
+                    (observation.adults > 0 ||
+                        observation.juveniles > 0) &&
+                    (observation.primaryActivityId === undefined ||
+                        observation.secondaryActivityId === undefined ||
+                        observation.habitatId === undefined ||
+                        observation.feedingId === undefined)
+                ) || observation.adults < 0 || observation.juveniles < 0;
 
-               
-                 $scope.observationForm.invalid = _.some($scope.foragingSurvey.observations, 'invalid');
+
+                $scope.observationForm.invalid = _.some($scope.foragingSurvey.observations, 'invalid');
             };
 
             //Method to set the disturbanceTypeId from the UI.
@@ -202,72 +123,95 @@ angular.module('flightNodeApp')
                     (disturbance.quantity > 0 || disturbance.durationMinutes > 0 || disturbance.behavior)
                     // then all of them are needed
                     && !(disturbance.quantity > 0 && disturbance.durationMinutes > 0 && disturbance.behavior)
-                    );
+                );
 
-                 $scope.disturbanceForm.invalid = _.some($scope.foragingSurvey.disturbances, 'invalid');                
+                $scope.disturbanceForm.invalid = _.some($scope.foragingSurvey.disturbances, 'invalid');
             };
 
-            // //Method to mark the final step on click of Finish from the UI.
-            // $scope.markAsFinalStep = function(){
-            //     $log.info('before changing value: ' + $scope.foragingSurvey.step);
-            //     $log.info('before changing value: ' + foragingSurveyService.foragingSurvey.step);
-            //     foragingSurveyService.foragingSurvey.step = 4;
-            //     $scope.foragingSurvey.step = 4;
-            //     $log.info('after changing value: ' + $scope.foragingSurvey.step);
-            //     $log.info('after changing value: ' + foragingSurveyService.foragingSurvey.step);
-            // };
 
-            // $scope.submitAndMoveNext = function() {
-            //     flnd.censusDataCreate.configureSubmit($scope, config, messenger, authService, foragingSurveyService);
+            var saveModelToSesion = function(data) {
+                saveToSesion(modelKey, data);
+            };
 
-            //     if (foragingSurveyService.foragingSurvey.step == 1) {
-            //         $location.path('/censusdata/create2');
-            //     }
-            //     if (foragingSurveyService.foragingSurvey.step == 2) {
-            //         $location.path('/censusdata/create3');
-            //     }
-            //     ///console.log("button clicked;");          
+            $scope.save = function(next) {
+                next = next || function() {}; // because this can be called directly without a callback
 
-            // };
+                $scope.loading = true;
 
-            $scope.submit = function(step) {
                 var model = $scope.foragingSurvey;
+                $log.info('saving at step ', step);
+                $log.info(model);
 
-                var saveModelToSesion = function(data) {
-                    saveToSesion(modelKey, data);
-                };
 
-                switch (step) {
-                    case 1:
-                        if (model.surveyIdentifier) {
-                            foragingSurveyProxy.update($scope, model, function() {
-                                // save the original model to session for the next page
-                                model.step =2;
-                                saveModelToSesion(model);
-                                $location.path('/foraging/create2');
-                            });
-                        } else {
-                            foragingSurveyProxy.create($scope, model, function(data) {
-                                // save the modified model to session for the next page
-                                data.step = 2;
-                                saveModelToSesion(data);
-                                $location.path('/foraging/create2');
-                            });
-                        }
-                        break;
-                    case 2:
-                        foragingSurveyProxy.update($scope, model, function() {
-                            // save the original model to session for the next page
-                            model.step = 3;
-                            saveModelToSesion(model);
-                            $location.path('/foraging/create3');
-                        });
-                        break;
+                if (model.surveyIdentifier) {
+                    foragingSurveyProxy.update($scope, model, function() {
+                        // save the original model to session for the next page
+                        saveModelToSesion(model);
+
+                        $scope.loading = false;
+
+                        next();
+                    });
+                } else {
+                    foragingSurveyProxy.create($scope, model, function(data) {
+                        // save the modified model to session for the next page
+                        saveModelToSesion(data);
+
+                        $scope.loading = false;
+
+                        next();
+                    });
                 }
             };
+
+            $scope.next = function() {
+                var finished = $scope.foragingSurvey.finished = (step === 4);
+
+                $scope.save(function() {
+                    if (finished) {
+                        // this is the last step. Here we need to show
+                        // the pending survey results. This next() function
+                        // is called when the users clicks "Finish".
+                        // so we save (which is already done above), but 
+                        // need to modify pass a "finished" flag.
+                        // 
+
+                        // Flush the session
+                        // saveToSesion(modelKey, null);
+                    } else {
+                        $location.path('/foraging/create' + (step + 1).toString());
+                    }
+                });
+            };
+
+
+            $scope.back = function() {
+                $log.info('back from step, ', step);
+
+                $scope.save(function() {
+                    $location.path('/foraging/create' + (step - 1).toString());
+                });
+            }
+
+            $scope.reset = function() {
+
+                var question = '';
+
+
+                var modal = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/app/views/confirmResetForm.html',
+                    backdrop: true,
+                    size: 'sm'
+                });
+                modal.result.then(function success() {
+                    saveToSesion(modelKey, null);
+                    $location.path('/foraging');
+                }, function dismissed() {
+                    // do nothing
+                });
+            }
 
             $scope.loading = false;
         }
     ]);
-
-// TODO: need to be able to clear session so that you can start a new survey

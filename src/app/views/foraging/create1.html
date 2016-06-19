@@ -24,19 +24,24 @@
                 <div class="form-group">
                     <label class="control-label col-md-3" for="startDate">Survey Date:</label>
                     <div class="col-md-4">
-                        <input type="date" class="form-control" id="startDate" placeholder="Enter Survey Date" ng-model="foragingSurvey.startDate">
+                        <div class="input-group">
+                            <input type="input" class="form-control" id="startDate" name="startDate" placeholder="Enter Survey Date" ng-model="foragingSurvey.startDate" uib-datepicker-popup="dd/MM/yyyy" is-open="startDateOpened" datepicker-options="dateOptions" close-text="Close">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="openStartDate()"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3" for="startTime">Time Start:</label>
                     <div class="col-md-3">
-                        <input type="time" class="form-control" id="startTime" placeholder="Enter Start Time" ng-model="foragingSurvey.startTime">
+                        <uib-timepicker ng-model="foragingSurvey.startTime" hour-step="hstep" minute-step="mstep" show-meridian="true"></uib-timepicker>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3" for="endTime">Time End:</label>
                     <div class="col-md-3">
-                        <input type="time" class="form-control" id="endTime" placeholder="Enter End Time" ng-model="foragingSurvey.endTime">
+                        <uib-timepicker ng-model="foragingSurvey.endTime" hour-step="hstep" minute-step="mstep" show-meridian="true"></uib-timepicker>
                     </div>
                 </div>
                 <div class="form-group">
