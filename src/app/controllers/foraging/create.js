@@ -21,18 +21,29 @@ angular.module('flightNodeApp')
             var birdsKey = 'birdSpeciesList';
             var locationsKey = 'locations';
 
+
             // Setup datepicker
             $scope.startDateOpened = false;
-            $scope.dateOptions = {
+            $scope.datePickerOptions = {
                 formatYear: 'yy',
+                formatMonth: 'MM',
+                maxMode: 'day',
                 maxDate: new Date(2021, 1, 1),
                 minDate: new Date(1990, 1, 1),
                 startingDay: 1
             };
-            $scope.openStartDate = function() {
-                $scope.startDateOpened = true;
-                $log.info('open button clicked');
+            $scope.datePickerModelOptions = {
+                allowInvalid: true
             };
+            $scope.showDatePicker = function() {
+                $scope.startDateOpened = !$scope.startDateOpened;
+            };
+            $scope.updateStartDate = function() {
+                $scope.foragingSurvey.startDate = new Date($scope.foragingSurvey.startDateManual);
+            }
+            $scope.updateStartDateManual = function() {
+                $scope.foragingSurvey.startDateManual = $filter('date')($scope.foragingSurvey.startDate, 'MM/dd/yyyy');
+            }
 
 
 

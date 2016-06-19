@@ -25,11 +25,10 @@
                     <label class="control-label col-md-3" for="startDate">Survey Date:</label>
                     <div class="col-md-4">
                         <div class="input-group">
-                            <input type="input" class="form-control" id="startDate" name="startDate" placeholder="Enter Survey Date" ng-model="foragingSurvey.startDate" uib-datepicker-popup="dd/MM/yyyy" is-open="startDateOpened" datepicker-options="dateOptions" close-text="Close">
-                            <span class="input-group-btn">
-                                <button type="button" class="btn btn-default" ng-click="openStartDate()"><i class="glyphicon glyphicon-calendar"></i></button>
-                            </span>
+                            <input type="text" class="form-control" ng-required="true" ng-model="foragingSurvey.startDateManual" placeholder="mm/dd/yyyy" ng-change="updateStartDate()" />
+                            <span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="showDatePicker()"><i class="glyphicon glyphicon-calendar"></i></button></span>
                         </div>
+                        <uib-datepicker ng-model="foragingSurvey.startDate" class="well well-sm" ng-show="startDateOpened" datepicker-options="datePickerOptions" ng-model-options="datePickerModelOptions" ng-change="updateStartDateManual()"></uib-datepicker>
                     </div>
                 </div>
                 <div class="form-group">
@@ -58,13 +57,13 @@
                 <div class="form-group">
                     <label class="control-label col-md-3" for="temperature">Temperature (&deg; F):</label>
                     <div class="col-md-2">
-                        <input type="number" class="form-control" name="temperature" ng-model="foragingSurvey.temperature">
+                        <input type="number" class="form-control" name="temperature" ng-model="foragingSurvey.temperature" placeholder="0" min="-40" max="120">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3" for="windSpeed">Average Wind Speed:</label>
                     <div class="col-md-2">
-                        <input type="number" class="form-control" name="windSpeed" ng-model="foragingSurvey.windSpeed">
+                        <input type="number" class="form-control" name="windSpeed" placeholder="0" min="0" ng-model="foragingSurvey.windSpeed">
                     </div>
                 </div>
                 <div class="form-group">
