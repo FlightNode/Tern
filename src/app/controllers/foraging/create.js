@@ -14,6 +14,14 @@ angular.module('flightNodeApp')
         function($scope, authService, config, messenger,
             foragingSurveyProxy, $filter, $location, $log, locationProxy, enumsProxy,
             $route, $uibModal) {
+
+
+            if (!(authService.isReporter())) {
+                $log.warn('not authorized to access this path');
+                $location.path('/');
+                return;
+            }
+
             $scope.loading = true;
 
             var modelKey = 'foragingSurvey';
@@ -22,7 +30,7 @@ angular.module('flightNodeApp')
             var locationsKey = 'locations';
 
 
-            // Setup datepicker
+            // Setup date and time controls
             $scope.startDateOpened = false;
             $scope.datePickerOptions = {
                 formatYear: 'yy',
@@ -40,11 +48,12 @@ angular.module('flightNodeApp')
             };
             $scope.updateStartDate = function() {
                 $scope.foragingSurvey.startDate = new Date($scope.foragingSurvey.startDateManual);
-            }
+            };
             $scope.updateStartDateManual = function() {
                 $scope.foragingSurvey.startDateManual = $filter('date')($scope.foragingSurvey.startDate, 'MM/dd/yyyy');
-            }
-
+            };
+            $scope.hstep = 1;
+            $scope.mstep = 1;
 
 
             var saveToSesion = function(key, data) {
@@ -59,12 +68,29 @@ angular.module('flightNodeApp')
                 return null;
             };
 
+            var pullModelFromSession = function() {
+                var model = pullFromSession(modelKey) || {};
+
+                // need to convert to a a real Date object to support timepicker
+                var format = 'YYYY-MM-DD hh:mm a';
+                if (model.startTime && model.startTime.includes('m')) {
+                    model.startTime = moment('1970-01-01 ' + model.startTime, format).toDate();
+                }
+                if (model.endTime && model.endTime.includes('m')) {
+                    model.endTime = moment('1970-01-01 ' + model.endTime, format).toDate();
+                }
+                return model;
+            };
+
             // Prepare data - first try pulling from sessionStorage if available
-            $scope.foragingSurvey = pullFromSession(modelKey);
+            $scope.foragingSurvey = pullModelFromSession(modelKey);
             if (!$scope.foragingSurvey) {
+                var begin = moment('1970-01-01 00:00:00.000').toDate();
                 $scope.foragingSurvey = {
                     observations: [],
-                    disturbances: []
+                    disturbances: [],
+                    startTime: begin,
+                    endTime: begin
                 };
             }
 
@@ -131,9 +157,9 @@ angular.module('flightNodeApp')
                 disturbance.disturbanceTypeId = disturbanceTypeId;
                 disturbance.invalid = (
                     // when any column is set
-                    (disturbance.quantity > 0 || disturbance.durationMinutes > 0 || disturbance.behavior)
+                    (disturbance.quantity > 0 || disturbance.durationMinutes > 0 || disturbance.behavior) &&
                     // then all of them are needed
-                    && !(disturbance.quantity > 0 && disturbance.durationMinutes > 0 && disturbance.behavior)
+                    !(disturbance.quantity > 0 && disturbance.durationMinutes > 0 && disturbance.behavior)
                 );
 
                 $scope.disturbanceForm.invalid = _.some($scope.foragingSurvey.disturbances, 'invalid');
@@ -150,9 +176,6 @@ angular.module('flightNodeApp')
                 $scope.loading = true;
 
                 var model = $scope.foragingSurvey;
-                $log.info('saving at step ', step);
-                $log.info(model);
-
 
                 if (model.surveyIdentifier) {
                     foragingSurveyProxy.update($scope, model, function() {
@@ -176,7 +199,7 @@ angular.module('flightNodeApp')
             };
 
             $scope.next = function() {
-                var finished = $scope.foragingSurvey.finished = (step === 4);
+                var finished = $scope.foragingSurvey.finished = (step === 5);
 
                 $scope.save(function() {
                     if (finished) {
@@ -188,7 +211,7 @@ angular.module('flightNodeApp')
                         // 
 
                         // Flush the session
-                        // saveToSesion(modelKey, null);
+                        // saveModelToSesion(null);
                     } else {
                         $location.path('/foraging/create' + (step + 1).toString());
                     }
@@ -202,13 +225,9 @@ angular.module('flightNodeApp')
                 $scope.save(function() {
                     $location.path('/foraging/create' + (step - 1).toString());
                 });
-            }
+            };
 
             $scope.reset = function() {
-
-                var question = '';
-
-
                 var modal = $uibModal.open({
                     animation: true,
                     templateUrl: '/app/views/confirmResetForm.html',
@@ -216,12 +235,12 @@ angular.module('flightNodeApp')
                     size: 'sm'
                 });
                 modal.result.then(function success() {
-                    saveToSesion(modelKey, null);
+                    saveModelToSesion(null);
                     $location.path('/foraging');
                 }, function dismissed() {
                     // do nothing
                 });
-            }
+            };
 
             $scope.loading = false;
         }

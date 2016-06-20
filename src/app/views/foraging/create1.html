@@ -1,119 +1,43 @@
 <div ng-include="'/app/views/foraging/progressBar.html'"></div>
+<alert></alert>
 <div class="row">
-    <div>
-        Step: {{foragingSurvey.step = 1}}
-        <br> Save for later: {{foragingSurvey.saveForLater}}
-        <br> Save for later #2: {{saveForLater}}
-    </div>
-    <alert></alert>
-</div>
-<div class="row">
-    <form class="form-horizontal" ng-submit="submit(1)" role="form">
+    <form class="form-horizontal" ng-submit="submit(1)" id="foraging-location" name="foraging-location" role="form">
         <div class="form-group panel panel-primary">
-            <div class="panel-heading">Site Information</div>
+            <div class="panel-heading">Location and Date</div>
             <div class="panel-body">
+                <p>In order to continue, all fields on this page must be filled in.</p>
                 <div class="form-group">
-                    <label class="control-label col-md-3" for="location">Location:</label>
-                    <div class="col-md-9">
-                        <select name="location" class="form-control" id="location" ng-model="foragingSurvey.locationId">
+                    <label class="control-label col-sm-3" for="location">Location:</label>
+                    <div class="col-sm-9" ng-class="{ 'has-error': 'foraging-location'.location.$error }">
+                        <select name="location" class="form-control" id="location" ng-model="foragingSurvey.locationId" ng-required="true">
                             <option ng-repeat="loc in locations" value="{{loc.id}}">{{loc.siteCode}} - {{loc.siteName}}
                                 <option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3" for="startDate">Survey Date:</label>
-                    <div class="col-md-4">
-                        <div class="input-group">
-                            <input type="text" class="form-control" ng-required="true" ng-model="foragingSurvey.startDateManual" placeholder="mm/dd/yyyy" ng-change="updateStartDate()" />
+                    <label class="control-label col-sm-3" for="startDate">Survey Date:</label>
+                    <div class="col-sm-4">
+                        <div class="input-group" ng-class="{ 'has-error': 'foraging-location'.startDateManual.$error }">
+                            <input type="text" class="form-control" ng-required="true" ng-model="foragingSurvey.startDateManual" placeholder="mm/dd/yyyy" ng-change="updateStartDate()"  ng-required="true" />
                             <span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="showDatePicker()"><i class="glyphicon glyphicon-calendar"></i></button></span>
                         </div>
                         <uib-datepicker ng-model="foragingSurvey.startDate" class="well well-sm" ng-show="startDateOpened" datepicker-options="datePickerOptions" ng-model-options="datePickerModelOptions" ng-change="updateStartDateManual()"></uib-datepicker>
+                        <p class="form-control-static">
+                            {{foragingSurvey.startDate | date:'fullDate' }}
+                        </p>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3" for="startTime">Time Start:</label>
-                    <div class="col-md-3">
-                        <uib-timepicker ng-model="foragingSurvey.startTime" hour-step="hstep" minute-step="mstep" show-meridian="true"></uib-timepicker>
+                    <label class="control-label col-sm-3" for="startTime">Time Start:</label>
+                    <div class="col-sm-3" ng-class="{ 'has-error': 'foraging-location'.startTime.$error }">
+                        <uib-timepicker ng-model="foragingSurvey.startTime" hour-step="hstep" minute-step="mstep" show-meridian="true" ng-required="true"></uib-timepicker>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3" for="endTime">Time End:</label>
-                    <div class="col-md-3">
-                        <uib-timepicker ng-model="foragingSurvey.endTime" hour-step="hstep" minute-step="mstep" show-meridian="true"></uib-timepicker>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-md-3">Site Type:</label>
-                    <div class="col-md-9">
-                        <div class="checkbox">
-                            <div ng-repeat="enum in enums.siteTypeInfo">
-                                <input type="radio" id="site-type-{{enum.id}}" name="siteType" ng-model="foragingSurvey.siteTypeId" value="{{enum.id}}">
-                                <label for="site-type-{{enum.id}}">{{enum.description}}</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-md-3" for="temperature">Temperature (&deg; F):</label>
-                    <div class="col-md-2">
-                        <input type="number" class="form-control" name="temperature" ng-model="foragingSurvey.temperature" placeholder="0" min="-40" max="120">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-md-3" for="windSpeed">Average Wind Speed:</label>
-                    <div class="col-md-2">
-                        <input type="number" class="form-control" name="windSpeed" placeholder="0" min="0" ng-model="foragingSurvey.windSpeed">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-md-3">Tides:</label>
-                    <div class="col-md-9">
-                        <div class="checkbox">
-                            <div ng-repeat="enum in enums.tideInfo">
-                                <input type="radio" id="tide-{{enum.id}}" name="tideInfo" ng-model="foragingSurvey.tideId" value="{{enum.id}}">
-                                <label for="tide-{{enum.id}}">{{enum.description}}</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-md-3">Weather:</label>
-                    <div class="col-md-9">
-                        <div class="checkbox">
-                            <div ng-repeat="enum in enums.weatherInfo">
-                                <input type="radio" id="weather-{{enum.id}}" name="weatherInfo" ng-model="foragingSurvey.weatherId" value="{{enum.id}}">
-                                <label for="weather-{{enum.id}}">{{enum.description}}</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-md-3" for="observers">Observer(s):</label>
-                    <div class="col-md-7">
-                        <input type="text" class="form-control" id="observers" placeholder="Enter Observer(s) Name(s)" ng-model="foragingSurvey.observers">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-md-3">Survey Vantage Point:</label>
-                    <div class="col-md-9">
-                        <div class="checkbox">
-                            <div ng-repeat="enum in enums.vantagePointInfo">
-                                <input type="radio" id="vantage-point-{{enum.id}}" name="vantagePointId" ng-model="foragingSurvey.vantagePointId" value="{{enum.id}}">
-                                <label for="vantage-point-{{enum.id}}">{{enum.description}}</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-md-3">Survey Access Point:</label>
-                    <div class="col-md-9">
-                        <div class="checkbox">
-                            <div ng-repeat="enum in enums.accessPointInfo">
-                                <input type="radio" id="access-point-{{enum.id}}" name="accessPointId" ng-model="foragingSurvey.accessPointId" value="{{enum.id}}">
-                                <label for="access-point-{{enum.id}}">{{enum.description}}</label>
-                            </div>
-                        </div>
+                    <label class="control-label col-sm-3" for="endTime">Time End:</label>
+                    <div class="col-sm-3" ng-class="{ 'has-error': 'foraging-location'.endTime.$error }">
+                        <uib-timepicker ng-model="foragingSurvey.endTime" hour-step="hstep" minute-step="mstep" show-meridian="true" ng-required="true"></uib-timepicker>
                     </div>
                 </div>
             </div>
@@ -121,3 +45,4 @@
         </div>
     </form>
 </div>
+<loading></loading>

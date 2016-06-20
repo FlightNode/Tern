@@ -10,7 +10,7 @@
             <div class="col-sm-6 text-right">
                 <input type="submit" class="btn btn-primary" 
                     value="{{canSaveForLater? 'Next &raquo;' : 'Finish'}}" 
-                    ng-click="next()" ng-disabled="foragingForm.invalid">
+                    ng-click="next()" ng-disabled="foragingForm.invalid | 'foraging-location'.$invalid">
                 <input type="submit" class="btn btn-default" ng-click="save()" value="Save for Later" 
                     ng-disabled="foragingForm.invalid || !canSaveForLater">
             </div>

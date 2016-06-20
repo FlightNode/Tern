@@ -171,6 +171,12 @@ angular
         title: site + ' - Waterbird Foraging Survey - New',
         step: 4
       })
+      .when('/foraging/create5', {
+        templateUrl: 'app/views/foraging/create5.html',
+        controller: 'ForagingCreateController',
+        title: site + ' - Waterbird Foraging Survey - New',
+        step: 5
+      })
       .when('/violations', {
         templateUrl: 'app/views/violations.html',
         title:  site + ' - Reporting Violations'

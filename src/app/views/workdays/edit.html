@@ -6,22 +6,15 @@
     <div class="modal-body">
         <alert>
         </alert>
-        <!-- <div class="form-group">
-            <label for="user" class="col-sm-3 control-label">Person</label>
-            <p class="form-control-static">{{person}}</p>
-        </div> -->
         <div class="form-group">
             <label for="workDate" class="col-sm-3 control-label">Date <span class="text-danger">*</span></label>
             <div class="col-sm-9" 
                 ng-class="{'has-error': workdayForm.workDate.$error.required || workdayForm.workDate.$error.date}">
-                <div class="input-group">
-                    <input type="text" name="workDate" class="form-control" 
-                    placeholder="{{today}}" required date  
-                    ng-model="workday.workDate" ng-pattern="/(\d{4}-\d{2}\-\d{2})|(\d{2}/\d{2}/\d{4})/" />
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button>
-                    </span>
+               <div class="input-group">
+                    <input type="text" class="form-control" ng-required="true" ng-model="workday.workDateManual" ng-pattern="/(\d{4}-\d{2}\-\d{2})|(\d{2}/\d{2}/\d{4})/" placeholder="mm/dd/yyyy" ng-change="updateWorkDate()" />
+                    <span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="showDatePicker()"><i class="glyphicon glyphicon-calendar"></i></button></span>
                 </div>
+                <uib-datepicker ng-model="workday.workDate" class="well well-sm" ng-show="workDateOpened" datepicker-options="datePickerOptions" ng-model-options="datePickerModelOptions" ng-change="updateWorkDateManual()"></uib-datepicker>
                 <p class="form-control-static">
                     {{workday.workDate | date:'fullDate' }}
                 </p>
@@ -69,7 +62,7 @@
         <div class="form-group">
             <label for="numberOfVolunteers" class="col-sm-3 control-label">Number of Volunteers <span class="text-danger">*</span></label>
             <div class="col-sm-9" ng-class="{'has-error': workdayForm.numberOfVolunteers.$error.required || workdayForm.numberOfVolunteers.$error.pattern }">
-                <input type="text" name="numberOfVolunteers" id="numberOfVolunteers" value="1"
+                <input type="number" name="numberOfVolunteers" id="numberOfVolunteers" value="1"
                 required ng-pattern="/\d+/" ng-model="workday.numberOfVolunteers" class="form-control">
             </div>
             <div role="alert" class="col-sm-9 col-sm-offset-3">
@@ -94,7 +87,7 @@
         <input type="hidden" name="id" ng-model="workday.id"></input>
         <input type="hidden" name="userId" ng-model="workday.userId"></input>
         <button type="submit" ng-disabled="workdayForm.$invalid" class="btn btn-primary">Save</button>
-        <button type="button" class="btn btn-secondary" ng-click="cancel()">Cancel</button>
+        <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
     </div>
 </form>
 <loading></loading>
