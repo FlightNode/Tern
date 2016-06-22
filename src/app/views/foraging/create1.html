@@ -1,48 +1,48 @@
-<div ng-include="'/app/views/foraging/progressBar.html'"></div>
 <alert></alert>
+<loading></loading>
+<div ng-include="'/app/views/foraging/progressBar.html'"></div>
 <div class="row">
-    <form class="form-horizontal" ng-submit="submit(1)" id="foraging-location" name="foraging-location" role="form">
-        <div class="form-group panel panel-primary">
-            <div class="panel-heading">Location and Date</div>
+    <form class="form-horizontal" ng-submit="submit(1)" id="foragingLocation" name="foragingLocation" role="form">
+        <div class="panel panel-info">
+            <div class="panel-heading"><span class="icon-info"></span>&nbsp; Instructions</div>
             <div class="panel-body">
                 <p>In order to continue, all fields on this page must be filled in.</p>
-                <div class="form-group">
-                    <label class="control-label col-sm-3" for="location">Location:</label>
-                    <div class="col-sm-9" ng-class="{ 'has-error': 'foraging-location'.location.$error }">
-                        <select name="location" class="form-control" id="location" ng-model="foragingSurvey.locationId" ng-required="true">
-                            <option ng-repeat="loc in locations" value="{{loc.id}}">{{loc.siteCode}} - {{loc.siteName}}
-                                <option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-sm-3" for="startDate">Survey Date:</label>
-                    <div class="col-sm-4">
-                        <div class="input-group" ng-class="{ 'has-error': 'foraging-location'.startDateManual.$error }">
-                            <input type="text" class="form-control" ng-required="true" ng-model="foragingSurvey.startDateManual" placeholder="mm/dd/yyyy" ng-change="updateStartDate()"  ng-required="true" />
-                            <span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="showDatePicker()"><i class="glyphicon glyphicon-calendar"></i></button></span>
-                        </div>
-                        <uib-datepicker ng-model="foragingSurvey.startDate" class="well well-sm" ng-show="startDateOpened" datepicker-options="datePickerOptions" ng-model-options="datePickerModelOptions" ng-change="updateStartDateManual()"></uib-datepicker>
-                        <p class="form-control-static">
-                            {{foragingSurvey.startDate | date:'fullDate' }}
-                        </p>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-sm-3" for="startTime">Time Start:</label>
-                    <div class="col-sm-3" ng-class="{ 'has-error': 'foraging-location'.startTime.$error }">
-                        <uib-timepicker ng-model="foragingSurvey.startTime" hour-step="hstep" minute-step="mstep" show-meridian="true" ng-required="true"></uib-timepicker>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-sm-3" for="endTime">Time End:</label>
-                    <div class="col-sm-3" ng-class="{ 'has-error': 'foraging-location'.endTime.$error }">
-                        <uib-timepicker ng-model="foragingSurvey.endTime" hour-step="hstep" minute-step="mstep" show-meridian="true" ng-required="true"></uib-timepicker>
-                    </div>
-                </div>
             </div>
-            <div ng-include="'/app/views/foraging/bottomBar.html'"></div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3" for="location">Location:</label>
+            <div class="col-sm-9" ng-class="{ 'has-error': foragingLocation.location.$error.required }">
+                <select name="location" class="form-control" id="location" ng-model="foragingSurvey.locationId" ng-required="true">
+                    <option ng-repeat="loc in locations" value="{{loc.id}}">{{loc.siteCode}} - {{loc.siteName}}
+                        <option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3" for="startDate">Survey Date:</label>
+            <div class="col-sm-4" ng-class="{ 'has-error': foragingLocation.startDateManual.$error.required }">
+                <div class="input-group">
+                    <input type="text" name="startDateManual" class="form-control" ng-required="true" ng-model="foragingSurvey.startDateManual" placeholder="mm/dd/yyyy" ng-change="updateStartDate()" ng-required="true" />
+                    <span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="showDatePicker()"><i class="glyphicon glyphicon-calendar"></i></button></span>
+                </div>
+                <uib-datepicker ng-model="foragingSurvey.startDate" class="well well-sm" ng-show="startDateOpened" datepicker-options="datePickerOptions" ng-model-options="datePickerModelOptions" ng-change="updateStartDateManual()"></uib-datepicker>
+                <p class="form-control-static">
+                    {{foragingSurvey.startDate | date:'fullDate' }}
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3" for="startTime">Time Start:</label>
+            <div class="col-sm-3" ng-class="{ 'has-error': !foragingSurvey.startTime }">
+                <uib-timepicker ng-model="foragingSurvey.startTime" hour-step="hstep" minute-step="mstep" show-meridian="true" ng-required="true"></uib-timepicker>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3" for="endTime">Time End:</label>
+            <div class="col-sm-3" ng-class="{ 'has-error': !foragingSurvey.endTime }">
+                <uib-timepicker ng-model="foragingSurvey.endTime" hour-step="hstep" minute-step="mstep" show-meridian="true" ng-required="true"></uib-timepicker>
+            </div>
         </div>
     </form>
 </div>
-<loading></loading>
+<div ng-include="'/app/views/foraging/bottomBar.html'"></div>

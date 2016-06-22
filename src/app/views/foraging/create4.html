@@ -1,10 +1,6 @@
-<div ng-include="'/app/views/foraging/progressBar.html'">
-</div>
-<div class="row">
-    Step: {{foragingSurvey.step = 3}}
-    <br> Save for later: {{foragingSurvey.saveForLater = false}}
-</div>
 <alert></alert>
+<loading></loading>
+<div ng-include="'/app/views/foraging/progressBar.html'"></div>
 <div class="row" ng-show="disturbanceForm.invalid">
     <div class="col-sm-8 col-sm-offset-2">
         <div class="alert alert-danger" role="alert">
@@ -14,42 +10,42 @@
 </div>
 <div class="row">
     <form class="form-horizontal survey-form" ng-submit="submit(3)" role="form" name="disturbanceForm">
-        <div class="form-group panel panel-primary">
-            <div class="panel-heading">Disturbance</div>
+        <div class="panel panel-info">
+            <div class="panel-heading"><span class="icon-info"></span>&nbsp; Instructions</div>
             <div class="panel-body">
-                <div class="row header-row">
-                    <div class="col-sm-2">Types</div>
-                    <div class="col-sm-2">Quantity</div>
-                    <div class="col-sm-2">Duration (nearest 5 minutes)</div>
-                    <div class="col-sm-6">Result or Effect (observed behavior)</div>
-                </div>
-                <div ng-class="{ 'row odd-row': $odd, 'row even-row': $even, 'last-row': $last }" ng-repeat="(i, disturbance) in enums.disturbanceTypeInfo track by $index">
-                    <div class="col-sm-2" ng-class="{ 'bg-danger': foragingSurvey.disturbances[i].invalid }">
-                        <b ng-bind="disturbance.description"></b>
-                        <span ng-show="foragingSurvey.disturbances[i].invalid" class="text-warning">**</span>
-                    </div>
-                    <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label" ng-class="{ 'bg-danger': foragingSurvey.disturbances[i].invalid }">Quantity</div>
-                    <div class="col-sm-2" ng-class="{ 'bg-danger': foragingSurvey.disturbances[i].invalid }">
-                        <input type="number" class="form-control" min="0" placeholder="Quantity" ng-model="foragingSurvey.disturbances[i].quantity" ng-change="setDisturbanceTypeId(i, disturbance.id)">
-                    </div>
-                    <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label" ng-class="{ 'bg-danger': foragingSurvey.disturbances[i].invalid }">Duration (nearest 5 minutes)</div>
-                    <div class="col-sm-2" ng-class="{ 'bg-danger': foragingSurvey.disturbances[i].invalid }">
-                        <input type="number" step="5" min="0" class="form-control" placeholder="Duration" ng-model="foragingSurvey.disturbances[i].durationMinutes" ng-change="setDisturbanceTypeId(i, disturbance.id)">
-                    </div>
-                    <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label" ng-class="{ 'bg-danger': foragingSurvey.disturbances[i].invalid }">Result or Effect (observed behavior)</div>
-                    <div class="col-sm-6" ng-class="{ 'bg-danger': foragingSurvey.disturbances[i].invalid }">
-                        <input type="text" class="form-control" placeholder="Behavior" ng-model="foragingSurvey.disturbances[i].behavior" ng-change="setDisturbanceTypeId(i, disturbance.id)">
-                    </div>
-                </div>
-                <div class="row" style="margin-top: 1em;">
-                    <label class="control-label col-sm-2" for="disturbanceComments">Comments</label>
-                    <div class="col-sm-9">
-                        <textarea type="text" class="form-control" rows="5" id="disturbanceComments" placeholder="Enter Comments" ng-model="foragingSurvey.disturbanceComments"></textarea>
-                    </div>
-                </div>
+                <p>If a quantity is entered for a disturbance, then the additional fields must be filled out for that row. To remove a disturbance, simply change the quantity to zero.</p>
             </div>
-            <div ng-include="'/app/views/foraging/bottomBar.html'"></div>
+        </div>
+        <div class="row header-row">
+            <div class="col-sm-2">Types</div>
+            <div class="col-sm-2">Quantity</div>
+            <div class="col-sm-2">Duration (nearest 5 minutes)</div>
+            <div class="col-sm-6">Result or Effect (observed behavior)</div>
+        </div>
+        <div ng-class="{ 'row odd-row': $odd, 'row even-row': $even, 'last-row': $last }" ng-repeat="(i, disturbance) in enums.disturbanceTypeInfo track by $index">
+            <div class="col-sm-2" ng-class="{ 'bg-danger': foragingSurvey.disturbances[i].invalid }">
+                <b ng-bind="disturbance.description"></b>
+                <span ng-show="foragingSurvey.disturbances[i].invalid" class="text-warning">**</span>
+            </div>
+            <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label" ng-class="{ 'bg-danger': foragingSurvey.disturbances[i].invalid }">Quantity</div>
+            <div class="col-sm-2" ng-class="{ 'bg-danger': foragingSurvey.disturbances[i].invalid }">
+                <input type="number" class="form-control" min="0" placeholder="Quantity" ng-model="foragingSurvey.disturbances[i].quantity" ng-change="setDisturbanceTypeId(i, disturbance.id)">
+            </div>
+            <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label" ng-class="{ 'bg-danger': foragingSurvey.disturbances[i].invalid }">Duration (nearest 5 minutes)</div>
+            <div class="col-sm-2" ng-class="{ 'bg-danger': foragingSurvey.disturbances[i].invalid }">
+                <input type="number" step="5" min="0" class="form-control" placeholder="Duration" ng-model="foragingSurvey.disturbances[i].durationMinutes" ng-change="setDisturbanceTypeId(i, disturbance.id)">
+            </div>
+            <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label" ng-class="{ 'bg-danger': foragingSurvey.disturbances[i].invalid }">Result or Effect (observed behavior)</div>
+            <div class="col-sm-6" ng-class="{ 'bg-danger': foragingSurvey.disturbances[i].invalid }">
+                <input type="text" class="form-control" placeholder="Behavior" ng-model="foragingSurvey.disturbances[i].behavior" ng-change="setDisturbanceTypeId(i, disturbance.id)">
+            </div>
+        </div>
+        <div class="row" style="margin-top: 1em;">
+            <label class="control-label col-sm-2" for="disturbanceComments">Comments</label>
+            <div class="col-sm-9">
+                <textarea type="text" class="form-control" rows="5" id="disturbanceComments" placeholder="Enter Comments" ng-model="foragingSurvey.disturbanceComments"></textarea>
+            </div>
         </div>
     </form>
 </div>
-<loading></loading>
+<div ng-include="'/app/views/foraging/bottomBar.html'"></div>

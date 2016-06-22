@@ -112,6 +112,7 @@ angular.module('flightNodeApp')
 
 
             var step = $route.current.step;
+            $scope.step = step;
             $scope.canGoBack = (step > 1);
             $scope.canSaveForLater = (step < 4);
 

@@ -1,87 +1,87 @@
-<div ng-include="'/app/views/foraging/progressBar.html'"></div>
 <alert></alert>
+<loading></loading>
+<div ng-include="'/app/views/foraging/progressBar.html'"></div>
 <div class="row">
     <form class="form-horizontal" ng-submit="submit(1)" role="form">
-        <div class="form-group panel panel-primary">
-            <div class="panel-heading">Site Information</div>
+        <div class="panel panel-info">
+            <div class="panel-heading"><span class="icon-info"></span>&nbsp; Instructions</div>
             <div class="panel-body">
                 <p>Fields on this page can be left blank temporarily, but all must be filled in before clicking the Finish button the final page of the survey data entry.</p>
-                <div class="form-group">
-                    <label class="control-label col-sm-3">Site Type:</label>
-                    <div class="col-sm-9">
-                        <div class="checkbox">
-                            <div ng-repeat="enum in enums.siteTypeInfo">
-                                <input type="radio" id="site-type-{{enum.id}}" name="siteType" ng-model="foragingSurvey.siteTypeId" value="{{enum.id}}">
-                                <label for="site-type-{{enum.id}}">{{enum.description}}</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-sm-3" for="temperature">Temperature (&deg; F):</label>
-                    <div class="col-sm-2">
-                        <input type="number" class="form-control" name="temperature" ng-model="foragingSurvey.temperature" placeholder="0" min="-40" max="120">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-sm-3" for="windSpeed">Average Wind Speed:</label>
-                    <div class="col-sm-2">
-                        <input type="number" class="form-control" name="windSpeed" placeholder="0" min="0" ng-model="foragingSurvey.windSpeed">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-sm-3">Tides:</label>
-                    <div class="col-sm-9">
-                        <div class="checkbox">
-                            <div ng-repeat="enum in enums.tideInfo">
-                                <input type="radio" id="tide-{{enum.id}}" name="tideInfo" ng-model="foragingSurvey.tideId" value="{{enum.id}}">
-                                <label for="tide-{{enum.id}}">{{enum.description}}</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-sm-3">Weather:</label>
-                    <div class="col-sm-9">
-                        <div class="checkbox">
-                            <div ng-repeat="enum in enums.weatherInfo">
-                                <input type="radio" id="weather-{{enum.id}}" name="weatherInfo" ng-model="foragingSurvey.weatherId" value="{{enum.id}}">
-                                <label for="weather-{{enum.id}}">{{enum.description}}</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-sm-3" for="observers">Observer(s):</label>
-                    <div class="col-sm-7">
-                        <input type="text" class="form-control" id="observers" placeholder="Enter Observer(s) Name(s)" ng-model="foragingSurvey.observers">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-sm-3">Survey Vantage Point:</label>
-                    <div class="col-sm-9">
-                        <div class="checkbox">
-                            <div ng-repeat="enum in enums.vantagePointInfo">
-                                <input type="radio" id="vantage-point-{{enum.id}}" name="vantagePointId" ng-model="foragingSurvey.vantagePointId" value="{{enum.id}}">
-                                <label for="vantage-point-{{enum.id}}">{{enum.description}}</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-sm-3">Survey Access Point:</label>
-                    <div class="col-sm-9">
-                        <div class="checkbox">
-                            <div ng-repeat="enum in enums.accessPointInfo">
-                                <input type="radio" id="access-point-{{enum.id}}" name="accessPointId" ng-model="foragingSurvey.accessPointId" value="{{enum.id}}">
-                                <label for="access-point-{{enum.id}}">{{enum.description}}</label>
-                            </div>
-                        </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3">Site Type:</label>
+            <div class="col-sm-9">
+                <div class="checkbox">
+                    <div ng-repeat="enum in enums.siteTypeInfo">
+                        <input type="radio" id="site-type-{{enum.id}}" name="siteType" ng-model="foragingSurvey.siteTypeId" value="{{enum.id}}">
+                        <label for="site-type-{{enum.id}}">{{enum.description}}</label>
                     </div>
                 </div>
             </div>
-            <div ng-include="'/app/views/foraging/bottomBar.html'"></div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3" for="temperature">Temperature (&deg; F):</label>
+            <div class="col-sm-2">
+                <input type="number" class="form-control" name="temperature" ng-model="foragingSurvey.temperature" placeholder="0" min="-40" max="120">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3" for="windSpeed">Average Wind Speed:</label>
+            <div class="col-sm-2">
+                <input type="number" class="form-control" name="windSpeed" placeholder="0" min="0" ng-model="foragingSurvey.windSpeed">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3">Tides:</label>
+            <div class="col-sm-9">
+                <div class="checkbox">
+                    <div ng-repeat="enum in enums.tideInfo">
+                        <input type="radio" id="tide-{{enum.id}}" name="tideInfo" ng-model="foragingSurvey.tideId" value="{{enum.id}}">
+                        <label for="tide-{{enum.id}}">{{enum.description}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3">Weather:</label>
+            <div class="col-sm-9">
+                <div class="checkbox">
+                    <div ng-repeat="enum in enums.weatherInfo">
+                        <input type="radio" id="weather-{{enum.id}}" name="weatherInfo" ng-model="foragingSurvey.weatherId" value="{{enum.id}}">
+                        <label for="weather-{{enum.id}}">{{enum.description}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3" for="observers">Observer(s):</label>
+            <div class="col-sm-7">
+                <input type="text" class="form-control" id="observers" placeholder="Enter Observer(s) Name(s)" ng-model="foragingSurvey.observers">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3">Survey Vantage Point:</label>
+            <div class="col-sm-9">
+                <div class="checkbox">
+                    <div ng-repeat="enum in enums.vantagePointInfo">
+                        <input type="radio" id="vantage-point-{{enum.id}}" name="vantagePointId" ng-model="foragingSurvey.vantagePointId" value="{{enum.id}}">
+                        <label for="vantage-point-{{enum.id}}">{{enum.description}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3">Survey Access Point:</label>
+            <div class="col-sm-9">
+                <div class="checkbox">
+                    <div ng-repeat="enum in enums.accessPointInfo">
+                        <input type="radio" id="access-point-{{enum.id}}" name="accessPointId" ng-model="foragingSurvey.accessPointId" value="{{enum.id}}">
+                        <label for="access-point-{{enum.id}}">{{enum.description}}</label>
+                    </div>
+                </div>
+            </div>
         </div>
     </form>
 </div>
-<loading></loading>
+<div ng-include="'/app/views/foraging/bottomBar.html'"></div>
