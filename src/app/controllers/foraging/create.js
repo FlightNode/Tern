@@ -81,7 +81,13 @@ angular.module('flightNodeApp')
                 }
 
                 model.startDateManual = model.startDate;
-                model.startDate = moment(model.startDate, 'MM/DD/YYYY').toDate();
+                // The date in session depends on how it came back from the server after a save
+                var temp = moment(model.startDate, 'MM/DD/YYYY');
+                if (!temp.isValid()) {
+                    temp = moment(model.startDate);
+                }
+                model.startDate = temp.toDate();
+
                 return model;
             };
 
@@ -137,49 +143,96 @@ angular.module('flightNodeApp')
                         });
                 }
             }
+            if (step === 5) {
+                var m = $scope.foragingSurvey;
+                $scope.reviewInvalid = !(
+                    m.siteTypeId &&
+                    m.temperature &&
+                    m.windSpeed && 
+                    m.tideId &&
+                    m.weatherId &&
+                    m.observers &&
+                    m.vantagePointId &&
+                    m.accessPointId
+                );
+            } else {
+                $scope.reviewInvalid = false;
+            }
 
             $scope.getLocationName = function() {
                 var id = $scope.foragingSurvey.locationId;
                 var location = _.find($scope.locations, { id: id });
                 return location.siteCode + ' - ' + location.siteName;
             };
-            $scope.getSiteType = function () {
+            $scope.getSiteType = function() {
                 var id = +$scope.foragingSurvey.siteTypeId;
                 var siteType = _.find($scope.enums.siteTypeInfo, { id: id });
-                return siteType.description;
+                if (siteType) {
+                    return siteType.description;
+                } else {
+                    return '';
+                }
             };
-            $scope.getTide = function () {
+            $scope.getTide = function() {
                 var id = +$scope.foragingSurvey.tideId;
-                var siteType = _.find($scope.enums.tideInfo, { id: id });
-                return siteType.description;
+                var tide = _.find($scope.enums.tideInfo, { id: id });
+                if (tide) {
+                    return tide.description;
+                } else {
+                    return '';
+                }
             };
-            $scope.getWeather = function () {
+            $scope.getWeather = function() {
                 var id = +$scope.foragingSurvey.weatherId;
-                var siteType = _.find($scope.enums.weatherInfo, { id: id });
-                return siteType.description;
+                var weather = _.find($scope.enums.weatherInfo, { id: id });
+                if (weather) {
+                    return weather.description;
+                } else {
+                    return '';
+                }
             };
-            $scope.getVantagePoint = function () {
+            $scope.getVantagePoint = function() {
                 var id = +$scope.foragingSurvey.vantagePointId;
-                var siteType = _.find($scope.enums.vantagePointInfo, { id: id });
-                return siteType.description;
+                var vantagePoint = _.find($scope.enums.vantagePointInfo, { id: id });
+                if (vantagePoint) {
+                    return vantagePoint.description;
+                } else {
+                    return '';
+                }
             };
-            $scope.getAccessPoint = function () {
+            $scope.getAccessPoint = function() {
                 var id = +$scope.foragingSurvey.accessPointId;
-                var siteType = _.find($scope.enums.accessPointInfo, { id: id });
-                return siteType.description;
+                var accessPoint = _.find($scope.enums.accessPointInfo, { id: id });
+                if (accessPoint) {
+                    return accessPoint.description;
+                } else {
+                    return '';
+                }
             };
             $scope.getCommonName = function(id) {
-                return _.find($scope.birdSpeciesList, { id: id });
+                return _.find($scope.birdSpeciesList, { id: id }).commonName;
             };
             $scope.getActivity = function(id) {
-                return _.find($scope.enums.behaviorTypeInfo, { id: id });
+                return _.find($scope.enums.behaviorTypeInfo, { id: +id }).description;
+            };
+            $scope.getHabitat = function(id) {
+                return _.find($scope.enums.habitatInfo, { id: +id }).description;
+            };
+            $scope.getFeeding = function(id) {
+                return _.find($scope.enums.feedingRateInfo, { id: +id }).description;
+            };
+            $scope.getDisturbance = function(id) {
+                return _.find($scope.enums.disturbanceTypeInfo, { id: +id }).description;
             };
 
 
             //Method to set the birdSpeciesId from the UI.
             $scope.setBirdId = function(index, birdSpeciesId) {
+                // Shortcut to the entry on the screen
                 var observation = $scope.foragingSurvey.observations[index];
+                // Since species is just a label, not a form control, we need to set the species manually
                 observation.birdSpeciesId = birdSpeciesId;
+                // if either adults or juveniles is nonzero, then the other fields *must* be filled in
                 observation.invalid = (
                     (observation.adults > 0 ||
                         observation.juveniles > 0) &&
@@ -189,8 +242,8 @@ angular.module('flightNodeApp')
                         observation.feedingId === undefined)
                 ) || observation.adults < 0 || observation.juveniles < 0;
 
-
-                $scope.observationForm.invalid = _.some($scope.foragingSurvey.observations, 'invalid');
+                // If *any* observations are invalid, then the form is invalid
+                $scope.observationForm.invalid = _.some($scope.observations, 'invalid');
             };
 
             //Method to set the disturbanceTypeId from the UI.
@@ -219,6 +272,11 @@ angular.module('flightNodeApp')
 
                 var model = $scope.foragingSurvey;
 
+                // With the way we add observations and disturbances, there will
+                // be null entries if some rows are skipped. Remove those.
+                model.observations = _.omitBy(model.observations, _.isNil);
+                model.disturbances = _.omitBy(model.disturbances, _.isNil);
+
                 if (model.surveyIdentifier) {
                     foragingSurveyProxy.update($scope, model, function() {
                         // save the original model to session for the next page
@@ -245,15 +303,10 @@ angular.module('flightNodeApp')
 
                 $scope.save(function() {
                     if (finished) {
-                        // this is the last step. Here we need to show
-                        // the pending survey results. This next() function
-                        // is called when the users clicks "Finish".
-                        // so we save (which is already done above), but 
-                        // need to modify pass a "finished" flag.
-                        // 
-
                         // Flush the session
-                        // saveModelToSesion(null);
+                        saveModelToSesion(null);
+
+                        $location.path('/foraging/complete');
                     } else {
                         $location.path('/foraging/create' + (step + 1).toString());
                     }

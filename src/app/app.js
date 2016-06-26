@@ -177,6 +177,10 @@ angular
         title: site + ' - Waterbird Foraging Survey - New',
         step: 5
       })
+      .when('/foraging/complete', {
+        templateUrl: 'app/views/foraging/complete.html',
+        title: site + ' - Waterbird Foraging Survey - Completed'
+      })
       .when('/violations', {
         templateUrl: 'app/views/violations.html',
         title:  site + ' - Reporting Violations'

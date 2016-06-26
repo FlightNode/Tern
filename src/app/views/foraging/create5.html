@@ -6,7 +6,7 @@
         <div class="panel panel-info">
             <div class="panel-heading"><span class="icon-info"></span>&nbsp; Instructions</div>
             <div class="panel-body">
-                <p>Please review your data entry carefully. All fields must be filled in. Use the Back button to return to a previous page and complete or update the form as needed. When everything is complete, you can click the Finish button to submit this Waterbird Foraging Survey.</p>
+                <p>Please review your data entry carefully. All fields marked must be filled in (with * and red border). Use the Back button to return to a previous page and complete or update the form as needed. When everything is complete, you can click the Finish button to submit this Waterbird Foraging Survey.</p>
             </div>
         </div>
         <div class="panel panel-default">
@@ -15,21 +15,21 @@
                 <fieldset disabled>
                     <div class="row">
                         <div class="control-label col-sm-3">Location</div>
-                        <div class="col-sm-3" ng-class="{'has-error': foragingSurvey.locationId === undefined}">
+                        <div class="col-sm-3">
                             <input class="form-control" ng-value="getLocationName()">
                         </div>
-                        <div class="control-label col-sm-3" ng-class="{'has-error': foragingSurvey.startDate === undefined}">Survey Date</div>
+                        <div class="control-label col-sm-3">Survey Date</div>
                         <div class="col-sm-3">
-                            <input class="form-control" ng-value="foragingSurvey.startDate">
+                            <input class="form-control" ng-value="foragingSurvey.startDate | date: fullDate">
                         </div>
                     </div>
                     <div class="row">
-                        <div class="control-label col-sm-3" ng-class="{'has-error': foragingSurvey.startTime === undefined}">Start Time</div>
+                        <div class="control-label col-sm-3">Start Time</div>
                         <div class="col-sm-3">
                             <input class="form-control" ng-value="foragingSurvey.startTime | date: 'shortTime'">
                         </div>
                         <div class="control-label col-sm-3">End Time</div>
-                        <div class="col-sm-3" ng-class="{'has-error': foragingSurvey.endTime === undefined}">
+                        <div class="col-sm-3">
                             <input class="form-control" ng-value="foragingSurvey.endTime | date: 'shortTime'">
                         </div>
                     </div>
@@ -41,45 +41,61 @@
             <div class="panel-body">
                 <fieldset disabled>
                     <div class="row">
-                        <div class="control-label col-sm-3">Site Type</div>
-                        <div class="col-sm-3">
-                            <input class="form-control" ng-value="getSiteType()">
+                        <div ng-class="{'has-error': foragingSurvey.siteTypeId === null}">
+                            <div class="control-label col-sm-3">Site Type <span class="text-danger" ng-class="{invisible: foragingSurvey.siteTypeId !== null}">*</span></div>
+                            <div class="col-sm-3">
+                                <input class="form-control" ng-value="getSiteType()">
+                            </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="control-label col-sm-3" for="temperature">Temperature (&deg; F)</div>
-                        <div class="col-sm-3">
-                            <input class="form-control" ng-value="foragingSurvey.temperature">
+                        <div ng-class="{'has-error': foragingSurvey.temperature === null}">
+                            <div class="control-label col-sm-3" for="temperature">Temperature (&deg; F) <span class="text-danger" ng-class="{invisible: foragingSurvey.temperature !== null}">*</span></div>
+                            <div class="col-sm-3">
+                                <input class="form-control" ng-value="foragingSurvey.temperature">
+                            </div>
                         </div>
-                        <div class="control-label col-sm-3" for="windSpeed">Average Wind Speed</div>
-                        <div class="col-sm-3">
-                            <input class="form-control" ng-value="foragingSurvey.windSpeed">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="control-label col-sm-3">Tides</div>
-                        <div class="col-sm-3">
-                            <input class="form-control" ng-value="getTide()">
-                        </div>
-                        <div class="control-label col-sm-3">Weather</div>
-                        <div class="col-sm-3">
-                            <input class="form-control" ng-value="getWeather()">
+                        <div ng-class="{'has-error': foragingSurvey.windSpeed === null}">
+                            <div class="control-label col-sm-3" for="windSpeed">Average Wind Speed <span class="text-danger" ng-class="{invisible: foragingSurvey.windSpeed !== null}">*</span></div>
+                            <div class="col-sm-3">
+                                <input class="form-control" ng-value="foragingSurvey.windSpeed">
+                            </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="control-label col-sm-3" for="observers">Observer(s)</div>
-                        <div class="col-sm-9">
-                            <input class="form-control" ng-value="foragingSurvey.observers">
+                        <div ng-class="{'has-error': foragingSurvey.tideId === null}">
+                            <div class="control-label col-sm-3">Tides <span class="text-danger" ng-class="{invisible: foragingSurvey.tideId !== null}">*</span></div>
+                            <div class="col-sm-3">
+                                <input class="form-control" ng-value="getTide()">
+                            </div>
+                            <div ng-class="{'has-error': foragingSurvey.weatherId === null}">
+                                <div class="control-label col-sm-3">Weather <span class="text-danger" ng-class="{invisible: foragingSurvey.weatherId !== null}">*</span></div>
+                                <div class="col-sm-3">
+                                    <input class="form-control" ng-value="getWeather()">
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="control-label col-sm-3">Survey Vantage Point</div>
-                        <div class="col-sm-3">
-                            <input class="form-control" ng-value="getVantagePoint()">
+                        <div ng-class="{'has-error': foragingSurvey.observers === null || foragingSurveys.observers === ''}">
+                            <div class="control-label col-sm-3" for="observers">Observer(s) <span class="text-danger" ng-class="{invisible: foragingSurvey.observers !== null}">*</span></div>
+                            <div class="col-sm-9">
+                                <input class="form-control" ng-value="foragingSurvey.observers">
+                            </div>
                         </div>
-                        <div class="control-label col-sm-3">Survey Access Point</div>
-                        <div class="col-sm-3">
-                            <input class="form-control" ng-value="getAccessPoint()">
+                    </div>
+                    <div class="row">
+                        <div ng-class="{'has-error': foragingSurvey.vantagePointId === null}">
+                            <div class="control-label col-sm-3">Survey Vantage Point <span class="text-danger" ng-class="{invisible: foragingSurvey.vantagePointId !== null}">*</span></div>
+                            <div class="col-sm-3">
+                                <input class="form-control" ng-value="getVantagePoint()">
+                            </div>
+                        </div>
+                        <div ng-class="{'has-error': foragingSurvey.accessPointId === null}">
+                            <div class="control-label col-sm-3">Survey Access Point <span class="text-danger" ng-class="{invisible: foragingSurvey.accessPointId !== null}">*</span></div>
+                            <div class="col-sm-3">
+                                <input class="form-control" ng-value="getAccessPoint()">
+                            </div>
                         </div>
                     </div>
                 </fieldset>
@@ -106,26 +122,45 @@
                     <div class="col-sm-1 col-xs-1" ng-bind="bird.juveniles"></div>
                     <div class="visible-xs-10 hidden-sm hidden-md hidden-lg small-label">Primary Activity</div>
                     <div class="col-sm-2 col-xs-2" ng-bind="getActivity(bird.primaryActivityId)"></div>
-                    <div class="visible-xs-12 hidden-sm hidden-md hidden-lg small-label">Secondary Activity</div>
+                    <div class="visible-xs-10 hidden-sm hidden-md hidden-lg small-label">Secondary Activity</div>
                     <div class="col-sm-2 col-xs-2" ng-bind="getActivity(bird.secondaryActivityId)"></div>
-                    <!--<div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">Location / Habitat Type</div>
-            <div class="col-sm-2" ng-class="{ 'bg-danger': foragingSurvey.observations[i].invalid }">
-                <select name="habitatInfo" id="habitatInfo" class="form-control" ng-model="foragingSurvey.observations[i].habitatId" ng-change="setBirdId(i, bird.id)">
-                    <option ng-repeat="habitat in enums.habitatInfo" value="{{habitat.id}}">{{habitat.description}}</option>
-                </select>
-            </div>
-            <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">% Feeding Success Rate</div>
-            <div class="col-sm-2" ng-class="{ 'bg-danger': foragingSurvey.observations[i].invalid }">
-                <select name="feedingSuccess" id="feedingSuccess" class="form-control" ng-model="foragingSurvey.observations[i].feedingId" ng-change="setBirdId(i, bird.id)">
-                    <option ng-repeat="feed in enums.feedingRateInfo" value="{{feed.id}}">{{feed.description}}</option>
-                </select>
-            </div> -->
+                    <div class="visible-xs-10 hidden-sm hidden-md hidden-lg small-label">Location / Habitat Type</div>
+                    <div class="col-sm-2 col-xs-2" ng-bind="getHabitat(bird.habitatId)"></div>
+                    <div class="visible-xs-12 hidden-sm hidden-md hidden-lg small-label">% Feeding Success Rate</div>
+                    <div class="col-sm-2 col-xs-2" ng-bind="getFeeding(bird.feedingId)"></div>
+                </div>
+                <div class="row" style="margin-top: 1em; margin-bottom: 1em;">
+                    <label class="control-label col-sm-2">Comments</label>
+                    <div class="col-sm-9">
+                        <textarea type="text" class="form-control" rows="5" ng-model="foragingSurvey.surveyComments" ng-disabled="true"></textarea>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="panel panel-default">
             <div class="panel-heading">Disturbances</div>
             <div class="panel-body">
+                <div class="row header-row">
+                    <div class="col-sm-2">Types</div>
+                    <div class="col-sm-2">Quantity</div>
+                    <div class="col-sm-2">Duration (nearest 5 minutes)</div>
+                    <div class="col-sm-6">Result or Effect (observed behavior)</div>
+                </div>
+                <div ng-class="{ 'row odd-row': $odd, 'row even-row': $even, 'last-row': $last }" ng-repeat="disturbance in foragingSurvey.disturbances track by disturbance.disturbanceTypeId">
+                    <div class="col-sm-2" ng-bind="getDisturbance(disturbance.disturbanceTypeId)"></div>
+                    <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">Quantity</div>
+                    <div class="col-sm-2" ng-bind="disturbance.quantity"></div>
+                    <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">Duration (nearest 5 minutes)</div>
+                    <div class="col-sm-2" ng-bind="disturbance.durationMinutes"></div>
+                    <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">Result or Effect (observed behavior)</div>
+                    <div class="col-sm-6" ng-bind="disturbance.behavior"></div>
+                </div>
+                <div class="row" style="margin-top: 1em; margin-bottom: 1em;">
+                    <label class="control-label col-sm-2">Comments</label>
+                    <div class="col-sm-9">
+                        <textarea type="text" class="form-control" rows="5" ng-model="foragingSurvey.disturbanceComments" ng-disabled="true"></textarea>
+                    </div>
+                </div>
             </div>
         </div>
     </form>
