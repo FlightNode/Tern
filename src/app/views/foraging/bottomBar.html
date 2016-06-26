@@ -4,8 +4,11 @@
         <input type="button" class="btn btn-warning" id="reset" name="reset" value="Reset" title="Completely reset the data entry form to a fresh state" ng-click="reset()">
     </div>
     <div class="col-sm-6 text-right">
-        <input type="submit" class="btn btn-primary" value="{{canSaveForLater? 'Next &raquo;' : 'Finish'}}" ng-click="next()" ng-disabled="foragingForm.invalid || foragingLocation.$invalid">
-        <input type="submit" class="btn btn-default" ng-click="save()" value="Save for Later" ng-disabled="foragingForm.invalid || !canSaveForLater">
+        <input type="submit" class="btn btn-primary" value="{{canSaveForLater? 'Next &raquo;' : 'Finish'}}" ng-click="next()" ng-disabled="observationForm.invalid || disturbanceForm.invalid || foragingLocation.$invalid">
+        <input type="submit" class="btn btn-default" ng-click="save()" value="Save for Later" ng-disabled="observationForm.invalid || disturbanceForm.invalid || foragingLocation.$invalid || !canSaveForLater">
     </div>
 </div>
-<pre>{{foragingSurvey | json }}</pre>
+<div class="row">
+<p>&nbsp;</p>
+    <pre>{{foragingSurvey | json }}</pre>
+</div>

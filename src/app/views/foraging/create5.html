@@ -1,0 +1,133 @@
+<alert></alert>
+<loading></loading>
+<div ng-include="'/app/views/foraging/progressBar.html'"></div>
+<div class="row" class="form-review">
+    <form>
+        <div class="panel panel-info">
+            <div class="panel-heading"><span class="icon-info"></span>&nbsp; Instructions</div>
+            <div class="panel-body">
+                <p>Please review your data entry carefully. All fields must be filled in. Use the Back button to return to a previous page and complete or update the form as needed. When everything is complete, you can click the Finish button to submit this Waterbird Foraging Survey.</p>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">Location and Date</div>
+            <div class="panel-body">
+                <fieldset disabled>
+                    <div class="row">
+                        <div class="control-label col-sm-3">Location</div>
+                        <div class="col-sm-3" ng-class="{'has-error': foragingSurvey.locationId === undefined}">
+                            <input class="form-control" ng-value="getLocationName()">
+                        </div>
+                        <div class="control-label col-sm-3" ng-class="{'has-error': foragingSurvey.startDate === undefined}">Survey Date</div>
+                        <div class="col-sm-3">
+                            <input class="form-control" ng-value="foragingSurvey.startDate">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="control-label col-sm-3" ng-class="{'has-error': foragingSurvey.startTime === undefined}">Start Time</div>
+                        <div class="col-sm-3">
+                            <input class="form-control" ng-value="foragingSurvey.startTime | date: 'shortTime'">
+                        </div>
+                        <div class="control-label col-sm-3">End Time</div>
+                        <div class="col-sm-3" ng-class="{'has-error': foragingSurvey.endTime === undefined}">
+                            <input class="form-control" ng-value="foragingSurvey.endTime | date: 'shortTime'">
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">Site Information</div>
+            <div class="panel-body">
+                <fieldset disabled>
+                    <div class="row">
+                        <div class="control-label col-sm-3">Site Type</div>
+                        <div class="col-sm-3">
+                            <input class="form-control" ng-value="getSiteType()">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="control-label col-sm-3" for="temperature">Temperature (&deg; F)</div>
+                        <div class="col-sm-3">
+                            <input class="form-control" ng-value="foragingSurvey.temperature">
+                        </div>
+                        <div class="control-label col-sm-3" for="windSpeed">Average Wind Speed</div>
+                        <div class="col-sm-3">
+                            <input class="form-control" ng-value="foragingSurvey.windSpeed">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="control-label col-sm-3">Tides</div>
+                        <div class="col-sm-3">
+                            <input class="form-control" ng-value="getTide()">
+                        </div>
+                        <div class="control-label col-sm-3">Weather</div>
+                        <div class="col-sm-3">
+                            <input class="form-control" ng-value="getWeather()">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="control-label col-sm-3" for="observers">Observer(s)</div>
+                        <div class="col-sm-9">
+                            <input class="form-control" ng-value="foragingSurvey.observers">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="control-label col-sm-3">Survey Vantage Point</div>
+                        <div class="col-sm-3">
+                            <input class="form-control" ng-value="getVantagePoint()">
+                        </div>
+                        <div class="control-label col-sm-3">Survey Access Point</div>
+                        <div class="col-sm-3">
+                            <input class="form-control" ng-value="getAccessPoint()">
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">Waterbird Survey</div>
+            <div class="panel-body">
+                <div class="row header-row">
+                    <div class="col-sm-2">Species</div>
+                    <div class="col-sm-1">No. of Adults</div>
+                    <div class="col-sm-1">No. of Juveniles</div>
+                    <div class="col-sm-2">Primary Activity</div>
+                    <div class="col-sm-2">Secondary Activity</div>
+                    <div class="col-sm-2">Location / Habitat Type</div>
+                    <div class="col-sm-2">% Feeding Success Rate</div>
+                </div>
+                <div ng-class="{ 'row odd-row': $odd, 'row even-row': $even, 'last-row': $last }" ng-repeat="bird in foragingSurvey.observations track by bird.birdSpeciesId">
+                    <div class="col-sm-2 col-xs-12" ng-bind="getCommonName(bird.birdSpeciesId)">
+                    </div>
+                    <div class="visible-xs-11 hidden-sm hidden-md hidden-lg small-label">Number of Adults</div>
+                    <div class="col-sm-1 col-xs-1" ng-bind="bird.adults"></div>
+                    <div class="visible-xs-11 hidden-sm hidden-md hidden-lg small-label">Number of Juveniles</div>
+                    <div class="col-sm-1 col-xs-1" ng-bind="bird.juveniles"></div>
+                    <div class="visible-xs-10 hidden-sm hidden-md hidden-lg small-label">Primary Activity</div>
+                    <div class="col-sm-2 col-xs-2" ng-bind="getActivity(bird.primaryActivityId)"></div>
+                    <div class="visible-xs-12 hidden-sm hidden-md hidden-lg small-label">Secondary Activity</div>
+                    <div class="col-sm-2 col-xs-2" ng-bind="getActivity(bird.secondaryActivityId)"></div>
+                    <!--<div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">Location / Habitat Type</div>
+            <div class="col-sm-2" ng-class="{ 'bg-danger': foragingSurvey.observations[i].invalid }">
+                <select name="habitatInfo" id="habitatInfo" class="form-control" ng-model="foragingSurvey.observations[i].habitatId" ng-change="setBirdId(i, bird.id)">
+                    <option ng-repeat="habitat in enums.habitatInfo" value="{{habitat.id}}">{{habitat.description}}</option>
+                </select>
+            </div>
+            <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">% Feeding Success Rate</div>
+            <div class="col-sm-2" ng-class="{ 'bg-danger': foragingSurvey.observations[i].invalid }">
+                <select name="feedingSuccess" id="feedingSuccess" class="form-control" ng-model="foragingSurvey.observations[i].feedingId" ng-change="setBirdId(i, bird.id)">
+                    <option ng-repeat="feed in enums.feedingRateInfo" value="{{feed.id}}">{{feed.description}}</option>
+                </select>
+            </div> -->
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">Disturbances</div>
+            <div class="panel-body">
+            </div>
+        </div>
+    </form>
+</div>
+<div ng-include="'/app/views/foraging/bottomBar.html'"></div>

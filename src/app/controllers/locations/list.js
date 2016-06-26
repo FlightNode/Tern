@@ -25,9 +25,12 @@ angular.module('flightNodeApp')
 
             $scope.loading = true;
 
-            locationProxy.get($scope, function(data) {
-                $scope.list = data;
-            });
+            var retrieveRecords = function() {
+                locationProxy.get($scope, function(data) {
+                    $scope.list = data;
+                });
+            };
+            retrieveRecords();
 
             $scope.gridOptions = {
                 enableFiltering: true,
@@ -61,7 +64,8 @@ angular.module('flightNodeApp')
 
             var success = function() {
                 // Re-load the grid
-                flnd.locationList.retrieveRecords(config, $scope, messenger, authService);
+                retrieveRecords();
+
                 messenger.showSuccessMessage($scope, 'Saved');
             };
 

@@ -1,7 +1,7 @@
 <alert></alert>
 <loading></loading>
 <div ng-include="'/app/views/foraging/progressBar.html'"></div>
-<div class="row" ng-show="disturbanceForm.invalid">
+<div class="row" ng-show="observationForm.invalid">
     <div class="col-sm-8 col-sm-offset-2">
         <div class="alert alert-danger" role="alert">
             One or more observations is incomplete (pink row / species marked with **).
@@ -9,7 +9,7 @@
     </div>
 </div>
 <div class="row">
-    <form class="form-horizontal survey-form" ng-submit="submit(2)" role="form" name="observationForm">
+    <form class="form-horizontal survey-form" role="form" name="observationForm">
         <div class="panel panel-info">
             <div class="panel-heading"><span class="icon-info"></span>&nbsp; Instructions</div>
             <div class="panel-body">
@@ -63,7 +63,7 @@
                 </select>
             </div>
         </div>
-        <div class="row" style="margin-top: 1em;">
+        <div class="row" style="margin-top: 1em; margin-bottom: 1em;">
             <label class="control-label col-sm-2" for="surveyComments">Comments</label>
             <div class="col-sm-9">
                 <textarea type="text" class="form-control" rows="5" id="surveyComments" placeholder="Enter Comments" ng-model="foragingSurvey.surveyComments"></textarea>

@@ -9,7 +9,7 @@
     </div>
 </div>
 <div class="row">
-    <form class="form-horizontal survey-form" ng-submit="submit(3)" role="form" name="disturbanceForm">
+    <form class="form-horizontal survey-form" role="form" name="disturbanceForm">
         <div class="panel panel-info">
             <div class="panel-heading"><span class="icon-info"></span>&nbsp; Instructions</div>
             <div class="panel-body">
@@ -40,7 +40,7 @@
                 <input type="text" class="form-control" placeholder="Behavior" ng-model="foragingSurvey.disturbances[i].behavior" ng-change="setDisturbanceTypeId(i, disturbance.id)">
             </div>
         </div>
-        <div class="row" style="margin-top: 1em;">
+        <div class="row" style="margin-top: 1em; margin-bottom: 1em;">
             <label class="control-label col-sm-2" for="disturbanceComments">Comments</label>
             <div class="col-sm-9">
                 <textarea type="text" class="form-control" rows="5" id="disturbanceComments" placeholder="Enter Comments" ng-model="foragingSurvey.disturbanceComments"></textarea>

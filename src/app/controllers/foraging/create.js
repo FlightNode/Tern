@@ -73,12 +73,15 @@ angular.module('flightNodeApp')
 
                 // need to convert to a a real Date object to support timepicker
                 var format = 'YYYY-MM-DD hh:mm a';
-                if (model.startTime && model.startTime.includes('m')) {
+                if (model.startTime && model.startTime.includes('M')) {
                     model.startTime = moment('1970-01-01 ' + model.startTime, format).toDate();
                 }
-                if (model.endTime && model.endTime.includes('m')) {
+                if (model.endTime && model.endTime.includes('M')) {
                     model.endTime = moment('1970-01-01 ' + model.endTime, format).toDate();
                 }
+
+                model.startDateManual = model.startDate;
+                model.startDate = moment(model.startDate, 'MM/DD/YYYY').toDate();
                 return model;
             };
 
@@ -114,11 +117,11 @@ angular.module('flightNodeApp')
             var step = $route.current.step;
             $scope.step = step;
             $scope.canGoBack = (step > 1);
-            $scope.canSaveForLater = (step < 4);
+            $scope.canSaveForLater = (step < 5);
 
-            if (step === 2) {
-                $scope.birdSpeciesList = pullFromSession(birdsKey);
-                if (!$scope.birdSpeciesList) {
+            $scope.birdSpeciesList = pullFromSession(birdsKey);
+            if (step === 3) {
+                if (!$scope.birdSpeciesList || $scope.birdSpeciesList.length === 0) {
 
                     // TODO: pull this into bird proxy with getBySurveyTypeId(id)
                     authService.get(config.birdspecies + '?surveyTypeId=2')
@@ -134,6 +137,44 @@ angular.module('flightNodeApp')
                         });
                 }
             }
+
+            $scope.getLocationName = function() {
+                var id = $scope.foragingSurvey.locationId;
+                var location = _.find($scope.locations, { id: id });
+                return location.siteCode + ' - ' + location.siteName;
+            };
+            $scope.getSiteType = function () {
+                var id = +$scope.foragingSurvey.siteTypeId;
+                var siteType = _.find($scope.enums.siteTypeInfo, { id: id });
+                return siteType.description;
+            };
+            $scope.getTide = function () {
+                var id = +$scope.foragingSurvey.tideId;
+                var siteType = _.find($scope.enums.tideInfo, { id: id });
+                return siteType.description;
+            };
+            $scope.getWeather = function () {
+                var id = +$scope.foragingSurvey.weatherId;
+                var siteType = _.find($scope.enums.weatherInfo, { id: id });
+                return siteType.description;
+            };
+            $scope.getVantagePoint = function () {
+                var id = +$scope.foragingSurvey.vantagePointId;
+                var siteType = _.find($scope.enums.vantagePointInfo, { id: id });
+                return siteType.description;
+            };
+            $scope.getAccessPoint = function () {
+                var id = +$scope.foragingSurvey.accessPointId;
+                var siteType = _.find($scope.enums.accessPointInfo, { id: id });
+                return siteType.description;
+            };
+            $scope.getCommonName = function(id) {
+                return _.find($scope.birdSpeciesList, { id: id });
+            };
+            $scope.getActivity = function(id) {
+                return _.find($scope.enums.behaviorTypeInfo, { id: id });
+            };
+
 
             //Method to set the birdSpeciesId from the UI.
             $scope.setBirdId = function(index, birdSpeciesId) {
@@ -221,8 +262,6 @@ angular.module('flightNodeApp')
 
 
             $scope.back = function() {
-                $log.info('back from step, ', step);
-
                 $scope.save(function() {
                     $location.path('/foraging/create' + (step - 1).toString());
                 });

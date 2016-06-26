@@ -197,12 +197,6 @@ angular
         templateUrl: 'app/views/data2.html',
         title: site + ' - Submit Survey Data'
       })
-      .when('/foraging/create4', {
-        templateUrl: 'app/views/foraging/create4.html',
-        //TODO: Will think about should conroller be separated out for each of these views.
-        controller: 'foragingCreateController',
-        title: 'FlightNode - Waterbird Foraging Survey - Finished'
-      })
       .otherwise({
         templateUrl: 'app/views/404.html',
         title: site + ' - page not found'
