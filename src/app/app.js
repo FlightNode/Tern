@@ -1,4 +1,3 @@
-/* global $ */
 'use strict';
 
 var flnd = {}; // jshint ignore:line
@@ -22,8 +21,7 @@ angular
     'navigationService',
     'ui.bootstrap.modal',
     'ui.bootstrap.timepicker',
-    'ui.grid.selection',
-    'censusFormService'
+    'ui.grid.selection'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -67,7 +65,7 @@ angular
         controller: 'UserEditController',
         title: site + ' - Users - Edit'
       })
-      .when('/workdays/', {
+      .when('/workdays/all', {
         templateUrl: 'app/views/workdays/list.html',
         controller: 'WorkdayListController',
         title: site + ' - Work Day - List'
@@ -81,6 +79,11 @@ angular
         templateUrl: 'app/views/workdays/createForUser.html',
         controller: 'WorkdayCreateForUserController',
         title: site + ' - Work Day - New Log for Another Person'
+      })
+      .when('/workdays/', {
+        templateUrl: 'app/views/workdays/mylist.html',
+        controller: 'WorkdayMyListController',
+        title: site + ' - User\'s Work Days'
       })
       .when('/workdays/mylist', {
         templateUrl: 'app/views/workdays/mylist.html',
@@ -141,28 +144,42 @@ angular
         templateUrl: 'app/views/main.html',
         controller: 'LogoutController'
       })
-      .when('/censusdata/', {
-        templateUrl: 'app/views/censusdata/create.html',
-        controller: 'CensusDataCreateController',
-        title: site + ' - Census Data - New'
+      .when('/foraging/', {
+        redirectTo: '/foraging/create1'
       })
-      .when('/censusdata/create', {
-        templateUrl: 'app/views/censusdata/create.html',
-        //TODO: Will think about should conroller be seperated out for each of these views.
-        controller: 'CensusDataCreateController',
-        title: site + ' - Census Data - New'
+      .when('/foraging/create1', {
+        templateUrl: 'app/views/foraging/create1.html',
+        controller: 'ForagingCreateController',
+        title: site + ' - Waterbird Foraging Survey - New',
+        step: 1
       })
-      .when('/censusdata/create2', {
-        templateUrl: 'app/views/censusdata/create2.html',
-        //TODO: Will think about should conroller be seperated out for each of these views.
-        controller: 'CensusDataCreateController',
-        title: site + ' - Census Data - New'
+      .when('/foraging/create2', {
+        templateUrl: 'app/views/foraging/create2.html',
+        controller: 'ForagingCreateController',
+        title: site + ' - Waterbird Foraging Survey - New',
+        step: 2
       })
-      .when('/censusdata/create3', {
-        templateUrl: 'app/views/censusdata/create3.html',
-        //TODO: Will think about should conroller be seperated out for each of these views.
-        controller: 'CensusDataCreateController',
-        title: site + ' - Census Data - New'
+      .when('/foraging/create3', {
+        templateUrl: 'app/views/foraging/create3.html',
+        controller: 'ForagingCreateController',
+        title: site + ' - Waterbird Foraging Survey - New',
+        step: 3
+      })
+      .when('/foraging/create4', {
+        templateUrl: 'app/views/foraging/create4.html',
+        controller: 'ForagingCreateController',
+        title: site + ' - Waterbird Foraging Survey - New',
+        step: 4
+      })
+      .when('/foraging/create5', {
+        templateUrl: 'app/views/foraging/create5.html',
+        controller: 'ForagingCreateController',
+        title: site + ' - Waterbird Foraging Survey - New',
+        step: 5
+      })
+      .when('/foraging/complete', {
+        templateUrl: 'app/views/foraging/complete.html',
+        title: site + ' - Waterbird Foraging Survey - Completed'
       })
       .when('/violations', {
         templateUrl: 'app/views/violations.html',
@@ -184,12 +201,6 @@ angular
         templateUrl: 'app/views/data2.html',
         title: site + ' - Submit Survey Data'
       })
-      .when('/censusdata/create4', {
-        templateUrl: 'app/views/censusdata/create4.html',
-        //TODO: Will think about should conroller be seperated out for each of these views.
-        controller: 'CensusDataCreateController',
-        title: 'FlightNode - Census Data - Finished'
-      })
       .otherwise({
         templateUrl: 'app/views/404.html',
         title: site + ' - page not found'
@@ -207,25 +218,6 @@ angular
 
     navigationService.buildNavigation();
 
-  })
-  .directive('loading', function () {
-    return {
-      restrict: 'E',
-      replace: true,
-      template: '<div class="loading" ng-show="loading"><img class="loadingImage" src="http://www.nasa.gov/multimedia/videogallery/ajax-loader.gif" width="64" height="64" /></div>',
-      link: function (scope, element) {
-        scope.$watch('loading', function (val) {
-          if (val) {
-            scope.loading = true;
-            //$(element).show();
-          }
-          else {
-            scope.loading = false;
-            // $(element).hide();
-          }
-        });
-      }
-    };
   })
   .directive('alert', [function () {
     return {

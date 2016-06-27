@@ -1,6 +1,7 @@
 <!doctype html>
 <html class="no-js">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <title ng-bind="page_title">Texas Estuarine Resource Network</title>
     <meta property="og:title" content="Texas Estuarine Resource Network">
@@ -14,10 +15,8 @@
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/angular-ui-grid/ui-grid.css" />
     <!-- endbower -->
-    <!-- endbuild -->
-    <!-- build:css(.) styles/bootstrap.css -->
-    <link rel="stylesheet" href="styles/tern-bootstrap.css">
-    <link rel="stylesheet" href="styles/tern-bootstrap-theme.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.css"/>
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/responsive.css">
@@ -26,117 +25,118 @@
     <!-- endbuild -->
     <link href='https://fonts.googleapis.com/css?family=Noto+Serif' rel='stylesheet' type='text/css'>
     <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600|Noto+Serif:400,700,400italic" rel="stylesheet" type="text/css">
-  </head>
-  <body ng-app="flightNodeApp">
+</head>
+
+<body ng-app="flightNodeApp">
     <!--[if lt IE 7]>
     <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
     <div class="container metastripe">
-      <div class="row">
-        <a href="http://www.audubon.org"><img src="/images/wordmark-white.png" alt="Audubon"></a>
-        <ol class="breadcrumb">
-          <li><a href="http://www.audubon.org/central-flyway">Central Flyway</a></li>
-          <li><a href="http://tx.audubon.org/">Texas</a></li>
-        </ol>
-      </div>
+        <div class="row">
+            <a href="http://www.audubon.org"><img src="/images/wordmark-white.png" alt="Audubon"></a>
+            <ol class="breadcrumb">
+                <li><a href="http://www.audubon.org/central-flyway">Central Flyway</a></li>
+                <li><a href="http://tx.audubon.org/">Texas</a></li>
+            </ol>
+        </div>
     </div>
     <div class="container header">
-      <div class="row">
-        <div class="navbar navbar-default" role="navigation">
-          <div class="col-md-9" style="margin-left: -15px">
-            <a href="/#" class="header-name">Texas Estuarine Resource Network</a>
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              </button>
+        <div class="row">
+            <div class="navbar navbar-default" role="navigation">
+                <div class="col-md-9" style="margin-left: -15px">
+                    <a href="/#" class="header-name">Texas Estuarine Resource Network</a>
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-3 text-right">
+                    <ul class="action-nav inline-list">
+                        <li class="action-nav-item-social">
+                            <a class="action-nav-icon" target="_blank" href="https://www.facebook.com/audubontern/">
+                                <i class="icon-facebook"></i>
+                            </a>
+                        </li>
+                        <li class="action-nav-item-social">
+                            <a class="action-nav-icon" target="_blank" href="https://www.instagram.com/audubontexas">
+                                <i class="icon-instagram"></i>
+                            </a>
+                        </li>
+                        <li class="action-nav-item-social">
+                            <a class="action-nav-icon" target="_blank" href="https://www.youtube.com/channel/UCEBzLGUp4aN4F4JAT77qgxw">
+                                <i class="icon-youtube"></i>
+                            </a>
+                        </li>
+                        <li class="action-nav-item action-nav-item">
+                            <a href="https://give.audubon.org/Giving/Page/121/1/121" class="action-nav-link button small tomato">Donate</a>
+                        </li>
+                    </ul>
+                </div>
+                <div role="navigation" ng-bind-html="navigation" class="collapse navbar-collapse col-md-11" id="js-navbar-collapse">
+                </div>
+                <div class="where-we-are pull-right">
+                    <a href="http://tx.audubon.org/aboutus/where-we-are" target="_blank">Where We Are</a>
+                </div>
+                <div class="col-md-12 display-name" ng-bind="display_name"></div>
             </div>
-          </div>
-          <div class="col-md-3 text-right">
-            <ul class="action-nav inline-list">
-              <li class="action-nav-item-social">
-                <a class="action-nav-icon" target="_blank" href="https://www.facebook.com/audubontexas">
-                  <i class="icon-facebook"></i>
-                </a>
-              </li>
-              <li class="action-nav-item-social">
-                <a class="action-nav-icon" target="_blank" href="https://www.instagram.com/audubontexas">
-                  <i class="icon-instagram"></i>
-                </a>
-              </li>
-              <li class="action-nav-item-social">
-                <a class="action-nav-icon" target="_blank" href="https://www.youtube.com/audubontexas">
-                  <i class="icon-youtube"></i>
-                </a>
-              </li>
-              <li class="action-nav-item action-nav-item">
-                <a href="https://give.audubon.org/Giving/Page/121/1/121" class="action-nav-link button small tomato">Donate</a>
-              </li>
-            </ul>
-          </div>
-          <div role="navigation" ng-bind-html="navigation" class="collapse navbar-collapse col-md-11" id="js-navbar-collapse">
-          </div>
-          <div class="where-we-are pull-right">
-            <a href="http://tx.audubon.org/aboutus/where-we-are" target="_blank">Where We Are</a>
-          </div>
-          <div class="col-md-12 display-name" ng-bind="display_name"></div>
         </div>
-      </div>
     </div>
     
     <div ng-view="" class="container main"></div>
     
     <div class="container footer">
-      <div class="row">
-        <div class="col-md-4">
-          <img src="/images/audubonTexasCoastalConservation.png" style="width: 260px; height: auto; margin-left: -30px;"
-          alt="Audubon Texas Coastal Conservation">
-          <h4>Audubon Texas</h4>
-          <p>Our mission is to conserve and restore natural ecosystems, focusing on birds, other wildlife, and their habitats for the benefit of humanity and the earth’s biological diversity.</p>
+        <div class="row">
+            <div class="col-md-4">
+                <img src="/images/audubonTexasCoastalConservation.png" style="width: 260px; height: auto; margin-left: -30px;" alt="Audubon Texas Coastal Conservation">
+                <h4>Audubon Texas</h4>
+                <p>Our mission is to conserve and restore natural ecosystems, focusing on birds, other wildlife, and their habitats for the benefit of humanity and the earth’s biological diversity.</p>
+            </div>
+            <div class="col-md-3 col-md-offset-1">
+                <div class="foot-info">
+                    <p><b>WITNESS A VIOLATION?</b></p>
+                    <p>Report violations to
+                        <br> 800-792-4263
+                    </p>
+                    <p><a href="#/violations">Learn more about what you need to file a complaint. &gt;</a></p>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="foot-info where-we-are">
+                    <p><a href="#/">Home</a></p>
+                    <p><a href="#/data">Submit Data</a></p>
+                    <p><a href="#/contact">Contact Us</a></p>
+                    <p><a href="#/faq">FAQ</a></p>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="foot-info where-we-are">
+                    <p><a href="http://tx.audubon.org/aboutus/contact-us" target="_blank">Contact Us</a></p>
+                    <p><a href="http://eepurl.com/ONWfT" target="_blank">Newsletter</a></p>
+                    <p><a href="http://tx.audubon.org/aboutus/where-we-are" target="_blank">Where We Are</a></p>
+                    <p><a href="https://give.audubon.org/Giving/Page/121/1/121">Donate</a></p>
+                </div>
+            </div>
         </div>
-        <div class="col-md-3 col-md-offset-1">
-          <div class="foot-info">
-            <p><b>WITNESS A VIOLATION?</b></p>
-            <p>Report violations to<br>
-            800-792-4263</p>
-            <p><a href="#/violations">Learn more about what you need to file a complaint. &gt;</a></p>
-          </div>
-        </div>
-        <div class="col-md-2">
-          <div class="foot-info where-we-are">
-            <p><a href="#/">Home</a></p>
-            <p><a href="#/data">Submit Data</a></p>
-            <p><a href="#/contact">Contact Us</a></p>
-            <p><a href="#/faq">FAQ</a></p>
-          </div>
-        </div>
-        <div class="col-md-2">
-          <div class="foot-info where-we-are">
-            <p><a href="http://tx.audubon.org/aboutus/contact-us" target="_blank">Contact Us</a></p>
-            <p><a href="http://eepurl.com/ONWfT" target="_blank">Newsletter</a></p>
-            <p><a href="http://tx.audubon.org/aboutus/where-we-are" target="_blank">Where We Are</a></p>
-            <p><a href="https://give.audubon.org/Giving/Page/121/1/121">Donate</a></p>
-          </div>
-        </div>
-      </div>
+       </div>
     </div>
     <div class="container metastripe copyright">
-      <div class="row">
-        <p>
-          National Audubon Society
-          <span class="footer-copyright-links">
+        <div class="row">
+            <p>
+                National Audubon Society
+                <span class="footer-copyright-links">
             <a href="http://www.audubon.org/legal-notice" target="_blank">Legal Notices</a>
             <a href="http://www.audubon.org/privacy-policy" target="_blank">Privacy Policy</a>
             <a href="http://www.audubon.org/contact-us" target="_blank">Contact National Audubon</a>
           </span>
-        </p>
-        
-      </div>
-    </section>
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
-    <!--<script>
+            </p>
+        </div>
+        </section>
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+        <!--<script>
     !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
     (A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
     r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
@@ -144,63 +144,70 @@
     ga('create', 'UA-XXXXX-X');
     ga('send', 'pageview');
     </script>-->
-    <!-- build:js(.) scripts/vendor.js -->
-    <!-- bower:js -->
-    <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/angular-animate/angular-animate.js"></script>
-    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
-    <script src="bower_components/angular-resource/angular-resource.js"></script>
-    <script src="bower_components/angular-route/angular-route.js"></script>
-    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-    <script src="bower_components/angular-touch/angular-touch.js"></script>
-    <script src="bower_components/angular-ui-grid/ui-grid.js"></script>
-    <script src="bower_components/moment/moment.js"></script>
-    <script src="bower_components/lodash/lodash.js"></script>
-    <script src="bower_components/requirejs/require.js"></script>
-    <script src="bower_components/angular-jwt/dist/angular-jwt.js"></script>
-    <script src="bower_components/ui-navbar/release/js/ui-navbar.js"></script>
-    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-    <script src="bower_components/ng-csv/build/ng-csv.min.js"></script>
-    <!-- endbower -->
-    <!-- endbuild -->
-    <!-- build:js(.) scripts/ui.bootstrap.js -->
-    <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
-    <!-- endbuild -->
-    <!-- build:js({.tmp,app}) scripts/scripts.js -->
-    <script src="app/app.js"></script>
-    <script src="app/controllers/main.js"></script>
-    <script src="app/controllers/login.js"></script>
-    <script src="app/controllers/users/list.js"></script>
-    <script src="app/controllers/users/create.js"></script>
-    <script src="app/controllers/users/register.js"></script>
-    <script src="app/controllers/users/edit.js"></script>
-    <script src="app/controllers/users/pending.js"></script>
-    <script src="app/controllers/users/profile.js"></script>
-    <script src="app/controllers/workdays/create.js"></script>
-    <script src="app/controllers/workdays/createForUser.js"></script>
-    <script src="app/controllers/workdays/edit.js"></script>
-    <script src="app/controllers/workdays/list.js"></script>
-    <script src="app/controllers/workdays/mylist.js"></script>
-    <script src="app/controllers/worktypes/list.js"></script>
-    <script src="app/controllers/worktypes/create.js"></script>
-    <script src="app/controllers/worktypes/edit.js"></script>
-    <script src="app/controllers/locations/list.js"></script>
-    <script src="app/controllers/locations/create.js"></script>
-    <script src="app/controllers/locations/edit.js"></script>
-    <script src="app/controllers/birdspecies/create.js"></script>
-    <script src="app/controllers/birdspecies/edit.js"></script>
-    <script src="app/controllers/birdspecies/list.js"></script>
-    <script src="app/controllers/logout.js"></script>
-    <script src="app/services/userMessages.js"></script>
-    <script src="app/services/roleProxy.js"></script>
-    <script src="app/services/userProxy.js"></script>
-    <script src="app/services/authService.js"></script>
-    <script src="app/services/censusFormService.js"></script>
-    <script src="app/services/navigationService.js"></script>
-    <script src="app/services/config.js"></script>
-    <script src="app/directives/userForm.js"></script>
-    <script src="app/controllers/censusdata/create.js"></script>
-    <!-- endbuild -->
-  </body>
+        <!-- build:js(.) scripts/vendor.js -->
+        <!-- bower:js -->
+        <script src="bower_components/jquery/dist/jquery.js"></script>
+        <script src="bower_components/moment/moment.js"></script>
+        <script src="bower_components/lodash/lodash.js"></script>
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="bower_components/angular-animate/angular-animate.js"></script>
+        <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+        <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+        <script src="bower_components/angular-resource/angular-resource.js"></script>
+        <script src="bower_components/angular-route/angular-route.js"></script>
+        <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+        <script src="bower_components/angular-touch/angular-touch.js"></script>
+        <script src="bower_components/angular-ui-grid/ui-grid.js"></script>
+        <script src="bower_components/angular-jwt/dist/angular-jwt.js"></script>
+        <script src="bower_components/ui-navbar/release/js/ui-navbar.js"></script>
+        <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+        <script src="bower_components/ng-csv/build/ng-csv.min.js"></script>
+        <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+        <!-- endbower -->
+        <!-- endbuild -->
+        <!-- build:js(.) scripts/ui-bootstrap.js -->
+        <script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+        <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+        <!-- endbuild -->
+        <!-- build:js scripts/scripts.js -->
+        <script src="app/app.js"></script>
+        <script src="app/controllers/main.js"></script>
+        <script src="app/controllers/login.js"></script>
+        <script src="app/controllers/users/list.js"></script>
+        <script src="app/controllers/users/create.js"></script>
+        <script src="app/controllers/users/register.js"></script>
+        <script src="app/controllers/users/edit.js"></script>
+        <script src="app/controllers/users/pending.js"></script>
+        <script src="app/controllers/users/profile.js"></script>
+        <script src="app/controllers/workdays/create.js"></script>
+        <script src="app/controllers/workdays/createForUser.js"></script>
+        <script src="app/controllers/workdays/edit.js"></script>
+        <script src="app/controllers/workdays/list.js"></script>
+        <script src="app/controllers/workdays/mylist.js"></script>
+        <script src="app/controllers/worktypes/list.js"></script>
+        <script src="app/controllers/worktypes/create.js"></script>
+        <script src="app/controllers/worktypes/edit.js"></script>
+        <script src="app/controllers/locations/list.js"></script>
+        <script src="app/controllers/locations/create.js"></script>
+        <script src="app/controllers/locations/edit.js"></script>
+        <script src="app/controllers/birdspecies/create.js"></script>
+        <script src="app/controllers/birdspecies/edit.js"></script>
+        <script src="app/controllers/birdspecies/list.js"></script>
+        <script src="app/controllers/foraging/create.js"></script>
+        <script src="app/controllers/logout.js"></script>
+        <script src="app/services/userMessages.js"></script>
+        <script src="app/services/roleProxy.js"></script>
+        <script src="app/services/userProxy.js"></script>
+        <script src="app/services/authService.js"></script>
+        <script src="app/services/foragingSurveyProxy.js"></script>
+        <script src="app/services/navigationService.js"></script>
+        <script src="app/services/config.js"></script>
+        <script src="app/services/surveyTypeService.js"></script>
+        <script src="app/services/locationProxy.js"></script>
+        <script src="app/services/enumsProxy.js"></script>
+        <script src="app/directives/userForm.js"></script>
+        <script src="app/directives/loading.js"></script>
+        <!-- endbuild -->
+</body>
+
 </html>

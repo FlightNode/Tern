@@ -1,23 +1,5 @@
 'use strict';
 
-flnd.locationList = {
-    retrieveRecords: function(config, $scope, messenger, authService) {
-
-        $scope.list = [];
-
-        authService.get(config.locations)
-            .then(function success(response) {
-
-                $scope.list = response.data;
-
-            }, function error(response) {
-
-                messenger.displayErrorResponse($scope, response);
-
-            });
-    }
-};
-
 /**
  * @ngdoc function
  * @name flightNodeApp.controller:LocationListController
@@ -26,9 +8,8 @@ flnd.locationList = {
  * Controller for the user list page.
  */
 angular.module('flightNodeApp')
-    .controller('LocationListController',
-     ['$scope', '$http', '$log', 'messenger', '$location', 'authService', 'config', '$uibModal',
-        function ($scope, $http, $log, messenger, $location, authService, config, $uibModal) {
+    .controller('LocationListController', ['$scope', '$http', '$log', 'messenger', '$location', 'authService', 'config', '$uibModal', 'locationProxy',
+        function($scope, $http, $log, messenger, $location, authService, config, $uibModal, locationProxy) {
 
             // TODO: when not authorized, an error about uiGrid will
             // appear on the screen, probably because it tries to load
@@ -36,7 +17,7 @@ angular.module('flightNodeApp')
             //  better place to put this? Perhaps something in the routing
             //  to intercept the route and direct traffic by permission?
             if (!(authService.isAdministrator() ||
-                  authService.isCoordinator())) {
+                    authService.isCoordinator())) {
                 $log.warn('not authorized to access this path');
                 $location.path('/');
                 return;
@@ -44,12 +25,17 @@ angular.module('flightNodeApp')
 
             $scope.loading = true;
 
-            flnd.locationList.retrieveRecords(config, $scope, messenger, authService);
+            var retrieveRecords = function() {
+                locationProxy.get($scope, function(data) {
+                    $scope.list = data;
+                });
+            };
+            retrieveRecords();
 
             $scope.gridOptions = {
                 enableFiltering: true,
                 rowTemplate: 'app/views/row.html',
-                onRegisterApi: function (gridApi) {
+                onRegisterApi: function(gridApi) {
                     $scope.gridApi = gridApi;
                 },
                 data: 'list',
@@ -59,8 +45,7 @@ angular.module('flightNodeApp')
                     { field: 'county', displayName: 'County' },
                     { field: 'city', displayName: 'City' },
                     { field: 'latitude', displayName: 'Latitude' },
-                    { field: 'longitude', displayName: 'Longitude' },                    
-                    {
+                    { field: 'longitude', displayName: 'Longitude' }, {
                         field: 'id',
                         displayName: '',
                         cellTemplate: '\
@@ -79,7 +64,8 @@ angular.module('flightNodeApp')
 
             var success = function() {
                 // Re-load the grid
-                    flnd.locationList.retrieveRecords(config, $scope, messenger, authService);
+                retrieveRecords();
+
                 messenger.showSuccessMessage($scope, 'Saved');
             };
 
@@ -87,7 +73,7 @@ angular.module('flightNodeApp')
                 // no action required
             };
 
-            $scope.createLocation = function () {
+            $scope.createLocation = function() {
                 var modal = $uibModal.open({
                     animation: true,
                     templateUrl: '/app/views/locations/create.html',
@@ -115,4 +101,5 @@ angular.module('flightNodeApp')
 
             $scope.loading = false;
 
-        }]);
+        }
+    ]);

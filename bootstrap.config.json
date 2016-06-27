@@ -409,14 +409,12 @@
     "panels.less",
     "responsive-embed.less",
     "wells.less",
-    "close.less",
-    "component-animations.less",
-    "dropdowns.less",
-    "tooltip.less",
-    "popovers.less",
-    "modals.less",
-    "carousel.less"
+    "close.less"
   ],
-  "js": [],
-  "customizerUrl": "http://getbootstrap.com/customize/?id=1671be7dd5b588f6e43d"
+  "js": [
+    "alert.js",
+    "collapse.js",
+    "transition.js"
+  ],
+  "customizerUrl": "http://getbootstrap.com/customize/?id=21de83ee9a1b1b50b62c612f99c68b07"
 }

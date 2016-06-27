@@ -12,7 +12,10 @@ flnd.myWorkDayList = {
             .then(function success(response) {
                 $scope.list = response.data;
 
+                $scope.loading = false;
+
             }, function error(response) {
+                $scope.loading = false;
                 messenger.displayErrorResponse($scope, response);
                 return null;
             });
@@ -31,6 +34,11 @@ angular.module('flightNodeApp')
      ['$scope', '$http', '$log', 'messenger', '$location', 'authService', 'config','$uibModal',
         function ($scope, $http, $log, messenger, $location, authService, config, $uibModal) {
 
+            if (!authService.isReporter()) {
+                $location.path('/login').search('redirect','/workdays/mylist');
+                return;
+            }
+
             $scope.loading = true;
 
             flnd.myWorkDayList.retrieveRecords(config, $scope, messenger, authService);
@@ -43,15 +51,12 @@ angular.module('flightNodeApp')
                 },
                 data: 'list',
                 columnDefs: [
-                    // { 
-                    //   field: 'workMonth',
-                    //   displayName: 'Month'
-                    // },
                     { field: 'workDate', display: 'Date' },
-                    { field: 'locationName', displayName: 'Location' },
-                    { field: 'workHours', displayName: 'Work Hours' },
-                    { field: 'travelTimeHours', displayName: 'Travel Hours' },
-                    { field: 'workType', displayName: 'Work Type' },
+                    { name: 'county', displayName: 'County'},
+                    { name: 'siteName', displayName: 'Site Name' },
+                    { name: 'numberOfVolunteers', displayName: '# Volunteers'},
+                    { name: 'workHours', displayName: 'Work Hours' },
+                    { name: 'travelTimeHours', displayName: 'Travel Hours' },
                     {
                         field: 'id',
                         displayName: '',
@@ -69,7 +74,7 @@ angular.module('flightNodeApp')
                 ]
             };
 
-
+$log.info('mylist');
             $scope.exportData = function() {
                 return $scope.list;
             };
@@ -110,9 +115,7 @@ angular.module('flightNodeApp')
             };
 
             $scope.getHeader = function() {
-                return [ 'Id', 'Month', 'WorkDate', 'WorkHours', 'TravelTimeHours', 'WorkType', 'Location' ];
+                return [ 'Id', 'WorkDate', 'Activity', 'County', 'SiteName', 'NumberOfVolunteers', 'WorkHours', 'TravelTimeHours', 'Volunteer', 'TasksCompleted', 'UserId' ];
             };
-
-            $scope.loading = false;
 
         }]);

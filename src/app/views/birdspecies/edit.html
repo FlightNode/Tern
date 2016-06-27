@@ -82,6 +82,21 @@
                 <span class="error" ng-show="birdSpeciesForm.commonAlphaCode.$error.pattern">Must be 4 upper-case letters</span>
             </div>
         </div>
+        <fieldset>
+            <legend>Assign to Survey</legend>
+            <div class="form-group">
+                <label for="surveyTypeRookery" class="col-sm-3 control-label">Rookery Survey</label>
+                <div class="col-sm-9">
+                    <input type="checkbox" class="checkbox-toggle" name="surveyTypeRookery" value="rookery" ng-model="birdspecies.surveyTypeRookery">
+                </div>
+            </div>            
+            <div class="form-group">
+                <label for="surveyTypeForaging" class="col-sm-3 control-label">Waterbird Foraging Survey</label>
+                <div class="col-sm-9">
+                    <input type="checkbox" class="checkbox-toggle" name="surveyTypeForaging" value="foraging" ng-model="birdspecies.surveyTypeForaging">
+                </div>
+            </div>
+        </fieldset>
     </div>
     <div class="modal-footer">
         <input type="hidden" name="id" ng-model="birdspecies.id"></input>
@@ -90,3 +105,10 @@
     </div>
 </form>
 <loading></loading>
+<script>
+  // TODO: use this in a directive, e.g. <toggleCheckbox>
+  // $(function() {
+  //   console.log('here now');
+  //   $('.checkbox-toggle').bootstrapToggle();
+  // })
+</script>

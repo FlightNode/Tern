@@ -20,6 +20,15 @@ span.error.bg-danger {
   width: 100%;
 }
 
+.alert {
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+}
+
+
 
 /*
  Form customizations
@@ -44,8 +53,20 @@ select.form-inline-small {
 
 
 
-
-
+/* fix an issue with the menu not displaying */
 .dropdown:hover .dropdown-menu {
   display: block;
+}
+
+/* for UIB modal support with newer bootstrap */
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+}
+
+.modal-backdrop {
+  bottom: 0;
 }

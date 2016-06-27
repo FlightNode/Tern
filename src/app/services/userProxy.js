@@ -5,7 +5,7 @@
  * @name flightNodeApp.Services:userProxy
  * @description
  * # userProxy
- * Controller for the create user page.
+ * Proxy service for working with user accounts
  */
 angular.module('flightNodeApp')
     .factory('userProxy', ['$http', '$log', 'authService', 'config', 'messenger',
@@ -14,6 +14,8 @@ angular.module('flightNodeApp')
                 insert: function($scope, $uibModalInstance) {
                     return function() {
                         $scope.loading = true;
+
+                        $scope.user.active = true;
 
                         authService.post(config.users, $scope.user)
                             .then(function success() {
@@ -143,12 +145,8 @@ angular.module('flightNodeApp')
                     $scope.loading = true;
                     var url  = config.usersPending;
 
-                    var data = {
-                        ids: ids
-                    };
-
                     authService.post(url, ids)
-                        .then(function success(response) {
+                        .then(function success() {
                             messenger.showSuccessMessage($scope, msg);
                             done();
                         }, function error(response) {
@@ -157,6 +155,15 @@ angular.module('flightNodeApp')
                         .finally(function() {
                             $scope.loading = false;
                         });
+                },
+
+                roleInfo: function($scope) {
+
+                    // Hard-code for now, think about alternatives in the future
+                    var header = 'Role Descriptions';
+                    var text = '<p>At this time, it is best to use either "Administrative user" or "Volunteer data reporter". The precise functionality for "Project Coordinator" and "Volunteer Team Lead" has not been fully defined, although "Coordinator" generally has similar rights as "Administrator" (so use with extreme caution).</p>';
+                    
+
                 }
             };
         }

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('navigationService', [])
-    .factory('navigationService', ['authService', '$log', '$rootScope', 'config',
-        function(authService, $log, $rootScope, config) {
+    .factory('navigationService', ['authService', '$log', 'config', '$rootScope', '$sce', 
+        function(authService, $log, config, $rootScope, $sce) {
             var KEY = 'NAVIGATION_TREE';
 
             return {
@@ -15,10 +15,22 @@ angular.module('navigationService', [])
                             },
                             children: []
                         },
-                    ];
+                        {
+                            entry: {
+                                title: 'Contact Us',
+                                path: '#/contact'
+                            },
+                            children: []
+                        },
+                        {
+                            entry: {
+                                title: 'FAQ',
+                                path: '#/faq'
+                            },
+                            children: []
+                        }];
 
                     if (authService.isAnonymous()) {
-                        $log.info('building anonymous tree');
                         tree.push({
                             entry: {
                                 title: 'Login',
@@ -28,17 +40,30 @@ angular.module('navigationService', [])
                         });
                     } else { // signed-in successfully
                         if (authService.isReporter()) {
-                            $log.info('building reporter tree');
                             tree.push({
                                 entry: {
                                     title: 'Submit Data',
-                                    path: '#/data'
+                                    path: ''
                                 },
                                 children: [
+                                    {
+                                        entry: {
+                                            title: 'Data Overview',
+                                            path: '#/data'
+                                        },
+                                        children: []
+                                    },
                                     {
                                       entry: {
                                         title: 'Workday Logging',
                                         path: '#/workdays'
+                                      },
+                                      children: []
+                                    },
+                                    {
+                                      entry: {
+                                        title: 'Foraging Survey',
+                                        path: '#/foraging'
                                       },
                                       children: []
                                     }
@@ -46,7 +71,6 @@ angular.module('navigationService', [])
                             });
                         }
                         if (authService.isAdministrator()) {
-                            $log.info('building administrator tree');
                             tree.push({
                                 entry: {
                                     title: 'Manage',
@@ -80,7 +104,7 @@ angular.module('navigationService', [])
                                     {
                                         entry: {
                                             title: 'Work Days',
-                                            path: '#/workdays'
+                                            path: '#/workdays/all'
                                         }
                                     },
                                     {
@@ -118,21 +142,6 @@ angular.module('navigationService', [])
                         }
                     }
 
-                    tree.push({
-                            entry: {
-                                title: 'Contact Us',
-                                path: '#/contact'
-                            },
-                            children: []
-                        });
-                    tree.push({
-                            entry: {
-                                title: 'FAQ',
-                                path: '#/faq'
-                            },
-                            children: []
-                        });
-
                     if (!authService.isAnonymous()) {
                         tree.push({
                             entry: {
@@ -158,7 +167,7 @@ angular.module('navigationService', [])
 
                     if (tree === null || tree === 'null') {
 
-                      var tree = this.createTree(); //createAuthenticatedTree();
+                      tree = this.createTree();
                       callback(tree);
 
                     } else {
@@ -196,9 +205,8 @@ angular.module('navigationService', [])
                                 nav += '\r<li role="presentation" class="';
 
                                 if (hasChildren) {
-                                    nav += 'dropdown"><a ng-href="' + child.entry.path;
-                                    nav += '" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">';
-                                    nav += child.entry.title + '</a>';
+                                    nav += 'dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">';
+                                    nav += child.entry.title + ' <span class="caret"></span></a>';
                                 } else {
                                     if (child.entry && child.entry.path && child.entry.title) {
                                         nav += '"><a href="' + child.entry.path + '">' + child.entry.title + '</a>';
@@ -224,7 +232,7 @@ angular.module('navigationService', [])
 
                         build(top);
 
-                        $rootScope.navigation = nav;
+                        $rootScope.navigation = $sce.trustAsHtml(nav);
                     });
                 }
             };

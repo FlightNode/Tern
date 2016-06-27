@@ -9,20 +9,17 @@
         <div class="form-group">
             <label for="workDate" class="col-sm-3 control-label">Date <span class="text-danger">*</span></label>
             <div class="col-sm-9" ng-class="{'has-error': workdayForm.workDate.$error.required || workdayForm.workDate.$error.date}">
-                <div class="input-group">
-                    <input type="text" name="workDate" class="form-control" uib-datepicker-popup="{{format}}"
-                    ng-model="workday.workDate" is-open="status.opened"
-                    datepicker-options="dateOptions" ng-required="true" close-text="Close" placeholder="{{today}}" date />
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                    </span>
+               <div class="input-group">
+                    <input type="text" class="form-control" ng-required="true" ng-model="workday.workDateManual" ng-pattern="/(\d{4}-\d{2}\-\d{2})|(\d{2}/\d{2}/\d{4})/" placeholder="mm/dd/yyyy" ng-change="updateWorkDate()" />
+                    <span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="showDatePicker()"><i class="glyphicon glyphicon-calendar"></i></button></span>
                 </div>
+                <uib-datepicker ng-model="workday.workDate" class="well well-sm" ng-show="workDateOpened" datepicker-options="datePickerOptions" ng-model-options="datePickerModelOptions" ng-change="updateWorkDateManual()"></uib-datepicker>
                 <p class="form-control-static">
                     {{workday.workDate | date:'fullDate' }}
                 </p>
             </div>
             <div role="alert" class="col-sm-9 col-sm-offset-3">
-                <span class="error" ng-show="workdayForm.workDate.$error.date">Invalid date</span>
+                <span class="error" ng-show="workdayForm.workDate.$error.pattern">Invalid date: use YYYY-MM-DD or mm/dd/yyyy format</span>
             </div>
         </div>
         <div class="form-group">
@@ -40,9 +37,7 @@
         <div class="form-group">
             <label for="location" class="col-sm-3 control-label">Location <span class="text-danger">*</span></label>
             <div class="col-sm-9" ng-class="{'has-error': workdayForm.location.$error.required}">
-                <select class="form-control" required name="location"
-                    ng-model="workday.location"
-                    ng-options="item.id as item.value for item in data.locations">
+                <select class="form-control" required name="location" ng-model="workday.location" ng-options="item.id as item.value for item in data.locations">
                 </select>
             </div>
             <div role="alert" class="col-sm-9 col-sm-offset-3">
@@ -52,19 +47,39 @@
         <div class="form-group">
             <label for="workType" class="col-sm-3 control-label">Work Type <span class="text-danger">*</span></label>
             <div class="col-sm-9" ng-class="{'has-error': workdayForm.workType.$error.required}">
-                <select class="form-control" required name="workType"
-                    ng-model="workday.workType"
-                    ng-options="item.id as item.value for item in data.worktypes">
+                <select class="form-control" required name="workType" ng-model="workday.workType" ng-options="item.id as item.value for item in data.worktypes">
                 </select>
             </div>
             <div role="alert" class="col-sm-9 col-sm-offset-3">
                 <span class="error" ng-show="workdayForm.workType.$error.required">Required</span>
             </div>
         </div>
+        <div class="form-group">
+            <label for="numberOfVolunteers" class="col-sm-3 control-label">Number of Volunteers <span class="text-danger">*</span></label>
+            <div class="col-sm-9" ng-class="{'has-error': workdayForm.numberOfVolunteers.$error.required || workdayForm.numberOfVolunteers.$error.pattern }">
+                <input type="number" name="numberOfVolunteers" id="numberOfVolunteers" value="1" required ng-pattern="/\d+/" ng-model="workday.numberOfVolunteers">
+            </div>
+            <div role="alert" class="col-sm-9 col-sm-offset-3">
+                <span class="error" ng-show="workdayForm.numberOfVolunteers.$error.required">Required</span>
+            </div>
+            <div role="alert" class="col-sm-9 col-sm-offset-3">
+                <span class="error" ng-show="workdayForm.numberOfVolunteers.$error.pattern">Must be a positive number</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="tasksCompleted" class="col-sm-3 control-label">Tasks Completed <span class="text-danger">*</span></label>
+            <div class="col-sm-9" ng-class="{'has-error': workdayForm.tasksCompleted.$error.required}">
+                <textarea name="tasksCompleted" id="tasksCompleted" ng-model="workday.tasksCompleted" required style="width: 90%; height: 6em;">
+                </textarea>
+            </div>
+            <div role="alert" class="col-sm-9 col-sm-offset-3">
+                <span class="error" ng-show="workdayForm.tasksCompleted.$error.required">Required</span>
+            </div>
+        </div>
     </div>
     <div class="modal-footer">
         <button type="submit" ng-disabled="workdayForm.$invalid" class="btn btn-primary">Save</button>
-        <button type="button" class="btn btn-secondary" ng-click="cancel()">Cancel</button>
+        <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
     </div>
 </form>
 <loading></loading>

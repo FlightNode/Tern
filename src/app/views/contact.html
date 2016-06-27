@@ -1,69 +1,65 @@
-<div class="container">
-    <div class="row content">
-        <alert>
-        </alert>
-        <div class="col-md-3 sidebar">
-            <h2>Contact Tern:</h2>
-            <p>
-                4702 Hwy 146 North<br>
-                Texas City, TX 77590<br>
-                409-941-9114
-            </p>
-        </div>
-        <div class="col-md-9">
-            <h2>Send us a message</h2>
-            <form ng-submit="submit()" name="contactForm">
-                <div class="form-group">
-                    <label for="name" class="control-label">Name <span class="text-danger">*</span></label>
-                    <div ng-class="{'has-error': contactForm.name.$error.required || contactForm.name.$error.maxlength}">
-                        <input class="form-control" ng-model="name" id="name" placeholder="enter full name upto 100 characters" required ng-maxlength="100">
-                    </div>
-                    <div role="alert">
-                        <span class="error bg-danger" ng-show="contactForm.name.$error.maxlength">Max 100 characters</span>
+<alert>
+</alert>
+<div class="row content">
+    <div class="col-sm-3 sidebar">
+        <h2>Contact TERN:</h2>
+        <p>
+            Audubon Coastal Program Office
+            <br> 1500 Marina Bay Drive
+            <br> Suite 1800, Building 126
+            <br> Clear Lake Shores, TX 77565
+            <br> 409-941-9114
+        </p>
+    </div>
+    <div class="col-sm-8 col-offset-sm-1">
+        <h2>Send us a message</h2>
+        <form ng-submit="submit()" name="contactForm" class="form-vertical">
+            <div class="form-group">
+                <label for="fromName" class="control-label">Name <span class="text-danger">*</span></label>
+                <div ng-class="{'has-error': contactForm.fromName.$error.required || contactForm.fromName.$error.maxlength}">
+                    <input type="text" class="form-control" name="fromName" id="fromName" placeholder="enter full name up to 100 characters" required ng-model="message.fromName" ng-maxlength="100">
+                </div>
+                <div role="alert">
+                    <span class="error" ng-show="contactForm.fromName.$error.maxlength">Max 100 characters</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="fromEmail" class="control-label">Email Address <span class="text-danger">*</span></label>
+                <div ng-class="{'has-error': contactForm.fromEmail.$error.required || contactForm.fromEmail.$error.pattern}">
+                    <div class="input-group">
+                        <span class="input-group-addon">@</span>
+                        <input class="form-control" ng-model="message.fromEmail" name="fromEmail" placeholder="enter email upto 250 characters" required ng-maxlength="250" ng-pattern="/.+@.+\..+/">
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="name" class="control-label">Email Address <span class="text-danger">*</span></label>
-                    <div ng-class="{'has-error': contactForm.email.$error.required || contactForm.email.$error.pattern}">
-                        <div class="input-group">
-                            <span class="input-group-addon">@</span>
-                            <input class="form-control" ng-model="email" name="email" placeholder="enter email upto 250 characters"
-                            required ng-maxlength="250" ng-pattern="/.+@.+\..+/">
-                        </div>
-                    </div>
-                    <div role="alert">
-                        <span class="error" ng-show="contactForm.email.$error.maxlength">Max 250 characters</span>
-                        <span class="error bg-danger" ng-show="contactForm.email.$error.pattern">Does not look like an e-mail address</span>
-                    </div>
+                <div role="alert">
+                    <span class="error" ng-show="contactForm.fromEmail.$error.maxlength">Max 250 characters</span>
+                    <span class="error" ng-show="contactForm.fromEmail.$error.pattern">Does not look like an e-mail address</span>
                 </div>
-                <div class="form-group">
-                    <label for="reason" class="control-label">Reason for Contact <span class="text-danger">*</span></label>
-                    <div ng-class="{'has-error': contactForm.reason.$error.required}">
-                        <!-- <select name="reasons" class="form-control" ng-model="reason" required multiple
+            </div>
+            <div class="form-group">
+                <label for="reason" class="control-label">Reason for Contact <span class="text-danger">*</span></label>
+                <div ng-class="{'has-error': contactForm.reason.$error.required}">
+                    <!-- <select name="reasons" class="form-control" ng-model="reason" required multiple
                             ng-options="item.name as item.description for item in data.reasons">
                         </select> -->
-                        <select name="reason">
-                            <option>Choose one...</option>
-                            <option>What options</option>
-                            <option>Should be provided?</option>
-                        </select>
-                    </div>
+                    <select name="reason" id="reason" class="form-control" required ng-model="message.reason">
+                        <option>What options</option>
+                        <option>Should be provided?</option>
+                    </select>
                 </div>
-                <div class="form-group">
-                    <label for="message" class="control-label">Message <span class="text-danger">*</span></label>
-                    <div ng-class="{'has-error': contactForm.message.$error.required || contactForm.message.$error.maxlength}">
-                        <textarea style="width: 100%; height: 5em;" name="message" ng-model="message"  ng-maxlength="1000"
-                        ng-required placeholder="Max 1000 characters.">
-                        </textarea> 
-                    </div>
-                    <div role="alert">
-                        <span class="error bg-danger" ng-show="contactForm.message.$error.maxlength">Max 1000 characters</span>
-                    </div>
-                </div>                
-                <button type="submit" ng-disabled="contactForm.$invalid" class="btn btn-primary login-link"
-                onclick="alert('not yet functional')">Submit</button>
-            </form>
-        </div>
-        <loading></loading>
+            </div>
+            <div class="form-group">
+                <label for="message" class="control-label">Message <span class="text-danger">*</span></label>
+                <div ng-class="{'has-error': contactForm.message.$error.required || contactForm.message.$error.maxlength}">
+                    <textarea style="width: 100%; height: 5em;" name="message" id="message" ng-model="message.message" ng-maxlength="1000" required placeholder="Max 1000 characters." class="form-control">
+                    </textarea>
+                </div>
+                <div role="alert">
+                    <span class="error" ng-show="contactForm.message.$error.maxlength">Max 1000 characters</span>
+                </div>
+            </div>
+            <button type="submit" ng-disabled="contactForm.$invalid" class="btn btn-primary login-link">Submit</button>
+        </form>
     </div>
+    <loading></loading>
 </div>
