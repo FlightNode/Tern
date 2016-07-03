@@ -24,8 +24,8 @@ angular.module('navigationService', [])
                         },
                         {
                             entry: {
-                                title: 'FAQ',
-                                path: '#/faq'
+                                title: 'Submit Data',
+                                path: '#/data'
                             },
                             children: []
                         }];

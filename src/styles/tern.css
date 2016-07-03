@@ -148,7 +148,8 @@ h3 {
 .nav .li .search {
   border-right: none;
 }
-.navbar-default .navbar-nav > li > a {
+.navbar-default .navbar-nav > li > a,
+.navbar-default .navbar-nav > li > a:focus {
   color: #0aa8e3;
 }
 .navbar-default .navbar-nav > li > a:hover {
@@ -615,33 +616,14 @@ button.tomato, .button.tomato {
 /*
  Survey
  */
-.data h3 {
-  background-color: gray;
-  color: white;
-  font-size: 1.5em;
-  text-transform: uppercase;
-  margin: 0;
-  padding: 3px 0 3px 0;
-  width: 100%;
-  position: relative;
-  bottom: 0px;
-  text-align: center;
-  font-family: "Source Sans Pro", Verdana, sans-serif;
-  font-weight: 300;
-}
-.data h3 a { 
-  color: white;
- }
-
-.data .step {
-  height: 100px;
+.data2 .step {
+  height: 550px;
   padding: 0;
   position: relative;
   font-size: 0.9em;
 }
-
-.data2 .step {
-  height: 550px;
+.data .step {  
+  height: 23em;
   padding: 0;
   position: relative;
   font-size: 0.9em;
@@ -650,11 +632,14 @@ button.tomato, .button.tomato {
   width: 100%;
   height: auto;
 }
-.data2 h3, .data2 p {
-  padding-left: 5px;
-  padding-right: 5px;
+.data p, .data2 p {
+  line-height: 20px;
 }
-.data2 a { 
+.data p, .data2 p, .data h3, .data2 h3 {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.data a, .data2 a { 
   font-style: oblique;
 }
 

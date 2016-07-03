@@ -1,40 +1,53 @@
 <div class="container">
-  <div class="jumbo">
-    <img src="/images/pelicanBeach.small.jpg" class="hide-for-large">
-    <img src="/images/pelicanBeach.large.jpg" class="hide-for-small">
-    <div class="row">
-      <div class="jumbo-title">
-        <h1>
+    <div class="jumbo">
+        <img src="/images/pelicanBeach.small.jpg" class="hide-for-large">
+        <img src="/images/pelicanBeach.large.jpg" class="hide-for-small">
+        <div class="row">
+            <div class="jumbo-title">
+                <h1>
         Welcome to the TERN Data Portal
         </h1>
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 <div class="container content">
-  <div class="row">
-    <div class="col-md-12">
-      <p>
-        Welcome to the Texas Estuarine Resource Network (TERN)! Audubon Texas's Coastal Conservation Program has a continued legacy of protecting and managing rookery islands for colonial waterbird populations since 1923 and TERN volunteers are an integral part of this process.
-      </p>
-      <p>
-        Our mission of sustaining important bird populations and engaging millions of people of all ages and backgrounds in conservation can only be achieved with you - boots on the ground for healthy bird habitats. If you are interested in listening to what birds have to tell us, and helping to reverse the dangerous trends they indicate in their habitats, you've come to the right place.
-      </p>
-      <p>
-        Follow the instructions below to get connected, share your data, learn more about citizen science, and join our family of conservationists on the Texas Coast.
-      </p>
-      <h2>
-      How to get Started
-      </h2>
+    <div class="row">
+        <div class="col-md-12">
+            <p>
+                Welcome to the Texas Estuarine Resource Network (TERN)! Audubon Texas's Coastal Conservation Program has a continued legacy of protecting and managing rookery islands for colonial waterbird populations since 1923 and TERN volunteers are an integral part of this process.
+            </p>
+            <p>
+                Our mission of sustaining important bird populations and engaging millions of people of all ages and backgrounds in conservation can only be achieved with you - boots on the ground for healthy bird habitats. If you are interested in listening to what birds have to tell us, and helping to reverse the dangerous trends they indicate in their habitats, you've come to the right place.
+            </p>
+        </div>
     </div>
-    <div class="row steps">
-      <div class="col-md-3"><div class="step"><h3>1</h3> Create an account and submit your volunteer paperwork</div></div>
-      <div class="col-md-3"><div class="step"><h3>2</h3> Get trained</div></div>
-      <div class="col-md-3"><div class="step"><h3>3</h3> Select a site and start monitoring </div></div>
-      <div class="col-md-3"><div class="step"><h3>4</h3> Enter your data online</div></div>
+    <div class="row data" ng-show="false">
+        <div class="col-sm-12 text-center">
+            <button class="btn btn-primary">Create Account</button>
+            <button class="btn btn-primary" style="margin-left: 2em;">Sign-In</button>
+        </div>
     </div>
-    <div class="row steps">
-      <div class="col-md-3"><div class="step"><h3>5</h3> Explore data on our interactive maps</div></div>
+    <div class="row data">
+        <div class="col-sm-4 col-sm-offset-1">
+            <div class="step">
+                <img src="/images/nest.jpg">
+                <h3>Create Account</h3>
+                <p>As a TERN volunteer, create an account in order to sign-in and enter your data.</p>
+                <p>
+                    <a href="#/users/register">Register a new account &raquo;</a>
+                </p>
+            </div>
+        </div>
+        <div class="col-sm-4 col-sm-offset-1">
+            <div class="step">
+                <img src="/images/avocets.jpg">
+                <h3>Sign-in</h3>
+                <p>Already have an account? Sign-in to report your data.</p>
+                <p>
+                    <a href="#/login">Sign-in to the TERN data portal &raquo;</a>
+                </p>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
