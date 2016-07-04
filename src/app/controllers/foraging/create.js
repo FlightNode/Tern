@@ -29,6 +29,7 @@ angular.module('flightNodeApp')
             var enumsKey = 'enums';
             var birdsKey = 'birdSpeciesList';
             var locationsKey = 'locations';
+            var disturbanceKey = 'disturbances';
 
 
             // Setup date and time controls
@@ -126,7 +127,7 @@ angular.module('flightNodeApp')
             $scope.canGoBack = (step > 1);
             $scope.canSaveForLater = (step < 5);
 
-
+            // Load up the bird species list
             $scope.birdSpeciesList = pullFromSession(observationsModelKey);
             if (step === 3) {
                 if (!$scope.birdSpeciesList || $scope.birdSpeciesList.length === 0) {
@@ -135,7 +136,7 @@ angular.module('flightNodeApp')
                     // First, get the raw species list 
                     var birdSpeciesList = pullFromSession(birdsKey);
                     if (!birdSpeciesList || birdSpeciesList.length === 0) {
-                        // We haven't yet loaded it into session stoarge, so
+                        // We haven't yet loaded it into session storage, so
                         // retrieve from the API
 
                         // TODO: pull this into bird proxy with getBySurveyTypeId(id)
@@ -160,7 +161,20 @@ angular.module('flightNodeApp')
                 }
             }
 
+            // Load up the disturbances
+            $scope.disturbances = pullFromSession(disturbanceKey);
+            if (step === 4) {
+                if (!$scope.disturbances || $scope.disturbances.length === 0) {
+                    // This means we haven't visited step 4 yet. But we now
+                    // that we already have the disturbanceTypeInfo enum
 
+                    $scope.disturbances = _.keyBy($scope.enums.disturbanceTypeInfo, function(dt) {
+                        return dt.id;
+                    });
+                }
+            }
+
+            // The next set code & functions are used in the summary page
             if (step === 5) {
                 var m = $scope.foragingSurvey;
                 $scope.reviewInvalid = !(
@@ -244,14 +258,12 @@ angular.module('flightNodeApp')
             };
 
 
-            // TODO: restore invalid calculation. Maybe just run it on Save?
 
-            //Method to set the birdSpeciesId from the UI.
-            $scope.setBirdId = function(index, birdSpeciesId) {
-                // Shortcut to the entry on the screen
-                var observation = $scope.foragingSurvey.observations[birdSpeciesId];
-                // Since species is just a label, not a form control, we need to set the species manually
-                observation.birdSpeciesId = birdSpeciesId;
+
+
+            $scope.validateObservation = function(birdSpeciesId) {
+                var observation = $scope.birdSpeciesList[birdSpeciesId];
+
                 // if either adults or juveniles is nonzero, then the other fields *must* be filled in
                 observation.invalid = (
                     (observation.adults > 0 ||
@@ -263,13 +275,14 @@ angular.module('flightNodeApp')
                 ) || observation.adults < 0 || observation.juveniles < 0;
 
                 // If *any* observations are invalid, then the form is invalid
-                $scope.observationForm.invalid = _.some($scope.observations, 'invalid');
+                $scope.invalid = _.some($scope.birdSpeciesList, 'invalid');
             };
 
-            // Method to set the disturbanceTypeId from the UI.
-            $scope.setDisturbanceTypeId = function(index, disturbanceTypeId) {
-                var disturbance = $scope.foragingSurvey.disturbances[index];
-                disturbance.disturbanceTypeId = disturbanceTypeId;
+
+
+            $scope.validateDisturbance = function(disturbanceId) {
+                var disturbance = $scope.disturbances[disturbanceId];
+
                 disturbance.invalid = (
                     // when any column is set
                     (disturbance.quantity > 0 || disturbance.durationMinutes > 0 || disturbance.behavior) &&
@@ -277,8 +290,10 @@ angular.module('flightNodeApp')
                     !(disturbance.quantity > 0 && disturbance.durationMinutes > 0 && disturbance.behavior)
                 );
 
-                $scope.disturbanceForm.invalid = _.some($scope.foragingSurvey.disturbances, 'invalid');
+                $scope.invalid = _.some($scope.foragingSurvey.disturbances, 'invalid');
             };
+
+
 
 
             var saveModelToSesion = function(data) {
@@ -290,8 +305,17 @@ angular.module('flightNodeApp')
                 });
                 saveToSession(observationsModelKey, $scope.birdSpeciesList);
 
+                // Load the new disturbance id values into the temporary
+                // disturbances list and load that into session
+                _(data.disturbances).each(function(item) {
+                    $scope.disturbances[item.disturbanceTypeId.toString()].disturbanceId = item.disturbanceId;
+                });
+                saveToSession(disturbanceKey, $scope.disturbances);
+
                 // Remove observations from the regular model and then save it
                 data.observations = null;
+                data.disturbanceKey = null;
+
                 saveToSession(modelKey, data);
             };
 
@@ -304,10 +328,11 @@ angular.module('flightNodeApp')
 
                 model.observations = _($scope.birdSpeciesList)
                     .omitBy(function(item) { // strip out species with no adults and no juveniles
-                        return !(item.adults > 0 || item.juveniles > 0);
+                        return item.adults === undefined && item.juveniles === undefined;
+                        //return !(item.adults > 0 || item.juveniles > 0);
                     })
                     .values() // extract the dictionary values without the keys
-                    .map(function(item) {   // convert to the expect data model
+                    .map(function(item) { // convert to the expect data model
                         return {
                             observationId: item.observationId,
                             birdSpeciesId: item.id,
@@ -316,15 +341,27 @@ angular.module('flightNodeApp')
                             feedingId: item.feedingId,
                             habitatId: item.habitatId,
                             primaryActivityId: item.primaryActivityId,
-                            secondaryActivityId: item.secondaryActivityId
+                            secondaryActivityId: item.secondaryActivityId,
                         };
                     })
                     .value(); // resolve the method chain
 
-                // With the way we add observations and disturbances, there will
-                // be null entries if some rows are skipped. Remove those.
-                //model.observations = _.toArray(_.omitBy(model.observations, _.isNil));
-                model.disturbances = _.toArray(_.omitBy(model.disturbances, _.isNil));
+                model.disturbances = _($scope.disturbances)
+                    .omitBy(function(item) {
+                        return item.quantity  === undefined;
+                    })
+                    .values()
+                    .map(function(item) {
+                        return {
+                            disturbanceId: item.disturbanceId,
+                            disturbanceTypeId: item.id,
+                            quantity: item.quantity,
+                            durationMinutes: item.durationMinutes,
+                            behavior: item.behavior
+                        };
+                    })
+                    .value();
+
 
                 if (model.surveyIdentifier) {
                     foragingSurveyProxy.update($scope, model, function(data) {
@@ -353,7 +390,8 @@ angular.module('flightNodeApp')
                 $scope.save(function() {
                     if (finished) {
                         // Flush the session
-                        saveModelToSesion(null);
+                        saveToSession(observationsModelKey, null);
+                        saveToSession(modelKey, null);
 
                         $location.path('/foraging/complete');
                     } else {
@@ -377,7 +415,9 @@ angular.module('flightNodeApp')
                     size: 'sm'
                 });
                 modal.result.then(function success() {
-                    saveModelToSesion(null);
+                    saveToSession(observationsModelKey, null);
+                    saveToSession(modelKey, null);
+
                     $location.path('/foraging');
                 }, function dismissed() {
                     // do nothing
