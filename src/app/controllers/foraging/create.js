@@ -25,6 +25,7 @@ angular.module('flightNodeApp')
             $scope.loading = true;
 
             var modelKey = 'foragingSurvey';
+            var observationsModelKey = 'observations';
             var enumsKey = 'enums';
             var birdsKey = 'birdSpeciesList';
             var locationsKey = 'locations';
@@ -56,7 +57,7 @@ angular.module('flightNodeApp')
             $scope.mstep = 1;
 
 
-            var saveToSesion = function(key, data) {
+            var saveToSession = function(key, data) {
                 sessionStorage.setItem(key, JSON.stringify(data));
             };
 
@@ -107,7 +108,7 @@ angular.module('flightNodeApp')
             if (!$scope.enums) {
                 enumsProxy.getForForagingSurvey($scope, function(data) {
                     $scope.enums = data;
-                    saveToSesion(enumsKey, data);
+                    saveToSession(enumsKey, data);
                 });
             }
 
@@ -115,7 +116,7 @@ angular.module('flightNodeApp')
             if (!$scope.locations) {
                 locationProxy.get($scope, function(data) {
                     $scope.locations = data;
-                    saveToSesion(locationsKey, data);
+                    saveToSession(locationsKey, data);
                 });
             }
 
@@ -125,30 +126,47 @@ angular.module('flightNodeApp')
             $scope.canGoBack = (step > 1);
             $scope.canSaveForLater = (step < 5);
 
-            $scope.birdSpeciesList = pullFromSession(birdsKey);
+
+            $scope.birdSpeciesList = pullFromSession(observationsModelKey);
             if (step === 3) {
                 if (!$scope.birdSpeciesList || $scope.birdSpeciesList.length === 0) {
+                    // This means we haven't visited step 3 yet. 
 
-                    // TODO: pull this into bird proxy with getBySurveyTypeId(id)
-                    authService.get(config.birdspecies + '?surveyTypeId=2')
-                        .then(function success(response) {
+                    // First, get the raw species list 
+                    var birdSpeciesList = pullFromSession(birdsKey);
+                    if (!birdSpeciesList || birdSpeciesList.length === 0) {
+                        // We haven't yet loaded it into session stoarge, so
+                        // retrieve from the API
 
-                            $scope.birdSpeciesList = response.data;
-                            saveToSesion(birdsKey, $scope.birdSpeciesList);
+                        // TODO: pull this into bird proxy with getBySurveyTypeId(id)
+                        authService.get(config.birdspecies + '?surveyTypeId=2')
+                            .then(function success(response) {
 
-                        }, function error(response) {
+                                birdSpeciesList = response.data;
+                                saveToSession(birdsKey, birdSpeciesList);
 
-                            messenger.displayErrorResponse($scope, response);
+                            }, function error(response) {
 
-                        });
+                                messenger.displayErrorResponse($scope, response);
+
+                            });
+                    }
+
+                    // Now that we have a list, change it to a dictionary and load into scope
+                    $scope.birdSpeciesList = _.keyBy(birdSpeciesList, function(o) {
+                        return o.id;
+                    });
+                    birdSpeciesList = null;
                 }
             }
+
+
             if (step === 5) {
                 var m = $scope.foragingSurvey;
                 $scope.reviewInvalid = !(
                     m.siteTypeId &&
                     m.temperature &&
-                    m.windSpeed && 
+                    m.windSpeed &&
                     m.tideId &&
                     m.weatherId &&
                     m.observers &&
@@ -226,10 +244,12 @@ angular.module('flightNodeApp')
             };
 
 
+            // TODO: restore invalid calculation. Maybe just run it on Save?
+
             //Method to set the birdSpeciesId from the UI.
             $scope.setBirdId = function(index, birdSpeciesId) {
                 // Shortcut to the entry on the screen
-                var observation = $scope.foragingSurvey.observations[index];
+                var observation = $scope.foragingSurvey.observations[birdSpeciesId];
                 // Since species is just a label, not a form control, we need to set the species manually
                 observation.birdSpeciesId = birdSpeciesId;
                 // if either adults or juveniles is nonzero, then the other fields *must* be filled in
@@ -246,7 +266,7 @@ angular.module('flightNodeApp')
                 $scope.observationForm.invalid = _.some($scope.observations, 'invalid');
             };
 
-            //Method to set the disturbanceTypeId from the UI.
+            // Method to set the disturbanceTypeId from the UI.
             $scope.setDisturbanceTypeId = function(index, disturbanceTypeId) {
                 var disturbance = $scope.foragingSurvey.disturbances[index];
                 disturbance.disturbanceTypeId = disturbanceTypeId;
@@ -262,7 +282,17 @@ angular.module('flightNodeApp')
 
 
             var saveModelToSesion = function(data) {
-                saveToSesion(modelKey, data);
+
+                // Load new observation id values into the temporary species 
+                // list and load that into session
+                _(data.observations).each(function(item) {
+                    $scope.birdSpeciesList[item.birdSpeciesId.toString()].observationId = item.observationId;
+                });
+                saveToSession(observationsModelKey, $scope.birdSpeciesList);
+
+                // Remove observations from the regular model and then save it
+                data.observations = null;
+                saveToSession(modelKey, data);
             };
 
             $scope.save = function(next) {
@@ -272,15 +302,34 @@ angular.module('flightNodeApp')
 
                 var model = $scope.foragingSurvey;
 
+                model.observations = _($scope.birdSpeciesList)
+                    .omitBy(function(item) { // strip out species with no adults and no juveniles
+                        return !(item.adults > 0 || item.juveniles > 0);
+                    })
+                    .values() // extract the dictionary values without the keys
+                    .map(function(item) {   // convert to the expect data model
+                        return {
+                            observationId: item.observationId,
+                            birdSpeciesId: item.id,
+                            adults: item.adults,
+                            juveniles: item.juveniles,
+                            feedingId: item.feedingId,
+                            habitatId: item.habitatId,
+                            primaryActivityId: item.primaryActivityId,
+                            secondaryActivityId: item.secondaryActivityId
+                        };
+                    })
+                    .value(); // resolve the method chain
+
                 // With the way we add observations and disturbances, there will
                 // be null entries if some rows are skipped. Remove those.
-                model.observations = _.omitBy(model.observations, _.isNil);
-                model.disturbances = _.omitBy(model.disturbances, _.isNil);
+                //model.observations = _.toArray(_.omitBy(model.observations, _.isNil));
+                model.disturbances = _.toArray(_.omitBy(model.disturbances, _.isNil));
 
                 if (model.surveyIdentifier) {
-                    foragingSurveyProxy.update($scope, model, function() {
-                        // save the original model to session for the next page
-                        saveModelToSesion(model);
+                    foragingSurveyProxy.update($scope, model, function(data) {
+                        // save the modified model to session for the next page
+                        saveModelToSesion(data);
 
                         $scope.loading = false;
 

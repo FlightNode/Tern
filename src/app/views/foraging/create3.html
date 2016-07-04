@@ -26,13 +26,16 @@
             <div class="col-sm-2">% Feeding Success Rate</div>
         </div>
         <div ng-class="{ 'row odd-row': $odd, 'row even-row': $even, 'last-row': $last }" ng-repeat="(i, bird) in birdSpeciesList | orderBy: 'commonName' track by $index">
-            <div class="col-sm-2" ng-class="{ 'bg-danger': foragingSurvey.observations[i].invalid }">
+            <!-- <div class="col-sm-12">
+            {{foragingSurvey.observations | json}}
+            </div> -->
+            <!-- <div class="col-sm-2" ng-class="{ 'bg-danger': foragingSurvey.observations[bird.id].invalid }">
                 <b ng-bind="bird.commonName"></b>
                 <span ng-show="foragingSurvey.observations[i].invalid" class="text-warning">**</span>
             </div>
             <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">Number of Adults</div>
-            <div class="col-sm-1" ng-class="{ 'bg-danger': foragingSurvey.observations[i].invalid }">
-                <input type="number" min="0" name="adults" class="form-control" ng-model="foragingSurvey.observations[i].adults" ng-change="setBirdId(i, bird.id)" placeholder="Adults">
+            <div class="col-sm-1" ng-class="{ 'bg-danger': foragingSurvey.observations[bird.id].invalid }">
+                <input type="number" min="0" name="adults" class="form-control" ng-model="foragingSurvey.observations[bird.id].adults" ng-change="setBirdId(i, bird.id)" placeholder="Adults">
             </div>
             <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">Number of Juveniles</div>
             <div class="col-sm-1" ng-class="{ 'bg-danger': foragingSurvey.observations[i].invalid }">
@@ -59,6 +62,42 @@
             <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">% Feeding Success Rate</div>
             <div class="col-sm-2" ng-class="{ 'bg-danger': foragingSurvey.observations[i].invalid }">
                 <select name="feedingSuccess" id="feedingSuccess" class="form-control" ng-model="foragingSurvey.observations[i].feedingId" ng-change="setBirdId(i, bird.id)">
+                    <option ng-repeat="feed in enums.feedingRateInfo" value="{{feed.id}}">{{feed.description}}</option>
+                </select>
+            </div> -->
+            <div class="col-sm-2" ng-class="{ 'bg-danger': bird.invalid }">
+                <b ng-bind="bird.commonName"></b>
+                <span ng-show="bird.invalid" class="text-warning">**</span>
+            </div>
+            <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">Number of Adults</div>
+            <div class="col-sm-1" ng-class="{ 'bg-danger': bird.invalid }">
+                <input type="number" min="0" name="adults" class="form-control" ng-model="bird.adults" placeholder="Adults">
+            </div>
+            <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">Number of Juveniles</div>
+            <div class="col-sm-1" ng-class="{ 'bg-danger': bird.invalid }">
+                <input type="number" name="juveniles" class="form-control" ng-model="bird.juveniles" placeholder="Juveniles">
+            </div>
+            <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">Primary Activity</div>
+            <div class="col-sm-2" ng-class="{ 'bg-danger': bird.invalid }">
+                <select name="primaryActivitySelect" class="form-control" id="primaryActivitySelect" ng-model="bird.primaryActivityId">
+                    <option ng-repeat="behaviorType in enums.behaviorTypeInfo" value="{{behaviorType.id}}">{{behaviorType.description}}</option>
+                </select>
+            </div>
+            <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">Secondary Activity</div>
+            <div class="col-sm-2" ng-class="{ 'bg-danger': bird.invalid }">
+                <select name="secondaryActivitySelect" class="form-control" id="secondaryActivitySelect" ng-model="bird.secondaryActivityId">
+                    <option ng-repeat="behaviorType in enums.behaviorTypeInfo" value="{{behaviorType.id}}">{{behaviorType.description}}</option>
+                </select>
+            </div>
+            <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">Location / Habitat Type</div>
+            <div class="col-sm-2" ng-class="{ 'bg-danger': bird.invalid }">
+                <select name="habitatInfo" id="habitatInfo" class="form-control" ng-model="bird.habitatId">
+                    <option ng-repeat="habitat in enums.habitatInfo" value="{{habitat.id}}">{{habitat.description}}</option>
+                </select>
+            </div>
+            <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">% Feeding Success Rate</div>
+            <div class="col-sm-2" ng-class="{ 'bg-danger': bird.invalid }">
+                <select name="feedingSuccess" id="feedingSuccess" class="form-control" ng-model="bird.feedingId">
                     <option ng-repeat="feed in enums.feedingRateInfo" value="{{feed.id}}">{{feed.description}}</option>
                 </select>
             </div>
