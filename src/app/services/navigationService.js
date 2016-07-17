@@ -21,13 +21,6 @@ angular.module('navigationService', [])
                                 path: '#/contact'
                             },
                             children: []
-                        },
-                        {
-                            entry: {
-                                title: 'Submit Data',
-                                path: '#/data'
-                            },
-                            children: []
                         }];
 
                     if (authService.isAnonymous()) {
@@ -35,6 +28,14 @@ angular.module('navigationService', [])
                             entry: {
                                 title: 'Login',
                                 path: '#/login'
+                            },
+                            children: []
+                        });
+                        tree.push(
+                        {
+                            entry: {
+                                title: 'Submit Data',
+                                path: '#/data'
                             },
                             children: []
                         });
@@ -135,6 +136,12 @@ angular.module('navigationService', [])
                                         entry: {
                                             title: 'Species',
                                             path: '#/species'
+                                        }
+                                    },
+                                    {
+                                        entry: {
+                                            title: 'Waterbird Foraging Survey',
+                                            path: '#/data/foraging'
                                         }
                                     }
                                 ]

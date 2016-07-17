@@ -65,6 +65,20 @@ angular.module('flightNodeApp')
                             messenger.displayErrorResponse($scope, response);
                             
                         });
+                },
+
+                getFullList: function($scope, next) {
+
+                    authService.get(config.foragingFullList)
+                        .then(function success(response){
+
+                            next(response.data);
+
+                        }, function error(response) {
+
+                            messenger.displayErrorResponse($scope, response);
+                            
+                        });
                 }
             }
         }

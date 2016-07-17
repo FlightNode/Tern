@@ -181,6 +181,11 @@ angular
         templateUrl: 'app/views/foraging/complete.html',
         title: site + ' - Waterbird Foraging Survey - Completed'
       })
+      .when('/data/foraging', {
+        templateUrl: 'app/views/foraging/manage.html',
+        controller: 'ForagingManageController',
+        title: site + ' - Manage Waterbird Foraging Surveys'
+      })
       .when('/violations', {
         templateUrl: 'app/views/violations.html',
         title:  site + ' - Reporting Violations'
