@@ -8,8 +8,8 @@
  * Service for supporting the Waterbird Foraging Survey
  */
 angular.module('flightNodeApp')
-    .factory('foragingSurveyProxy', ['authService', 'config', 'messenger', '$log',
-        function(authService, config, messenger, $log) {
+    .factory('foragingSurveyProxy', ['authService', 'config', 'messenger', '$log', '$q',
+        function(authService, config, messenger, $log, $q) {
             return {
                 getById: function($scope, id, next) {
 
@@ -79,6 +79,19 @@ angular.module('flightNodeApp')
                             messenger.displayErrorResponse($scope, response);
                             
                         });
+                },
+
+                export: function($scope) {
+                    var deferred = $q.defer();
+
+                    authService.get(config.foragingExport)
+                        .then(function success(response) {
+                           deferred.resolve(response.data); 
+                        }, function error(response) {                            
+                            messenger.displayErrorResponse($scope, response);
+                        });
+
+                    return deferred.promise;
                 }
             }
         }

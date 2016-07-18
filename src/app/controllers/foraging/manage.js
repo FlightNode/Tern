@@ -74,11 +74,12 @@ angular.module('flightNodeApp')
                     filter: {
                         type: uiGridConstants.filter.SELECT,
                         selectOptions: [
-                            {value: 'Pending', label: 'Pending'},
-                            {value: 'Complete', label: 'Complete'}
+                            { value: 'Pending', label: 'Pending' },
+                            { value: 'Complete', label: 'Complete' }
                         ]
                     }
                 }, {
+                    visible: false,
                     field: 'surveyIdentifier',
                     displayName: '',
                     cellTemplate: '\
@@ -93,6 +94,68 @@ angular.module('flightNodeApp')
                     enableColumnMenu: false
                 }]
             };
+
+            $scope.downloadForagingData = function() {
+                return foragingSurveyProxy.export();
+            };
+
+            $scope.getHeader = function() {
+                return ['id',
+                    'surveyIdentifier',
+                    'siteCode',
+                    'siteName',
+                    'city',
+                    'county',
+                    'longitude',
+                    'latitude',
+                    'assessment',
+                    'startDate',
+                    'endDate',
+                    'startTemperature',
+                    'weather',
+                    'tide',
+                    'windSpeed',
+                    'vantagePoint',
+                    'accessPoint',
+                    'submittedBy',
+                    'observers',
+                    'generalComments',
+                    'genus',
+                    'species',
+                    'commonAlphaCode',
+                    'commonName',
+                    'numberOfAdults',
+                    'nubmerOfJuveniles',
+                    'primaryActivity',
+                    'secondaryActivity',
+                    'feedingSuccessRate',
+                    'habitatType',
+                    'disturbanceComments',
+                    'kayakerQuantity',
+                    'kayakerDurationMinutes',
+                    'kayakResult',
+                    'fishermenWadingQuantity',
+                    'fishermenWadingDurationMinutes',
+                    'fishermenWadingResult',
+                    'stationaryBoatsQuantity',
+                    'stationaryBoatsDurationMinutes',
+                    'stationaryBoatsResult',
+                    'movingBoatsQuantity',
+                    'movingBoatsDurationMinutes',
+                    'movingBoatsResult',
+                    'personalWatercraftQuantity',
+                    'personalWatercraftDurationMinutes',
+                    'humansQuantity',
+                    'humansMinutes',
+                    'humansResult',
+                    'noiseQuantity',
+                    'noiseMinutes',
+                    'noiseResult',
+                    'otherDisturbanceQuantity',
+                    'otherDisturbanceMinutes',
+                    'otherDisturbanceResult'
+                ]
+            }
 
             $scope.loading = false;
         }

@@ -36,6 +36,7 @@ angular.module('flightNodeApp')
             siteassessments: enums + "siteassessments",
             vantagepoints: enums + "vantagepoints",
             accesspoints: enums + "accesspoints",
-            foragingFullList: baseV1Href + 'waterbirdforagingsurvey/getforaginglist'
+            foragingFullList: baseV1Href + 'waterbirdforagingsurvey/getforaginglist',
+            foragingExport: baseV1Href + 'waterbirdforagingsurvey/export',
         }
     });
