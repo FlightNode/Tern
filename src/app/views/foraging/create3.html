@@ -64,6 +64,19 @@
             </div>
         </div>
         <div class="row" style="margin-top: 1em; margin-bottom: 1em;">
+            <div class="form-group">
+                <label class="control-label col-sm-2">Add species</label>
+                <div class="col-sm-3">
+                    <input type="text" id="add-species" name="add-species" class="form-control"
+                    ng-model="speciesToAdd" uib-typeahead="bird.CommonName for bird in allBirds | filter:$viewValue | limitTo:8" >
+                </div>
+                <div class="col-sm-2">
+                    <input type="button" class="btn btn-default" value="Add" name="add-species" id="add-species"
+                    ng-click="addSpecies()">
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 1em; margin-bottom: 1em;">
             <label class="control-label col-sm-2" for="surveyComments">Comments</label>
             <div class="col-sm-9">
                 <textarea type="text" class="form-control" rows="5" id="surveyComments" placeholder="Enter Comments" ng-model="foragingSurvey.surveyComments"></textarea>

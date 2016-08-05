@@ -148,11 +148,11 @@
                 </div>
                 <div ng-class="{ 'row odd-row': $odd, 'row even-row': $even, 'last-row': $last }" ng-repeat="disturbance in foragingSurvey.disturbances track by disturbance.disturbanceTypeId">
                     <div class="col-sm-2" ng-bind="getDisturbance(disturbance.disturbanceTypeId)"></div>
-                    <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">Quantity</div>
+                    <div class="visible-xs-12 hidden-sm hidden-md hidden-lg small-label">Quantity</div>
                     <div class="col-sm-2" ng-bind="disturbance.quantity"></div>
-                    <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">Duration (nearest 5 minutes)</div>
+                    <div class="visible-xs-12 hidden-sm hidden-md hidden-lg small-label">Duration (nearest 5 minutes)</div>
                     <div class="col-sm-2" ng-bind="disturbance.durationMinutes"></div>
-                    <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">Result or Effect (observed behavior)</div>
+                    <div class="visible-xs-12 hidden-sm hidden-md hidden-lg small-label">Result or Effect (observed behavior)</div>
                     <div class="col-sm-6" ng-bind="disturbance.behavior"></div>
                 </div>
                 <div class="row" style="margin-top: 1em; margin-bottom: 1em;">

@@ -21,7 +21,8 @@ angular
     'navigationService',
     'ui.bootstrap.modal',
     'ui.bootstrap.timepicker',
-    'ui.grid.selection'
+    'ui.grid.selection',
+    'ui.bootstrap.typeahead'
   ])
   .config(function ($routeProvider) {
     $routeProvider

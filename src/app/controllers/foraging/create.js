@@ -10,10 +10,10 @@
 angular.module('flightNodeApp')
     .controller('ForagingCreateController', ['$scope', 'authService', 'config', 'messenger',
         'foragingSurveyProxy', '$filter', '$location', '$log', 'locationProxy', 'enumsProxy',
-        '$route', '$uibModal',
+        '$route', '$uibModal', 'birdsProxy',
         function($scope, authService, config, messenger,
             foragingSurveyProxy, $filter, $location, $log, locationProxy, enumsProxy,
-            $route, $uibModal) {
+            $route, $uibModal, birdsProxy) {
 
 
             if (!(authService.isReporter())) {
@@ -64,8 +64,9 @@ angular.module('flightNodeApp')
 
             var pullFromSession = function(key) {
                 var stored = sessionStorage.getItem(key);
+                stored = stored === "undefined" ? undefined : stored;
                 if (stored) {
-                    return JSON.parse(stored);
+                    return JSON.parse(stored||{});
                 }
                 return null;
             };
@@ -139,18 +140,23 @@ angular.module('flightNodeApp')
                         // We haven't yet loaded it into session storage, so
                         // retrieve from the API
 
+                        birdsProxy.getForagingBirds(function(response) {
+                            birdSpeciesList = response.data;
+                            saveToSession(birdsKey, birdSpeciesList);
+                        });
+
                         // TODO: pull this into bird proxy with getBySurveyTypeId(id)
-                        authService.get(config.birdspecies + '?surveyTypeId=2')
-                            .then(function success(response) {
+                        // authService.get(config.birdspecies + '?surveyTypeId=2')
+                        //     .then(function success(response) {
 
-                                birdSpeciesList = response.data;
-                                saveToSession(birdsKey, birdSpeciesList);
+                        //         birdSpeciesList = response.data;
+                        //         saveToSession(birdsKey, birdSpeciesList);
 
-                            }, function error(response) {
+                        //     }, function error(response) {
 
-                                messenger.displayErrorResponse($scope, response);
+                        //         messenger.displayErrorResponse($scope, response);
 
-                            });
+                        //     });
                     }
 
                     // Now that we have a list, change it to a dictionary and load into scope
@@ -312,10 +318,6 @@ angular.module('flightNodeApp')
                 });
                 saveToSession(disturbanceKey, $scope.disturbances);
 
-                // Remove observations from the regular model and then save it
-                data.observations = null;
-                data.disturbanceKey = null;
-
                 saveToSession(modelKey, data);
             };
 
@@ -329,7 +331,6 @@ angular.module('flightNodeApp')
                 model.observations = _($scope.birdSpeciesList)
                     .omitBy(function(item) { // strip out species with no adults and no juveniles
                         return item.adults === undefined && item.juveniles === undefined;
-                        //return !(item.adults > 0 || item.juveniles > 0);
                     })
                     .values() // extract the dictionary values without the keys
                     .map(function(item) { // convert to the expect data model
@@ -348,7 +349,7 @@ angular.module('flightNodeApp')
 
                 model.disturbances = _($scope.disturbances)
                     .omitBy(function(item) {
-                        return item.quantity  === undefined;
+                        return item.quantity === undefined;
                     })
                     .values()
                     .map(function(item) {
@@ -422,6 +423,22 @@ angular.module('flightNodeApp')
                 }, function dismissed() {
                     // do nothing
                 });
+            };
+
+
+
+            // TEMPORARY
+            $scope.allBirds = [
+                { CommonName: "Northern Cardinal", SpeciesId: 2 },
+                { CommonName: "Blue Jay", SpeciesId: 3 },
+                { CommonName: "Northern Mockingbird", SpeciesId: 4 }
+            ];
+            $scope.addSpecies = function() {
+                var newBird = _.find($scope.allBirds, { CommonName: $scope.speciesToAdd });
+                // needs error handling
+                $scope.birdSpeciesList[newBird.SpeciesId] = { commonName: newBird.CommonName, id: newBird.SpeciesId };
+
+                $scope.speciesToAdd = '';
             };
 
             $scope.loading = false;
