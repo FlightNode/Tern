@@ -67,12 +67,10 @@
             <div class="form-group">
                 <label class="control-label col-sm-2">Add species</label>
                 <div class="col-sm-3">
-                    <input type="text" id="add-species" name="add-species" class="form-control"
-                    ng-model="speciesToAdd" uib-typeahead="bird.CommonName for bird in allBirds | filter:$viewValue | limitTo:8" >
+                    <input type="text" id="add-species" name="add-species" class="form-control" ng-model="speciesToAdd" uib-typeahead="bird.commonName for bird in allBirds | filter:$viewValue | limitTo:8">
                 </div>
                 <div class="col-sm-2">
-                    <input type="button" class="btn btn-default" value="Add" name="add-species" id="add-species"
-                    ng-click="addSpecies()">
+                    <input type="button" class="btn btn-default" value="Add" name="add-species" id="add-species" ng-click="addSpecies()">
                 </div>
             </div>
         </div>
