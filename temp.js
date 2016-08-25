@@ -25,7 +25,7 @@ angular.module('flightNodeApp')
             $scope.loading = true;
 
             var modelKey = 'foragingSurvey';
-            //var observationsModelKey = 'observations';
+            var observationsModelKey = 'observations';
             var enumsKey = 'enums';
             var birdsKey = 'birdSpeciesList';
             var locationsKey = 'locations';
@@ -33,31 +33,30 @@ angular.module('flightNodeApp')
             var allBirdsKey = 'allbirds';
 
             // Setup date and time controls
-            var setupDateAndTimeControls = function() {
-                $scope.startDateOpened = false;
-                $scope.datePickerOptions = {
-                    formatYear: 'yy',
-                    formatMonth: 'MM',
-                    maxMode: 'day',
-                    maxDate: new Date(2021, 1, 1),
-                    minDate: new Date(1990, 1, 1),
-                    startingDay: 1
-                };
-                $scope.datePickerModelOptions = {
-                    allowInvalid: true
-                };
-                $scope.showDatePicker = function() {
-                    $scope.startDateOpened = !$scope.startDateOpened;
-                };
-                $scope.updateStartDate = function() {
-                    $scope.foragingSurvey.startDate = new Date($scope.foragingSurvey.startDateManual);
-                };
-                $scope.updateStartDateManual = function() {
-                    $scope.foragingSurvey.startDateManual = $filter('date')($scope.foragingSurvey.startDate, 'MM/dd/yyyy');
-                };
-                $scope.hstep = 1;
-                $scope.mstep = 1;
+            $scope.startDateOpened = false;
+            $scope.datePickerOptions = {
+                formatYear: 'yy',
+                formatMonth: 'MM',
+                maxMode: 'day',
+                maxDate: new Date(2021, 1, 1),
+                minDate: new Date(1990, 1, 1),
+                startingDay: 1
             };
+            $scope.datePickerModelOptions = {
+                allowInvalid: true
+            };
+            $scope.showDatePicker = function() {
+                $scope.startDateOpened = !$scope.startDateOpened;
+            };
+            $scope.updateStartDate = function() {
+                $scope.foragingSurvey.startDate = new Date($scope.foragingSurvey.startDateManual);
+            };
+            $scope.updateStartDateManual = function() {
+                $scope.foragingSurvey.startDateManual = $filter('date')($scope.foragingSurvey.startDate, 'MM/dd/yyyy');
+            };
+            $scope.hstep = 1;
+            $scope.mstep = 1;
+
 
             var saveToSession = function(key, data) {
                 sessionStorage.setItem(key, JSON.stringify(data));
@@ -72,7 +71,9 @@ angular.module('flightNodeApp')
                 return null;
             };
 
-            var prepareDateAndTimeForUi = function(model) {
+            var pullModelFromSession = function() {
+                var model = pullFromSession(modelKey) || {};
+
                 // need to convert to a a real Date object to support timepicker
                 var format = 'YYYY-MM-DD hh:mm a';
                 if (model.startTime && model.startTime.includes('M')) {
@@ -90,37 +91,30 @@ angular.module('flightNodeApp')
                 }
                 model.startDate = temp.toDate();
 
-            }
-
-            var pullModelFromSession = function() {
-                var model = pullFromSession(modelKey) || {};
-                prepareDateAndTimeForUi(model);
                 return model;
             };
 
-            var getAllBirds = function(next) {
-                $scope.allBirds = pullModelFromSession(allBirdsKey);
 
-                if (!$scope.allBirds) {
-                    birdsProxy.getAll($scope, function(data) {
-                        $scope.allBirds = _.map(data, function(item) {
-                            return {
-                                commonName: item.commonName,
-                                commonAlphaCode: item.commonAlphaCode,
-                                speciesId: item.id
-                            };
-                        });
+            $scope.allBirds = pullModelFromSession(allBirdsKey);
 
-                        saveToSession(allBirdsKey, $scope.allBirds);
-
-                        $log.info('loading all birds');
-
-                        next();
+            if (!$scope.allBirds) {
+                birdsProxy.getAll($scope, function(data) {
+                    $scope.allBirds = _.map(data, function(item) {
+                        return {
+                            commonName: item.commonName,
+                            commonAlphaCode: item.commonAlphaCode,
+                            speciesId: item.id
+                        };
                     });
-                }
-            };
 
-            var loadSurveyFromSessionOrCreateNewOne = function() {
+                    saveToSession(allBirdsKey, $scope.allBirds);
+
+                    $log.info('loading all birds');
+                });
+            }
+
+
+            var loadForagingSurveyIntoScope = function() {
                 // Load survey from session storage
                 $scope.foragingSurvey = pullModelFromSession(modelKey);
 
@@ -138,35 +132,117 @@ angular.module('flightNodeApp')
                 $log.info('loaded foraging data');
             };
 
-            var loadExistingSurveyFromTheDatabase = function() {
+
+            if ($routeParams.id) {
+                // Load existing survey from the database
                 foragingSurveyProxy.getById($scope, $routeParams.id, function(data) {
-
-                    prepareDateAndTimeForUi(data);
-                    $scope.foragingSurvey = data;
-
+                    //saveModelToSesion(data);
+                    loadForagingSurveyIntoScope();
                 });
-            };
+            } else {
+                loadForagingSurveyIntoScope();
+            }
 
 
-            var loadEnums = function() {
-                $scope.enums = pullFromSession(enumsKey);
-                if (!$scope.enums) {
-                    enumsProxy.getForForagingSurvey($scope, function(data) {
-                        $scope.enums = data;
-                        saveToSession(enumsKey, data);
+
+            $scope.enums = pullFromSession(enumsKey);
+            if (!$scope.enums) {
+                enumsProxy.getForForagingSurvey($scope, function(data) {
+                    $scope.enums = data;
+                    saveToSession(enumsKey, data);
+                });
+            }
+
+            $scope.locations = pullFromSession(locationsKey);
+            if (!$scope.locations) {
+                locationProxy.get($scope, function(data) {
+                    $scope.locations = data;
+                    saveToSession(locationsKey, data);
+                });
+            }
+
+
+            var step = $route.current.step;
+            $scope.step = step;
+            $scope.canGoBack = (step > 1);
+            $scope.canSaveForLater = (step < 5);
+
+            // Load up the bird species list
+            $log.info('now preparing species list / observations');
+            $scope.birdSpeciesList = $scope.foragingSurvey.observations;
+            if (step === 3) {
+                if (!$scope.birdSpeciesList || $scope.birdSpeciesList.length === 0) {
+
+                    $scope.birdSpeciesList = pullFromSession(observationsModelKey);
+
+                    if (!$scope.birdSpeciesList) {
+                        // This means we haven't visited step 3 yet. 
+
+                        // First, get the raw species list 
+                        var birdSpeciesList = pullFromSession(birdsKey);
+                        if (!birdSpeciesList || birdSpeciesList.length === 0) {
+                            // We haven't yet loaded it into session storage, so
+                            // retrieve from the API
+
+                            birdsProxy.getForagingBirds($scope, function(data) {
+                                birdSpeciesList = data;
+                                saveToSession(birdsKey, birdSpeciesList);
+                            });
+                        }
+
+                        // Now that we have a list, change it to a dictionary and load into scope
+                        $scope.birdSpeciesList = _.keyBy(birdSpeciesList, function(o) {
+                            return o.id;
+                        });
+                        birdSpeciesList = null;
+                    }
+                }
+
+                // If we retrieved an existing record from the database, and
+                // if it has birds that were manually added, then we need
+                // to enrich the birdSpeciesList with those extra birds.
+                if ($routeParams.id) {
+                    $log.info('attempting to enrich observations with extra birds');
+
+                    _.each($scope.birdSpeciesList, function(observation) {
+
+                        if (!observation.commonName) {
+                            observation.commonName = _.find($scope.allBirds, { speciesId: observation.speciesId }).commonName;
+                        }
+
                     });
                 }
-            };
+            }
 
-            var loadLocations = function() {
-                $scope.locations = pullFromSession(locationsKey);
-                if (!$scope.locations) {
-                    locationProxy.get($scope, function(data) {
-                        $scope.locations = data;
-                        saveToSession(locationsKey, data);
+            // Load up the disturbances
+            $scope.disturbances = pullFromSession(disturbanceKey);
+            if (step === 4) {
+                if (!$scope.disturbances || $scope.disturbances.length === 0) {
+                    // This means we haven't visited step 4 yet. But we now
+                    // that we already have the disturbanceTypeInfo enum
+
+                    $scope.disturbances = _.keyBy($scope.enums.disturbanceTypeInfo, function(dt) {
+                        return dt.id;
                     });
                 }
-            };
+            }
+
+            // The next set code & functions are used in the summary page
+            if (step === 5) {
+                var m = $scope.foragingSurvey;
+                $scope.reviewInvalid = !(
+                    m.siteTypeId &&
+                    m.temperature &&
+                    m.windSpeed &&
+                    m.tideId &&
+                    m.weatherId &&
+                    m.observers &&
+                    m.vantagePointId &&
+                    m.accessPointId
+                );
+            } else {
+                $scope.reviewInvalid = false;
+            }
 
             $scope.getLocationName = function() {
                 var id = $scope.foragingSurvey.locationId;
@@ -234,6 +310,10 @@ angular.module('flightNodeApp')
                 return _.find($scope.enums.disturbanceTypeInfo, { id: +id }).description;
             };
 
+
+
+
+
             $scope.validateObservation = function(birdSpeciesId) {
                 var observation = $scope.birdSpeciesList[birdSpeciesId];
 
@@ -251,6 +331,8 @@ angular.module('flightNodeApp')
                 $scope.invalid = _.some($scope.birdSpeciesList, 'invalid');
             };
 
+
+
             $scope.validateDisturbance = function(disturbanceId) {
                 var disturbance = $scope.disturbances[disturbanceId];
 
@@ -264,16 +346,17 @@ angular.module('flightNodeApp')
                 $scope.invalid = _.some($scope.foragingSurvey.disturbances, 'invalid');
             };
 
+
+
+
             var saveModelToSesion = function(data) {
 
                 // Load new observation id values into the temporary species 
                 // list and load that into session
-                if ($scope.birdSpeciesList) {
-                    _(data.observations).each(function(item) {
-                        $scope.birdSpeciesList[item.birdSpeciesId.toString()].observationId = item.observationId;
-                    });
-                }
-                //                saveToSession(observationsModelKey, $scope.birdSpeciesList);
+                _(data.observations).each(function(item) {
+                    $scope.birdSpeciesList[item.birdSpeciesId.toString()].observationId = item.observationId;
+                });
+                saveToSession(observationsModelKey, $scope.birdSpeciesList);
 
                 // Load the new disturbance id values into the temporary
                 // disturbances list and load that into session
@@ -292,29 +375,24 @@ angular.module('flightNodeApp')
 
                 var model = $scope.foragingSurvey;
 
-                if (step === 3) {
-                    // Because the bird species form is bound to $scope.birdSpeciesList, instead
-                    // of $scope.foragingSurvey.observations, we now need to replace the observations
-                    // array with the contents of the birdSpeciesList
-                    model.observations = _($scope.birdSpeciesList)
-                        .omitBy(function(item) { // strip out species with no adults and no juveniles
-                            return item.adults === undefined && item.juveniles === undefined;
-                        })
-                        .values() // extract the dictionary values without the keys
-                        .map(function(item) { // convert to the expect data model
-                            return {
-                                observationId: item.observationId,
-                                birdSpeciesId: item.id,
-                                adults: item.adults,
-                                juveniles: item.juveniles,
-                                feedingId: item.feedingId,
-                                habitatId: item.habitatId,
-                                primaryActivityId: item.primaryActivityId,
-                                secondaryActivityId: item.secondaryActivityId,
-                            };
-                        })
-                        .value(); // resolve the method chain
-                }
+                model.observations = _($scope.birdSpeciesList)
+                    .omitBy(function(item) { // strip out species with no adults and no juveniles
+                        return item.adults === undefined && item.juveniles === undefined;
+                    })
+                    .values() // extract the dictionary values without the keys
+                    .map(function(item) { // convert to the expect data model
+                        return {
+                            observationId: item.observationId,
+                            birdSpeciesId: item.id,
+                            adults: item.adults,
+                            juveniles: item.juveniles,
+                            feedingId: item.feedingId,
+                            habitatId: item.habitatId,
+                            primaryActivityId: item.primaryActivityId,
+                            secondaryActivityId: item.secondaryActivityId,
+                        };
+                    })
+                    .value(); // resolve the method chain
 
                 model.disturbances = _($scope.disturbances)
                     .omitBy(function(item) {
@@ -354,14 +432,13 @@ angular.module('flightNodeApp')
                 }
             };
 
-            // Configure button actions
             $scope.next = function() {
                 var finished = $scope.foragingSurvey.finished = (step === 5);
 
                 $scope.save(function() {
                     if (finished) {
                         // Flush the session
-                        //saveToSession(observationsModelKey, null);
+                        saveToSession(observationsModelKey, null);
                         saveToSession(modelKey, null);
 
                         $location.path('/foraging/complete');
@@ -386,7 +463,7 @@ angular.module('flightNodeApp')
                     size: 'sm'
                 });
                 modal.result.then(function success() {
-                    //saveToSession(observationsModelKey, null);
+                    saveToSession(observationsModelKey, null);
                     saveToSession(modelKey, null);
 
                     $location.path('/foraging');
@@ -408,129 +485,6 @@ angular.module('flightNodeApp')
                     $scope.speciesToAdd = '';
                 }
             };
-
-
-            //
-            // Finally the real program flow
-            //
-
-            setupDateAndTimeControls();
-            loadEnums();
-            loadLocations();
-
-            if ($routeParams.id) {
-                loadExistingSurveyFromTheDatabase();
-            } else {
-                loadSurveyFromSessionOrCreateNewOne();
-            }
-
-            var step = $route.current.step;
-            $scope.step = step;
-            $scope.canGoBack = (step > 1);
-            $scope.canSaveForLater = (step < 5);
-
-
-            // Load up the bird species list
-            $scope.birdSpeciesList = pullFromSession(birdsKey);
-
-            if (step === 3) {
-                // $scope.birdSpeciesList = pullFromSession(observationsModelKey);
-
-                if (!$scope.birdSpeciesList ||
-                    $scope.birdSpeciesList.length === 0) {
-                    // This means we haven't visited step 3 yet in the current session 
-
-                    // // First, get the raw species list 
-                    // var birdSpeciesList = pullFromSession(birdsKey);
-                    // if (!birdSpeciesList || birdSpeciesList.length === 0) {
-                    //     // We haven't yet loaded it into session storage, so
-                    //     // retrieve from the API
-
-                    birdsProxy.getForagingBirds($scope, function(data) {
-                        birdSpeciesList = data;
-
-                        // Now that we have a  species list, change it to a dictionary and load into scope
-                        $scope.birdSpeciesList = _.keyBy(data, function(o) {
-                            return o.id;
-                        });
-
-
-                        saveToSession(birdsKey, $scope.birdSpeciesList);
-                    });
-                    // }
-
-                    // Now that we have a list, change it to a dictionary and load into scope
-                    // $scope.birdSpeciesList = birdSpeciesList;
-                    // _.keyBy(birdSpeciesList, function(o) {
-                    //     return o.id;
-                    // });
-                }
-
-
-                // Load all birds in order to support the auto-complete
-                getAllBirds(function next() {
-
-                    // If we retrieved an existing record from the database, and
-                    // if it has birds that were manually added, then we need
-                    // to enrich the birdSpeciesList with those extra birds.
-                    if ($routeParams.id) {
-
-                        // _.each($scope.birdSpeciesList, function(observation) {
-                        _.each($scope.foragingSurvey.observations, function(observation) {
-
-                            if (!$scope.birdSpeciesList[observation.birdSpeciesId]) {
-
-                                $scope.birdSpeciesList[observation.birdSpeciesId] = {
-                                    observationId: observation.observationId,
-                                    id: observation.birdSpeciesId,
-                                    adults: observation.adults,
-                                    juveniles: observation.juveniles,
-                                    feedingId: observation.feedingId,
-                                    habitatId: observation.habitatId,
-                                    primaryActivityId: observation.primaryActivityId,
-                                    secondaryActivityId: observation.secondaryActivityId,
-                                    commonName: _.find($scope.allBirds, { speciesId: observation.birdSpeciesId }).commonName
-                                }
-                            }
-                            // if (!observation.commonName) {
-                            //     observation.commonName = _.find($scope.allBirds, { speciesId: observation.speciesId }).commonName;
-                            // }
-
-                        });
-                    }
-                });
-            }
-
-            // Load up the disturbances
-            $scope.disturbances = pullFromSession(disturbanceKey);
-            if (step === 4) {
-                if (!$scope.disturbances || $scope.disturbances.length === 0) {
-                    // This means we haven't visited step 4 yet. But we now
-                    // that we already have the disturbanceTypeInfo enum
-
-                    $scope.disturbances = _.keyBy($scope.enums.disturbanceTypeInfo, function(dt) {
-                        return dt.id;
-                    });
-                }
-            }
-
-            // The next set code & functions are used in the summary page
-            if (step === 5) {
-                var m = $scope.foragingSurvey;
-                $scope.reviewInvalid = !(
-                    m.siteTypeId &&
-                    m.temperature &&
-                    m.windSpeed &&
-                    m.tideId &&
-                    m.weatherId &&
-                    m.observers &&
-                    m.vantagePointId &&
-                    m.accessPointId
-                );
-            } else {
-                $scope.reviewInvalid = false;
-            }
-
 
             $scope.loading = false;
         }

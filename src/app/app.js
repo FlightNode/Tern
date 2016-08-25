@@ -146,35 +146,41 @@ angular
         controller: 'LogoutController'
       })
       .when('/foraging/', {
-        redirectTo: '/foraging/create1'
+        redirectTo: '/foraging/step1'
       })
-      .when('/foraging/create1', {
+      .when('/foraging/step1/', {
         templateUrl: 'app/views/foraging/create1.html',
-        controller: 'ForagingCreateController',
+        controller: 'ForagingStep1Controller',
         title: site + ' - Waterbird Foraging Survey - New',
         step: 1
       })
-      .when('/foraging/create2', {
+      .when('/foraging/step1/:id', {
+        templateUrl: 'app/views/foraging/create1.html',
+        controller: 'ForagingStep1Controller',
+        title: site + ' - Waterbird Foraging Survey - New',
+        step: 1
+      })
+      .when('/foraging/step2/:id', {
         templateUrl: 'app/views/foraging/create2.html',
-        controller: 'ForagingCreateController',
+        controller: 'ForagingStep2Controller',
         title: site + ' - Waterbird Foraging Survey - New',
         step: 2
       })
-      .when('/foraging/create3', {
+      .when('/foraging/step3/:id', {
         templateUrl: 'app/views/foraging/create3.html',
-        controller: 'ForagingCreateController',
+        controller: 'ForagingStep3Controller',
         title: site + ' - Waterbird Foraging Survey - New',
         step: 3
       })
-      .when('/foraging/create4', {
+      .when('/foraging/step4/:id', {
         templateUrl: 'app/views/foraging/create4.html',
-        controller: 'ForagingCreateController',
+        controller: 'ForagingStep4Controller',
         title: site + ' - Waterbird Foraging Survey - New',
         step: 4
       })
-      .when('/foraging/create5', {
+      .when('/foraging/step5/:id', {
         templateUrl: 'app/views/foraging/create5.html',
-        controller: 'ForagingCreateController',
+        controller: 'ForagingStep5Controller',
         title: site + ' - Waterbird Foraging Survey - New',
         step: 5
       })
