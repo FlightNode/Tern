@@ -26,13 +26,16 @@ angular.module('flightNodeApp')
             // Helper functions
             //
             var modelKey = "foragingSurveyModel";
+            var locationNameKey = "locationName";
 
-            var saveToSession = function(data) {
-                sessionStorage.setItem(modelKey, JSON.stringify(data));
+            var saveToSession = function(data, key) {
+                key = key || modelKey;
+                sessionStorage.setItem(key, JSON.stringify(data));
             };
 
-            var pullFromSession = function() {
-                var stored = sessionStorage.getItem(modelKey);
+            var pullFromSession = function(key) {
+                key = key || modelKey;
+                var stored = sessionStorage.getItem(key);
                 stored = stored === "undefined" ? undefined : stored;
                 if (stored) {
                     return JSON.parse(stored || {});
@@ -104,7 +107,10 @@ angular.module('flightNodeApp')
 
             loadEnums();
             $scope.foragingSurvey = pullFromSession();
+            $scope.locationName = pullFromSession(locationNameKey).locationName;
 
+
+            $scope.step = 2;
             // Configure shared "bottomBar" components
             $scope.canGoBack = true;
             $scope.canSaveForLater = true;

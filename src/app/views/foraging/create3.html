@@ -40,26 +40,22 @@
             </div>
             <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">Primary Activity</div>
             <div class="col-sm-2" ng-class="{ 'bg-danger': bird.invalid }">
-                <select name="primaryActivitySelect" class="form-control" id="primaryActivitySelect" ng-model="bird.primaryActivityId" ng-change="validateObservation(bird.id)">
-                    <option ng-repeat="behaviorType in enums.behaviorTypeInfo" value="{{behaviorType.id}}">{{behaviorType.description}}</option>
+                <select id="primaryActivitySelect" name="primaryActivitySelect" class="form-control" ng-model="bird.primaryActivityId" ng-options="item.id as item.description for item in enums.behaviorTypeInfo" ng-change="validateObservation(bird.id)">
                 </select>
             </div>
             <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">Secondary Activity</div>
             <div class="col-sm-2" ng-class="{ 'bg-danger': bird.invalid }">
-                <select name="secondaryActivitySelect" class="form-control" id="secondaryActivitySelect" ng-model="bird.secondaryActivityId" ng-change="validateObservation(bird.id)">
-                    <option ng-repeat="behaviorType in enums.behaviorTypeInfo" value="{{behaviorType.id}}">{{behaviorType.description}}</option>
+                <select id="secondaryActivitySelect" name="secondaryActivitySelect" class="form-control" ng-model="bird.secondaryActivityId" ng-options="item.id as item.description for item in enums.behaviorTypeInfo" ng-change="validateObservation(bird.id)">
                 </select>
             </div>
             <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">Location / Habitat Type</div>
             <div class="col-sm-2" ng-class="{ 'bg-danger': bird.invalid }">
-                <select name="habitatInfo" id="habitatInfo" class="form-control" ng-model="bird.habitatId" ng-change="validateObservation(bird.id)">
-                    <option ng-repeat="habitat in enums.habitatInfo" value="{{habitat.id}}">{{habitat.description}}</option>
+                <select id="habitatInfo" name="habitatInfo" class="form-control" ng-model="bird.habitatId" ng-options="item.id as item.description for item in enums.habitatInfo" ng-change="validateObservation(bird.id)">
                 </select>
             </div>
             <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">% Feeding Success Rate</div>
             <div class="col-sm-2" ng-class="{ 'bg-danger': bird.invalid }">
-                <select name="feedingSuccess" id="feedingSuccess" class="form-control" ng-model="bird.feedingId" ng-change="validateObservation(bird.id)">
-                    <option ng-repeat="feed in enums.feedingRateInfo" value="{{feed.id}}">{{feed.description}}</option>
+                <select id="feedingSuccess" name="feedingSuccess" class="form-control" ng-model="bird.feedingId" ng-options="item.id as item.description for item in enums.feedingRateInfo" ng-change="validateObservation(bird.id)">
                 </select>
             </div>
         </div>

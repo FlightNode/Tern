@@ -16,21 +16,21 @@
                     <div class="row">
                         <div class="control-label col-sm-3">Location</div>
                         <div class="col-sm-3">
-                            <input class="form-control" ng-value="getLocationName()">
+                            <input class="form-control" ng-value="review.location">
                         </div>
                         <div class="control-label col-sm-3">Survey Date</div>
                         <div class="col-sm-3">
-                            <input class="form-control" ng-value="foragingSurvey.startDate | date: fullDate">
+                            <input class="form-control" ng-value="review.surveyDate | date: fullDate">
                         </div>
                     </div>
                     <div class="row">
                         <div class="control-label col-sm-3">Start Time</div>
                         <div class="col-sm-3">
-                            <input class="form-control" ng-value="foragingSurvey.startTime | date: 'shortTime'">
+                            <input class="form-control" ng-value="review.startTime | date: 'shortTime'">
                         </div>
                         <div class="control-label col-sm-3">End Time</div>
                         <div class="col-sm-3">
-                            <input class="form-control" ng-value="foragingSurvey.endTime | date: 'shortTime'">
+                            <input class="form-control" ng-value="review.endTime | date: 'shortTime'">
                         </div>
                     </div>
                 </fieldset>
@@ -44,7 +44,7 @@
                         <div ng-class="{'has-error': foragingSurvey.siteTypeId === null}">
                             <div class="control-label col-sm-3">Site Type <span class="text-danger" ng-class="{invisible: foragingSurvey.siteTypeId !== null}">*</span></div>
                             <div class="col-sm-3">
-                                <input class="form-control" ng-value="getSiteType()">
+                                <input class="form-control" ng-value="review.siteType">
                             </div>
                         </div>
                     </div>
@@ -52,13 +52,13 @@
                         <div ng-class="{'has-error': foragingSurvey.temperature === null}">
                             <div class="control-label col-sm-3" for="temperature">Temperature (&deg; F) <span class="text-danger" ng-class="{invisible: foragingSurvey.temperature !== null}">*</span></div>
                             <div class="col-sm-3">
-                                <input class="form-control" ng-value="foragingSurvey.temperature">
+                                <input class="form-control" ng-value="review.temperature">
                             </div>
                         </div>
                         <div ng-class="{'has-error': foragingSurvey.windSpeed === null}">
                             <div class="control-label col-sm-3" for="windSpeed">Average Wind Speed <span class="text-danger" ng-class="{invisible: foragingSurvey.windSpeed !== null}">*</span></div>
                             <div class="col-sm-3">
-                                <input class="form-control" ng-value="foragingSurvey.windSpeed">
+                                <input class="form-control" ng-value="review.windSpeed">
                             </div>
                         </div>
                     </div>
@@ -66,12 +66,12 @@
                         <div ng-class="{'has-error': foragingSurvey.tideId === null}">
                             <div class="control-label col-sm-3">Tides <span class="text-danger" ng-class="{invisible: foragingSurvey.tideId !== null}">*</span></div>
                             <div class="col-sm-3">
-                                <input class="form-control" ng-value="getTide()">
+                                <input class="form-control" ng-value="review.tide">
                             </div>
                             <div ng-class="{'has-error': foragingSurvey.weatherId === null}">
                                 <div class="control-label col-sm-3">Weather <span class="text-danger" ng-class="{invisible: foragingSurvey.weatherId !== null}">*</span></div>
                                 <div class="col-sm-3">
-                                    <input class="form-control" ng-value="getWeather()">
+                                    <input class="form-control" ng-value="review.weather">
                                 </div>
                             </div>
                         </div>
@@ -80,7 +80,7 @@
                         <div ng-class="{'has-error': foragingSurvey.observers === null || foragingSurveys.observers === ''}">
                             <div class="control-label col-sm-3" for="observers">Observer(s) <span class="text-danger" ng-class="{invisible: foragingSurvey.observers !== null}">*</span></div>
                             <div class="col-sm-9">
-                                <input class="form-control" ng-value="foragingSurvey.observers">
+                                <input class="form-control" ng-value="review.observers">
                             </div>
                         </div>
                     </div>
@@ -88,13 +88,13 @@
                         <div ng-class="{'has-error': foragingSurvey.vantagePointId === null}">
                             <div class="control-label col-sm-3">Survey Vantage Point <span class="text-danger" ng-class="{invisible: foragingSurvey.vantagePointId !== null}">*</span></div>
                             <div class="col-sm-3">
-                                <input class="form-control" ng-value="getVantagePoint()">
+                                <input class="form-control" ng-value="review.vantagePoint">
                             </div>
                         </div>
                         <div ng-class="{'has-error': foragingSurvey.accessPointId === null}">
                             <div class="control-label col-sm-3">Survey Access Point <span class="text-danger" ng-class="{invisible: foragingSurvey.accessPointId !== null}">*</span></div>
                             <div class="col-sm-3">
-                                <input class="form-control" ng-value="getAccessPoint()">
+                                <input class="form-control" ng-value="review.accessPoint">
                             </div>
                         </div>
                     </div>
@@ -113,21 +113,21 @@
                     <div class="col-sm-2">Location / Habitat Type</div>
                     <div class="col-sm-2">% Feeding Success Rate</div>
                 </div>
-                <div ng-class="{ 'row odd-row': $odd, 'row even-row': $even, 'last-row': $last }" ng-repeat="bird in foragingSurvey.observations track by bird.birdSpeciesId">
-                    <div class="col-sm-2 col-xs-12" ng-bind="getCommonName(bird.birdSpeciesId)">
+                <div ng-class="{ 'row odd-row': $odd, 'row even-row': $even, 'last-row': $last }" ng-repeat="bird in review.observations track by bird.birdSpeciesId">
+                    <div class="col-sm-2 col-xs-12" ng-bind="bird.commonName">
                     </div>
                     <div class="visible-xs-11 hidden-sm hidden-md hidden-lg small-label">Number of Adults</div>
                     <div class="col-sm-1 col-xs-1" ng-bind="bird.adults"></div>
                     <div class="visible-xs-11 hidden-sm hidden-md hidden-lg small-label">Number of Juveniles</div>
                     <div class="col-sm-1 col-xs-1" ng-bind="bird.juveniles"></div>
                     <div class="visible-xs-10 hidden-sm hidden-md hidden-lg small-label">Primary Activity</div>
-                    <div class="col-sm-2 col-xs-2" ng-bind="getActivity(bird.primaryActivityId)"></div>
+                    <div class="col-sm-2 col-xs-2" ng-bind="bird.primaryActivity"></div>
                     <div class="visible-xs-10 hidden-sm hidden-md hidden-lg small-label">Secondary Activity</div>
-                    <div class="col-sm-2 col-xs-2" ng-bind="getActivity(bird.secondaryActivityId)"></div>
+                    <div class="col-sm-2 col-xs-2" ng-bind="bird.secondaryActivity"></div>
                     <div class="visible-xs-10 hidden-sm hidden-md hidden-lg small-label">Location / Habitat Type</div>
-                    <div class="col-sm-2 col-xs-2" ng-bind="getHabitat(bird.habitatId)"></div>
+                    <div class="col-sm-2 col-xs-2" ng-bind="bird.habitat"></div>
                     <div class="visible-xs-12 hidden-sm hidden-md hidden-lg small-label">% Feeding Success Rate</div>
-                    <div class="col-sm-2 col-xs-2" ng-bind="getFeeding(bird.feedingId)"></div>
+                    <div class="col-sm-2 col-xs-2" ng-bind="bird.feeding"></div>
                 </div>
                 <div class="row" style="margin-top: 1em; margin-bottom: 1em;">
                     <label class="control-label col-sm-2">Comments</label>
@@ -146,8 +146,8 @@
                     <div class="col-sm-2">Duration (nearest 5 minutes)</div>
                     <div class="col-sm-6">Result or Effect (observed behavior)</div>
                 </div>
-                <div ng-class="{ 'row odd-row': $odd, 'row even-row': $even, 'last-row': $last }" ng-repeat="disturbance in foragingSurvey.disturbances track by disturbance.disturbanceTypeId">
-                    <div class="col-sm-2" ng-bind="getDisturbance(disturbance.disturbanceTypeId)"></div>
+                <div ng-class="{ 'row odd-row': $odd, 'row even-row': $even, 'last-row': $last }" ng-repeat="disturbance in review.disturbances track by disturbance.disturbanceId">
+                    <div class="col-sm-2" ng-bind="disturbance.disturbanceType"></div>
                     <div class="visible-xs-12 hidden-sm hidden-md hidden-lg small-label">Quantity</div>
                     <div class="col-sm-2" ng-bind="disturbance.quantity"></div>
                     <div class="visible-xs-12 hidden-sm hidden-md hidden-lg small-label">Duration (nearest 5 minutes)</div>

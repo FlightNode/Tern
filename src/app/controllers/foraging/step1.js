@@ -27,13 +27,16 @@ angular.module('flightNodeApp')
             //
 
             var modelKey = "foragingSurveyModel";
+            var locationNameKey = "locationName";
 
-            var saveToSession = function(data) {
-                sessionStorage.setItem(modelKey, JSON.stringify(data));
+            var saveToSession = function(data, key) {
+                key = key || modelKey;
+                sessionStorage.setItem(key, JSON.stringify(data));
             };
 
-            var pullFromSession = function() {
-                var stored = sessionStorage.getItem(modelKey);
+            var pullFromSession = function(key) {
+                key = key || modelKey;
+                var stored = sessionStorage.getItem(key);
                 stored = stored === "undefined" ? undefined : stored;
                 if (stored) {
                     return JSON.parse(stored || {});
@@ -99,6 +102,14 @@ angular.module('flightNodeApp')
 
                     prepareDateAndTimeForUi(data);
                     $scope.foragingSurvey = data;
+
+                    // Store location name for use in future pages
+                    var location = _.keyBy($scope.locations, function(l) {
+                        return l.id;
+                    })[$scope.foragingSurvey.locationId];
+                    var locationName = location.siteCode + ' - ' + location.siteName;
+
+                    saveToSession({locationName:locationName}, locationNameKey);
 
                     $scope.loading = false;
                 });
@@ -173,6 +184,7 @@ angular.module('flightNodeApp')
                 loadExistingSurvey($routeParams.id);
             }
 
+            $scope.step = 1;
             $scope.loading = false;
         }
     ]);

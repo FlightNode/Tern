@@ -26,19 +26,23 @@ angular.module('flightNodeApp')
             // Helper functions
             //
             var modelKey = "foragingSurveyModel";
+            var locationNameKey = "locationName";
 
-            var saveToSession = function(data) {
-                sessionStorage.setItem(modelKey, JSON.stringify(data));
+            var saveToSession = function(data, key) {
+                key = key || modelKey;
+                sessionStorage.setItem(key, JSON.stringify(data));
             };
 
-            var pullFromSession = function() {
-                var stored = sessionStorage.getItem(modelKey);
+            var pullFromSession = function(key) {
+                key = key || modelKey;
+                var stored = sessionStorage.getItem(key);
                 stored = stored === "undefined" ? undefined : stored;
                 if (stored) {
                     return JSON.parse(stored || {});
                 }
                 return null;
             };
+
 
             var loadEnums = function() {
                 // TODO: look into caching this cleanly
@@ -59,10 +63,11 @@ angular.module('flightNodeApp')
                         return o.id;
                     });
 
+                    mapActualObservationsIntoBirdSpeciesList();
                 });
             };
 
-            var updateBirdSpeciesListFromExistingObservations = function() {
+            var mapActualObservationsIntoBirdSpeciesList = function() {
                 if ($scope.foragingSurvey.observations &&
                     $scope.foragingSurvey.observations.length > 0) {
 
@@ -81,8 +86,37 @@ angular.module('flightNodeApp')
                 }
             };
 
+            var syncBirdSpeciesListIntoForagingSurvey = function() {
+                // Because the bird species form is bound to $scope.birdSpeciesList, instead
+                // of $scope.foragingSurvey.observations, we now need to replace the observations
+                // array with the contents of the birdSpeciesList
+
+                $scope.foragingSurvey.observations =
+                    _($scope.birdSpeciesList).omitBy(function(item) {
+                        // strip out species with no adults and no juveniles
+                        return item.adults === undefined && item.juveniles === undefined;
+                    })
+                    .values() // extract the dictionary values without the keys
+                    .map(function(item) { // convert to the expect data model
+                        return {
+                            observationId: item.observationId,
+                            birdSpeciesId: item.id,
+                            adults: item.adults,
+                            juveniles: item.juveniles,
+                            feedingId: item.feedingId,
+                            habitatId: item.habitatId,
+                            primaryActivityId: item.primaryActivityId,
+                            secondaryActivityId: item.secondaryActivityId,
+                        };
+                    })
+                    .value(); // resolve the method chain
+            };
+
+
             var saveAndMoveTo = function(nextPath) {
                 $scope.loading = true;
+
+                syncBirdSpeciesListIntoForagingSurvey();
 
                 foragingSurveyProxy.update($scope, $scope.foragingSurvey, function(data) {
 
@@ -134,17 +168,21 @@ angular.module('flightNodeApp')
             //
             $scope.loading = true;
 
+
+            $scope.foragingSurvey = pullFromSession();
+            $scope.locationName = pullFromSession(locationNameKey).locationName;
+
             loadEnums();
             loadAvailableBirds();
-            $scope.foragingSurvey = pullFromSession();
 
-            updateBirdSpeciesListFromExistingObservations();
+
+            // TODO: restore validations
+
+            $scope.step = 3;
 
             // Configure shared "bottomBar" components
             $scope.canGoBack = true;
             $scope.canSaveForLater = true;
-
-
 
             $scope.loading = false;
         }
