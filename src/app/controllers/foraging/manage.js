@@ -79,12 +79,12 @@ angular.module('flightNodeApp')
                         ]
                     }
                 }, {
-                    visible: false,
+                    visible: true,
                     field: 'surveyIdentifier',
                     displayName: '',
                     cellTemplate: '\
                         <div class="ui-grid-cell-contents" title="Edit">\
-                          <button class="btn btn-primary btn-xs" ng-click="grid.appScope.editSurvey(row.entity.id)" \
+                          <button class="btn btn-primary btn-xs" ng-click="grid.appScope.editSurvey(row.entity.surveyIdentifier)" \
                            aria-label="edit">\
                               <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>\
                           </button>\
@@ -156,6 +156,10 @@ angular.module('flightNodeApp')
                     'otherDisturbanceResult'
                 ]
             }
+
+            $scope.editSurvey = function(id) {
+                $location.path('/foraging/step1/' + id);
+            };
 
             $scope.loading = false;
         }

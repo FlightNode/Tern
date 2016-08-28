@@ -72,12 +72,12 @@ angular.module('flightNodeApp')
 
             var prepareDateAndTimeForUi = function(model) {
                 // need to convert to a a real Date object to support timepicker
-                var format = 'YYYY-MM-DD hh:mm a';
+                var format = 'MM/DD/YYYY hh:mm a';
                 if (model.startTime && model.startTime.includes('M')) {
-                    model.startTime = moment('1970-01-01 ' + model.startTime, format).toDate();
+                    model.startTime = moment(model.startDate + ' ' + model.startTime, format).toDate();
                 }
                 if (model.endTime && model.endTime.includes('M')) {
-                    model.endTime = moment('1970-01-01 ' + model.endTime, format).toDate();
+                    model.endTime = moment(model.startDate + ' ' + model.endTime, format).toDate();
                 }
 
                 model.startDateManual = model.startDate;
@@ -109,7 +109,7 @@ angular.module('flightNodeApp')
                     })[$scope.foragingSurvey.locationId];
                     var locationName = location.siteCode + ' - ' + location.siteName;
 
-                    saveToSession({locationName:locationName}, locationNameKey);
+                    saveToSession({ locationName: locationName }, locationNameKey);
 
                     $scope.loading = false;
                 });
@@ -149,9 +149,6 @@ angular.module('flightNodeApp')
             };
 
             $scope.reset = function() {
-                // TODO: what is the function of this now? Need to rethink
-                // this "reset" button. Maybe unnecessary. 
-
                 var modal = $uibModal.open({
                     animation: true,
                     templateUrl: '/app/views/confirmResetForm.html',
@@ -160,8 +157,10 @@ angular.module('flightNodeApp')
                 });
                 modal.result.then(function success() {
 
+                    saveToSession(null);
+
                     // Reload the first page
-                    $location.path('/foraging');
+                    $location.path('/foraging/step1');
 
                 }, function dismissed() {
                     // do nothing

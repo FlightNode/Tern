@@ -80,9 +80,6 @@ angular.module('flightNodeApp')
             };
 
             $scope.reset = function() {
-                // TODO: what is the function of this now? Need to rethink
-                // this "reset" button. Maybe unnecessary. 
-
                 var modal = $uibModal.open({
                     animation: true,
                     templateUrl: '/app/views/confirmResetForm.html',
@@ -91,8 +88,10 @@ angular.module('flightNodeApp')
                 });
                 modal.result.then(function success() {
 
+                    saveToSession(null);
+
                     // Reload the first page
-                    $location.path('/foraging');
+                    $location.path('/foraging/step1');
 
                 }, function dismissed() {
                     // do nothing
