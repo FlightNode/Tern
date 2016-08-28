@@ -203,6 +203,7 @@ angular
       })
       .when('/contact', {
         templateUrl: 'app/views/contact.html',
+        controller: 'ContactController',
         title: site + ' - Contact Us'
       })
       .when('/data', {

@@ -27,6 +27,7 @@ angular.module('flightNodeApp')
             //
             var modelKey = "foragingSurveyModel";
             var locationNameKey = "locationName";
+            var allBirdsKey = "allBirds";
 
             var saveToSession = function(data, key) {
                 key = key || modelKey;
@@ -54,7 +55,6 @@ angular.module('flightNodeApp')
             };
 
             var loadAvailableBirds = function() {
-                // TODO: reconsider caching locally
 
                 birdsProxy.getForagingBirds($scope, function(data) {
 
@@ -75,13 +75,30 @@ angular.module('flightNodeApp')
 
                         var item = $scope.birdSpeciesList[observation.birdSpeciesId];
 
-                        item.observationId = observation.observationId;
-                        item.adults = observation.adults;
-                        item.juveniles = observation.juveniles;
-                        item.feedingId = observation.feedingId;
-                        item.habitatId = observation.habitatId;
-                        item.primaryActivityId = observation.primaryActivityId;
-                        item.secondaryActivityId = observation.secondaryActivityId;
+                        if (item) {
+                            item.observationId = observation.observationId;
+                            item.adults = observation.adults;
+                            item.juveniles = observation.juveniles;
+                            item.feedingId = observation.feedingId;
+                            item.habitatId = observation.habitatId;
+                            item.primaryActivityId = observation.primaryActivityId;
+                            item.secondaryActivityId = observation.secondaryActivityId;
+                        } else {
+                            // This observation is from a species manually added to the species list
+                            var extra = _.find($scope.allBirds, { speciesId: observation.birdSpeciesId });
+
+                            $scope.birdSpeciesList[observation.birdSpeciesId] = {
+                                observationId: observation.observationId,
+                                id: observation.birdSpeciesId,
+                                adults: observation.adults,
+                                juveniles: observation.juveniles,
+                                feedingId: observation.feedingId,
+                                habitatId: observation.habitatId,
+                                primaryActivityId: observation.primaryActivityId,
+                                secondaryActivityId: observation.secondaryActivityId,
+                                commonName: extra.commonName
+                            }
+                        }
                     });
                 }
             };
@@ -94,7 +111,8 @@ angular.module('flightNodeApp')
                 $scope.foragingSurvey.observations =
                     _($scope.birdSpeciesList).omitBy(function(item) {
                         // strip out species with no adults and no juveniles
-                        return item.adults === undefined && item.juveniles === undefined;
+                        return (item.adults === undefined && item.juveniles === undefined) ||
+                            (item.adults === 0 && item.juveniles === 0);
                     })
                     .values() // extract the dictionary values without the keys
                     .map(function(item) { // convert to the expect data model
@@ -128,9 +146,63 @@ angular.module('flightNodeApp')
                 });
             };
 
+            $scope.validateObservation = function(birdSpeciesId) {
+                var observation = $scope.birdSpeciesList[birdSpeciesId];
+
+                // if either adults or juveniles is nonzero, then the other fields *must* be filled in
+                observation.invalid = (
+                    (observation.adults > 0 ||
+                        observation.juveniles > 0) &&
+                    (observation.primaryActivityId === undefined ||
+                        observation.secondaryActivityId === undefined ||
+                        observation.habitatId === undefined ||
+                        observation.feedingId === undefined)
+                ) || observation.adults < 0 || observation.juveniles < 0;
+
+                // If *any* observations are invalid, then the form is invalid
+                $scope.invalid = _.some($scope.birdSpeciesList, 'invalid');
+            };
+
+            var getAllBirds = function(next) {
+                $scope.allBirds = pullFromSession(allBirdsKey);
+
+                if (!$scope.allBirds) {
+                    birdsProxy.getAll($scope, function(data) {
+                        $scope.allBirds = _.map(data, function(item) {
+                            return {
+                                commonName: item.commonName,
+                                commonAlphaCode: item.commonAlphaCode,
+                                speciesId: item.id
+                            };
+                        });
+
+                        saveToSession($scope.allBirds, allBirdsKey);
+
+                        next();
+                    });
+                } else {
+                    next();
+                }
+            };
+
             //
             // Configure button actions
             //
+
+            $scope.addSpecies = function() {
+                var newBird = _.find($scope.allBirds, { commonName: $scope.speciesToAdd });
+
+                if (newBird) {
+                    // Load this bird into the visible list
+                    $scope.birdSpeciesList[newBird.speciesId] = {
+                        commonName: newBird.commonName,
+                        id: newBird.speciesId
+                    };
+
+                    $scope.speciesToAdd = '';
+                }
+            };
+
             $scope.next = function() {
                 // need to pass the survey identifier on to step 3
                 saveAndMoveTo('/foraging/step4/');
@@ -172,7 +244,7 @@ angular.module('flightNodeApp')
             $scope.locationName = pullFromSession(locationNameKey).locationName;
 
             loadEnums();
-            loadAvailableBirds();
+            getAllBirds(loadAvailableBirds);
 
 
             // TODO: restore validations

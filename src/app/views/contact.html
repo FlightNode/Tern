@@ -13,7 +13,7 @@
     </div>
     <div class="col-sm-8 col-offset-sm-1">
         <h2>Send us a message</h2>
-        <form ng-submit="submit()" name="contactForm" class="form-vertical">
+        <form ng-submit="submit()" name="contactForm" class="form-vertical" ng-disable="sent">
             <div class="form-group">
                 <label for="fromName" class="control-label">Name <span class="text-danger">*</span></label>
                 <div ng-class="{'has-error': contactForm.fromName.$error.required || contactForm.fromName.$error.maxlength}">
@@ -39,13 +39,13 @@
             <div class="form-group">
                 <label for="reason" class="control-label">Reason for Contact <span class="text-danger">*</span></label>
                 <div ng-class="{'has-error': contactForm.reason.$error.required}">
-                    <!-- <select name="reasons" class="form-control" ng-model="reason" required multiple
-                            ng-options="item.name as item.description for item in data.reasons">
-                        </select> -->
-                    <select name="reason" id="reason" class="form-control" required ng-model="message.reason">
+                    <select name="reasons" class="form-control" ng-model="message.reason" required 
+                            ng-options="item for item in reasons">
+                        </select>
+                  <!--   <select name="reason" id="reason" class="form-control" required ng-model="message.reason">
                         <option>What options</option>
                         <option>Should be provided?</option>
-                    </select>
+                    </select> -->
                 </div>
             </div>
             <div class="form-group">
@@ -58,7 +58,7 @@
                     <span class="error" ng-show="contactForm.message.$error.maxlength">Max 1000 characters</span>
                 </div>
             </div>
-            <button type="submit" ng-disabled="contactForm.$invalid" class="btn btn-primary login-link">Submit</button>
+            <button type="submit" ng-disabled="contactForm.$invalid" class="btn btn-primary login-link" ng-click="submit">Submit</button>
         </form>
     </div>
     <loading></loading>

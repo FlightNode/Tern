@@ -142,10 +142,10 @@ angular.module('flightNodeApp')
                             commonName: $scope.allBirds[item.birdSpeciesId].commonName,
                             adults: item.adults,
                             juveniles: item.juveniles,
-                            primaryActivity: getActivity(item.primaryActivityId),
-                            secondaryActivity: getActivity(item.secondaryActivityId),
-                            habitat: getHabitat(item.habitatId),
-                            feeding: getFeeding(item.feedingId)
+                            primaryActivity: (item.primaryActivityId) ? getActivity(item.primaryActivityId) : 'invalid',
+                            secondaryActivity: (item.secondaryActivityId) ? getActivity(item.secondaryActivityId) : 'invalid',
+                            habitat: (item.habitatId) ? getHabitat(item.habitatId) : 'invalid',
+                            feeding: (item.feedingId) ? getFeeding(item.feedingId) : 'invalid'
                         };
 
                     });
@@ -190,6 +190,18 @@ angular.module('flightNodeApp')
                 };
             };
 
+            var disableFinishButtonIfModelNotFullyValid = function() {
+                var f = $scope.foragingSurvey;
+                $scope.reviewInvalid = f.siteTypeId === null ||
+                    f.temperature === null ||
+                    f.windSpeed === null ||
+                    f.tide === null ||
+                    f.weather === null ||
+                    f.observers === null ||
+                    f.vantagePointId === null ||
+                    f.accessPointId === null;
+            };
+
             //
             // Configure button actions
             //
@@ -212,7 +224,7 @@ angular.module('flightNodeApp')
             $scope.back = function() {
                 $location.path('/foraging/step4/' + $scope.foragingSurvey.surveyIdentifier);
             };
-            
+
             $scope.reset = function() {
                 var modal = $uibModal.open({
                     animation: true,
@@ -243,6 +255,7 @@ angular.module('flightNodeApp')
                 getAllBirds(function() {
                     $scope.foragingSurvey = pullFromSession();
                     prepareReviewModelForViewBinding();
+                    disableFinishButtonIfModelNotFullyValid();
                 })
             });
 

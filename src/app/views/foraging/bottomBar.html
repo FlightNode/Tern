@@ -1,11 +1,11 @@
 <div class="row panel-footer">
     <div class="col-sm-6">
-        <input type="button" class="btn btn-default" id="back" name="back" value="&laquo; Back" ng-click="back()" ng-disabled="!canGoBack">
+        <input type="button" class="btn btn-default" id="back" name="back" value="&laquo; Back" ng-click="back()" ng-disabled="invalid || !canGoBack">
         <input type="button" class="btn btn-warning" id="reset" name="reset" value="Reset" title="Completely reset the data entry form to a fresh state" ng-click="reset()">
     </div>
     <div class="col-sm-6 text-right">
-        <input type="submit" class="btn btn-primary" value="{{canSaveForLater? 'Next &raquo;' : 'Finish'}}" ng-click="next()" ng-disabled="invalid || foragingLocation.$invalid || reviewInvalid">
-        <input type="submit" class="btn btn-default" ng-click="save()" value="Save for Later" ng-disabled="invalid || foragingLocation.$invalid || !canSaveForLater">
+        <input type="submit" class="btn btn-primary" value="{{canSaveForLater? 'Next &raquo;' : 'Finish'}}" ng-click="next()" ng-disabled="invalid || reviewInvalid">
+        <input type="submit" class="btn btn-default" ng-click="save()" value="Save for Later" ng-disabled="invalid || !canSaveForLater">
     </div>
 </div>
 <div class="row">

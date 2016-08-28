@@ -131,6 +131,20 @@ angular.module('flightNodeApp')
                 });
             };
 
+
+            $scope.validateDisturbance = function(disturbanceId) {
+                var disturbance = $scope.disturbances[disturbanceId];
+
+                disturbance.invalid = (
+                    // when any column is set
+                    (disturbance.quantity > 0 || disturbance.durationMinutes > 0 || disturbance.behavior) &&
+                    // then all of them are needed
+                    !(disturbance.quantity > 0 && disturbance.durationMinutes > 0 && disturbance.behavior)
+                );
+
+                $scope.invalid = _.some($scope.disturbances, 'invalid');
+            };
+
             //
             // Configure button actions
             //
@@ -171,7 +185,7 @@ angular.module('flightNodeApp')
 
             // TODO
             // These two items must be in this order for now
-            $scope.foragingSurvey = pullFromSession();            
+            $scope.foragingSurvey = pullFromSession();
             $scope.locationName = pullFromSession(locationNameKey).locationName;
             loadEnums(prepareDisturbances);
 
