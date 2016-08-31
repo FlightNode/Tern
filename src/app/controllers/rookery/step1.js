@@ -2,17 +2,17 @@
 
 /**
  * @ngdoc function
- * @name flightNodeApp.controller:ForagingStep1Controller
+ * @name flightNodeApp.controller:RookeryCensusStep1Controller
  * @description
- * # ForagingStep1Controller
+ * # RookeryCensusStep1Controller
  * Controller for rookery foraging census form, step 1: Location, Date, and Time.
  */
 angular.module('flightNodeApp')
-    .controller('ForagingStep1Controller', ['$scope', 'authService', 'config', 'messenger',
-        'foragingSurveyProxy', '$filter', '$location', '$log', 'locationProxy', 'enumsProxy',
+    .controller('RookeryCensusStep1Controller', ['$scope', 'authService', 'config', 'messenger',
+        'rookeryCensusProxy', '$filter', '$location', '$log', 'locationProxy', 'enumsProxy',
         '$route', '$uibModal', 'birdsProxy', '$routeParams',
         function($scope, authService, config, messenger,
-            foragingSurveyProxy, $filter, $location, $log, locationProxy, enumsProxy,
+            rookeryCensusProxy, $filter, $location, $log, locationProxy, enumsProxy,
             $route, $uibModal, birdsProxy, $routeParams) {
 
 
@@ -26,7 +26,7 @@ angular.module('flightNodeApp')
             // Helper functions
             //
 
-            var modelKey = "foragingSurveyModel";
+            var modelKey = "rookeryCensusModel";
             var locationNameKey = "locationName";
 
             var saveToSession = function(data, key) {
@@ -61,10 +61,10 @@ angular.module('flightNodeApp')
                     $scope.startDateOpened = !$scope.startDateOpened;
                 };
                 $scope.updateStartDate = function() {
-                    $scope.foragingSurvey.startDate = new Date($scope.foragingSurvey.startDateManual);
+                    $scope.rookeryCensus.startDate = new Date($scope.rookeryCensus.startDateManual);
                 };
                 $scope.updateStartDateManual = function() {
-                    $scope.foragingSurvey.startDateManual = $filter('date')($scope.foragingSurvey.startDate, 'MM/dd/yyyy');
+                    $scope.rookeryCensus.startDateManual = $filter('date')($scope.rookeryCensus.startDate, 'MM/dd/yyyy');
                 };
                 $scope.hstep = 1;
                 $scope.mstep = 1;
@@ -94,7 +94,7 @@ angular.module('flightNodeApp')
                     $scope.locations = data;
                 });
             };
-            
+
             var storeSelectedLocationNameInSession = function() {
                 var location = _.keyBy($scope.locations, function(l) {
                     return l.id;
@@ -107,10 +107,10 @@ angular.module('flightNodeApp')
             var loadExistingSurvey = function(id) {
                 $scope.loading = true;
 
-                foragingSurveyProxy.getById($scope, id, function(data) {
+                rookeryCensusProxy.getById($scope, id, function(data) {
 
                     prepareDateAndTimeForUi(data);
-                    $scope.foragingSurvey = data;
+                    $scope.rookeryCensus = data;
 
                     $scope.loading = false;
                 });
@@ -129,16 +129,16 @@ angular.module('flightNodeApp')
                     storeSelectedLocationNameInSession();
 
                     // need to pass the survey identifier on to step 2
-                    $location.path('/foraging/step2/' + data.surveyIdentifier);
+                    $location.path('/rookery/step2/' + data.surveyIdentifier);
                 }
 
                 // Create or update the survey as appropriate
-                if (!$scope.foragingSurvey.surveyIdentifier) {
-                    foragingSurveyProxy.create($scope, $scope.foragingSurvey, function(data) {
+                if (!$scope.rookeryCensus.surveyIdentifier) {
+                    rookeryCensusProxy.create($scope, $scope.rookeryCensus, function(data) {
                         next(data);
                     });
                 } else {
-                    foragingSurveyProxy.update($scope, $scope.foragingSurvey, function(data) {
+                    rookeryCensusProxy.update($scope, $scope.rookeryCensus, function(data) {
                         next(data);
                     });
                 }
@@ -162,7 +162,7 @@ angular.module('flightNodeApp')
                     saveToSession(null);
 
                     // Reload the first page
-                    $location.path('/foraging/step1');
+                    $location.path('/rookery/step1');
 
                 }, function dismissed() {
                     // do nothing

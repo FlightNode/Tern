@@ -26,6 +26,21 @@ angular.module('flightNodeApp')
                         });
                 },
 
+
+                getRookeryBirds: function($scope, next) {
+
+                    authService.get(config.birdspecies + '?surveyTypeId=1')
+                        .then(function success(response) {
+
+                            next(response.data);
+
+                        }, function error(response) {
+
+                            messenger.displayErrorResponse($scope, response);
+
+                        });
+                },
+
                 getAll: function($scope, next) {
                     authService.get(config.birdspecies)
                         .then(function success(response) {

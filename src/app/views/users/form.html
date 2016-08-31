@@ -18,14 +18,22 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="password" class="col-sm-3 control-label">Password <span class="text-danger">*</span></label>
-                <div class="col-sm-7" ng-class="{'has-error': userForm.password.$error.required || (userForm.password.$touched && userForm.password.$error.pattern)}">
-                    <input type="password" class="form-control" ng-model="user.password" name="password" placeholder="Must be at least 6 characters and contain at least 1 digit" ng-pattern="/((?=.*\d){6,50})/" ng-required="!user.id">
-                    <span class="help-block" ng-show="user.id > 0">Leave blank to keep existing password.</span>
+                <label for="password" class="col-sm-3 control-label">Password </label>
+                <div class="col-sm-9" ng-class="{'has-error': userForm.password.$error.required || (userForm.password.$touched && userForm.password.$error.pattern)}">
+                    <input type="password" class="form-control" ng-model="user.password" name="password" placeholder="Must be at least 6 characters and contain at least 1 digit" ng-required="!user.userId" ng-pattern="/((?=.*\d){6,50})/" ng-change="checkPasswordMatching()">
+                    <span class="help-block" ng-show="user.userId > 0">Leave blank to keep existing password.</span>
                 </div>
-                <div class="col-sm-2"><a href="#" class="help-block">show password</a></div>
                 <div role="alert" class="col-sm-9 col-sm-offset-3">
                     <span class="error" ng-show="userForm.password.$touched && userForm.password.$error.pattern">Must contain at least one digit and be 6 to 50 characters </span>
+                </div>
+            </div>
+            <div class="form-group" ng-show="user.password">
+                <label for="password2" class="col-sm-3 control-label"></label>
+                <div class="col-sm-9" ng-class="{'has-error': userForm.password2.$touched && passwordsDontMatch}">
+                    <input type="password" class="form-control" ng-model="user.password2" name="password2" ng-required="!user.userId" placeholder="Re-type your password" ng-change="checkPasswordMatching()">
+                </div>
+                <div role="alert" class="col-sm-9 col-sm-offset-3">
+                    <span class="error" ng-show="userForm.password2.$touched && passwordsDontMatch">Does not match the first password </span>
                 </div>
             </div>
             <div class="form-group" ng-show="{{showRoles}}">
@@ -138,7 +146,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button type="submit" ng-disabled="userForm.$invalid || alreadySaved" class="btn btn-primary">Save</button>
+            <button type="submit" ng-disabled="invalid || userForm.$invalid || alreadySaved" class="btn btn-primary">Save</button>
         <button type="button" class="btn btn-warning" ng-click="cancel()">Cancel</button>
     </div>
 </form>

@@ -67,6 +67,13 @@ angular.module('navigationService', [])
                                         path: '#/foraging'
                                       },
                                       children: []
+                                    },
+                                    {
+                                      entry: {
+                                        title: 'Rookery Census',
+                                        path: '#/rookery'
+                                      },
+                                      children: []
                                     }
                                 ]
                             });
@@ -142,6 +149,12 @@ angular.module('navigationService', [])
                                         entry: {
                                             title: 'Waterbird Foraging Survey',
                                             path: '#/data/foraging'
+                                        }
+                                    },
+                                    {
+                                        entry: {
+                                            title: 'Rookery Census',
+                                            path: '#/data/rookery'
                                         }
                                     }
                                 ]

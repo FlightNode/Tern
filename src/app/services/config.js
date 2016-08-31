@@ -25,6 +25,7 @@ angular.module('flightNodeApp')
             roles: baseV1Href + 'roles/',
             birdspecies: baseV1Href + 'birdspecies/',
             waterbirdForagingSurvey: baseV1Href + 'waterbirdforagingsurvey/',
+            rookeryCensus: baseV1Href + 'rookerycensus/',
             surveyTypes: baseV1Href + 'surveytypes/',
             weather: enums + 'weather',
             waterheights: enums + 'waterheights',
@@ -37,7 +38,9 @@ angular.module('flightNodeApp')
             vantagepoints: enums + 'vantagepoints',
             accesspoints: enums + 'accesspoints',
             foragingFullList: baseV1Href + 'waterbirdforagingsurvey/getforaginglist',
-            foragingExport: baseV1Href + 'waterbirdforagingsurvey/export',
+            rookeryCensusExport: baseV1Href + 'waterbirdforagingsurvey/export',
+            rookeryCensusFullList: baseV1Href + 'rookerycensus/getforaginglist',
+            rookeryCensusExport: baseV1Href + 'rookerycensus/export',
             contact: baseV1Href + 'contact'
         }
     });
