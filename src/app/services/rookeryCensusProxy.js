@@ -25,9 +25,11 @@ angular.module('flightNodeApp')
                         });
                 },
 
-                getByUserId: function($scope, id, next) {
+                getForCurrentUser: function($scope, next) {
 
-                    authService.get(config.rookeryCensus + "?userId" + userId)
+                    var userId = authService.getUserId();
+
+                    authService.get(config.rookeryCensus + "?userId=" + userId)
                         .then(function success(response) {
 
                             next(response.data);

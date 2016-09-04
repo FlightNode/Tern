@@ -2,7 +2,7 @@
 <loading></loading>
 <div class="row">
     <div class="col-sm-12">
-        <h2>Waterbird Foraging Surveys - Administrative View</h2>
+        <h2>Rookery Census Surveys</h2>
     </div>
 </div>
 
@@ -13,8 +13,6 @@
 </div>
 <div class="row" style="margin-top: 1em;">
     <div class="col-sm-12 text-right">
-        <button class="btn btn-default" ng-csv="downloadForagingData()" filename="foragingSurveyExport.csv"
-		field-separator="," add-bom="true" quote-strings="true"
-		csv-header="getHeader()"><span class="glyphicon glyphicon-download-alt"></span> Download Completed Survey Data</button>
+        <button class="btn btn-primary" ng-click="newSurvey()"><span class="glyphicon glyphicon-plus"></span> Submit New Survey</button>
     </div>
 </div>

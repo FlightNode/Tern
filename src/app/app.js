@@ -146,41 +146,43 @@ angular
         controller: 'LogoutController'
       })
       .when('/foraging/', {
-        redirectTo: '/foraging/step1'
+        templateUrl: 'app/views/foraging/list.html',
+        controller: 'ForagingListController',
+        title: 'Manage My Waterbird Foraging Surveys'
       })
       .when('/foraging/step1/', {
         templateUrl: 'app/views/foraging/create1.html',
-        controller: 'RookeryStep1Controller',
+        controller: 'ForagingStep1Controller',
         title: site + ' - Rookery Census - New',
         step: 1
       })
       .when('/foraging/step1/:id', {
         templateUrl: 'app/views/foraging/create1.html',
-        controller: 'RookeryStep1Controller',
+        controller: 'ForagingStep1Controller',
         title: site + ' - Rookery Census - New',
         step: 1
       })
       .when('/foraging/step2/:id', {
         templateUrl: 'app/views/foraging/create2.html',
-        controller: 'RookeryStep2Controller',
+        controller: 'ForagingStep2Controller',
         title: site + ' - Rookery Census - New',
         step: 2
       })
       .when('/foraging/step3/:id', {
         templateUrl: 'app/views/foraging/create3.html',
-        controller: 'RookeryStep3Controller',
+        controller: 'ForagingStep3Controller',
         title: site + ' - Rookery Census - New',
         step: 3
       })
       .when('/foraging/step4/:id', {
         templateUrl: 'app/views/foraging/create4.html',
-        controller: 'RookeryStep4Controller',
+        controller: 'ForagingStep4Controller',
         title: site + ' - Rookery Census - New',
         step: 4
       })
       .when('/foraging/step5/:id', {
         templateUrl: 'app/views/foraging/create5.html',
-        controller: 'RookeryStep5Controller',
+        controller: 'ForagingStep5Controller',
         title: site + ' - Rookery Census - New',
         step: 5
       })
@@ -199,7 +201,9 @@ angular
         title: site + ' - Manage Rookery Censuses'
       })
       .when('/rookery/', {
-        redirectTo: '/rookery/step1'
+        templateUrl: 'app/views/rookery/list.html',
+        controller: 'RookeryListController',
+        title: 'Manage My Rookery Census Surveys'
       })
       .when('/rookery/step1/', {
         templateUrl: 'app/views/rookery/create1.html',
