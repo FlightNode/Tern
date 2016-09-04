@@ -5,7 +5,7 @@
  * @name flightNodeApp.controller:RookeryCensusManageController
  * @description
  * # RookeryCensusManageController
- * Controller for the managing Waterbird RookeryCensus Survey data
+ * Controller for the managing Rookery Census data
  */
 angular.module('flightNodeApp')
     .controller('RookeryCensusManageController', ['$scope', 'authService', 'config', 'messenger',
@@ -95,7 +95,7 @@ angular.module('flightNodeApp')
                 }]
             };
 
-            $scope.downloadRookeryCensusData = function() {
+            $scope.downloadRookeryData = function() {
                 return rookeryCensusProxy.export();
             };
 
@@ -111,10 +111,6 @@ angular.module('flightNodeApp')
                     'assessment',
                     'startDate',
                     'endDate',
-                    'startTemperature',
-                    'weather',
-                    'tide',
-                    'windSpeed',
                     'vantagePoint',
                     'accessPoint',
                     'submittedBy',
@@ -125,11 +121,8 @@ angular.module('flightNodeApp')
                     'commonAlphaCode',
                     'commonName',
                     'numberOfAdults',
-                    'nubmerOfJuveniles',
-                    'primaryActivity',
-                    'secondaryActivity',
-                    'feedingSuccessRate',
-                    'habitatType',
+                    'nestsPresent',
+                    'fledglingsPresent',
                     'disturbanceComments',
                     'kayakerQuantity',
                     'kayakerDurationMinutes',
@@ -158,7 +151,7 @@ angular.module('flightNodeApp')
             }
 
             $scope.editSurvey = function(id) {
-                $location.path('/foraging/step1/' + id);
+                $location.path('/rookery/step1/' + id);
             };
 
             $scope.loading = false;

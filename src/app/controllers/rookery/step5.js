@@ -186,7 +186,7 @@ angular.module('flightNodeApp')
             $scope.next = function() {
 
                 $scope.loading = true;
-                $scope.rookeryCensus.finished = true;
+                $scope.rookeryCensus.finishedEditing = true;
 
                 rookeryCensusProxy.update($scope, $scope.rookeryCensus, function(data) {
 

@@ -208,7 +208,7 @@ angular.module('flightNodeApp')
             $scope.next = function() {
 
                 $scope.loading = true;
-                $scope.foragingSurvey.finished = true;
+                $scope.foragingSurvey.finishedEditing = true;
 
                 foragingSurveyProxy.update($scope, $scope.foragingSurvey, function(data) {
 

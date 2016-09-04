@@ -2,18 +2,18 @@
 <loading></loading>
 <div class="row">
     <div class="col-sm-12">
-        <h2>Waterbird Foraging Surveys</h2>
+        <h2>Rookery TERN Colonial Waterbird Census</h2>
     </div>
 </div>
 
 <div class="row">
     <div class="col-sm-12">
-        <div class="grid" ui-grid="gridOptions" id="foraging-grid" style="height: 20em; width: 100%;"></div>
+        <div class="grid" ui-grid="gridOptions" id="rookery-grid" style="height: 20em; width: 100%;"></div>
     </div>
 </div>
 <div class="row" style="margin-top: 1em;">
     <div class="col-sm-12 text-right">
-        <button class="btn btn-default" ng-csv="downloadForagingData()" filename="foragingSurveyExport.csv"
+        <button class="btn btn-default" ng-csv="downloadRookeryData()" filename="rookeryCensus.csv"
 		field-separator="," add-bom="true" quote-strings="true"
 		csv-header="getHeader()"><span class="glyphicon glyphicon-download-alt"></span> Download Completed Survey Data</button>
     </div>

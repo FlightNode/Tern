@@ -54,6 +54,15 @@ angular.module('flightNodeApp')
                 }
             };
 
+            var loadNumberOfadultsForDropDown = function() {
+                $scope.numberOfAdults = [
+                    { value: 0, text: 'None' },
+                    { value: 1, text: 'Less than 25' },
+                    { value: 2, text: '25 to 200' },
+                    { value: 3, text: 'More than 200' }
+                ];
+            }
+
             var loadAvailableBirds = function() {
 
                 birdsProxy.getRookeryBirds($scope, function(data) {
@@ -77,7 +86,7 @@ angular.module('flightNodeApp')
 
                         if (item) {
                             item.observationId = observation.observationId;
-                            item.numberOfAdults = observation.numberOfAdults;
+                            item.adults = observation.adults;
                             item.nestsPresent = observation.nestsPresent;
                             item.chicksPresent = observation.chicksPresent;
                             item.fledglingsPresent = observation.fledglingsPresent;
@@ -94,14 +103,14 @@ angular.module('flightNodeApp')
                 $scope.rookeryCensus.observations =
                     _($scope.birdSpeciesList).omitBy(function(item) {
                         // strip out species with no adults
-                        return (item.numberOfAdults === undefined || item.numberOfAdults === 0);
+                        return (item.adults === undefined || item.adults === 0);
                     })
                     .values() // extract the dictionary values without the keys
                     .map(function(item) { // convert to the expect data model
                         return {
                             observationId: item.observationId,
                             birdSpeciesId: item.id,
-                            numberOfAdults: item.numberOfAdults,
+                            adults: item.adults,
                             nestsPresent: item.nestsPresent,
                             chicksPresent: item.chicksPresent,
                             fledglingsPresent: item.fledglingsPresent,
@@ -171,6 +180,7 @@ angular.module('flightNodeApp')
 
             loadEnums();
             loadAvailableBirds();
+            loadNumberOfadultsForDropDown();
 
 
             // TODO: restore validations

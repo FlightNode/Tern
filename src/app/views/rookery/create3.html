@@ -24,11 +24,7 @@
             </div>
             <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">No. of Adults</div>
             <div class="col-sm-2" ng-class="{ 'bg-danger': bird.invalid }">
-                <select class="form-control" ng-model="bird.numberOfAdults" name="numberOfAdults" id="numberOfAdults">
-                    <option value="0">None</option>
-                    <option value="1">Less than 25</option>
-                    <option value="2">25 to 200</option>
-                    <option value="3">More than 200</option>
+                 <select id="adults" name="adults" class="form-control" ng-model="bird.adults" ng-options="item.value as item.text for item in numberOfAdults">
                 </select>
             </div>
             <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">Nests Present</div>

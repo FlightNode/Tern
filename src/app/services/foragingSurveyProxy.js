@@ -69,7 +69,7 @@ angular.module('flightNodeApp')
 
                 getFullList: function($scope, next) {
 
-                    authService.get(config.foragingFullList)
+                    authService.get(config.waterbirdForagingSurvey)
                         .then(function success(response){
 
                             next(response.data);

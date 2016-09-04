@@ -14,86 +14,80 @@ angular.module('flightNodeApp')
                 getById: function($scope, id, next) {
 
                     authService.get(config.rookeryCensus + id)
-                        .then(function success(response){
+                        .then(function success(response) {
 
                             next(response.data);
 
                         }, function error(response) {
 
                             messenger.displayErrorResponse($scope, response);
-                            
+
                         });
                 },
 
                 getByUserId: function($scope, id, next) {
 
                     authService.get(config.rookeryCensus + "?userId" + userId)
-                        .then(function success(response){
+                        .then(function success(response) {
 
                             next(response.data);
 
                         }, function error(response) {
 
                             messenger.displayErrorResponse($scope, response);
-                            
+
                         });
                 },
 
                 create: function($scope, model, next) {
 
-                    // authService.post(config.rookeryCensus, model)
-                    //     .then(function success(response){
-
-                    //         next(response.data);
-
-                    //     }, function error(response) {
-
-                    //         messenger.displayErrorResponse($scope, response);
-                            
-                    //     });
-
-                    model.surveyIdentifier = 'abcdefg';
-
-                        next(model);
-                },
-
-                update: function($scope, model, next) {
-                    // var id = model.surveyIdentifier;
-                    // authService.put(config.rookeryCensus + id, model)
-                    //     .then(function success(response){
-
-                    //         next(response.data);
-
-                    //     }, function error(response) {
-
-                    //         messenger.displayErrorResponse($scope, response);
-                            
-                    //     });
-                        
-                        next(model);
-                },
-
-                getFullList: function($scope, next) {
-
-                    authService.get(config.foragingFullList)
-                        .then(function success(response){
+                    authService.post(config.rookeryCensus, model)
+                        .then(function success(response) {
 
                             next(response.data);
 
                         }, function error(response) {
 
                             messenger.displayErrorResponse($scope, response);
-                            
+
+                        });
+                },
+
+                update: function($scope, model, next) {
+                    var id = model.surveyIdentifier;
+                    authService.put(config.rookeryCensus + id, model)
+                        .then(function success(response) {
+
+                            next(response.data);
+
+                        }, function error(response) {
+
+                            messenger.displayErrorResponse($scope, response);
+
+                        });
+                },
+
+                getFullList: function($scope, next) {
+
+                    authService.get(config.rookeryCensus)
+                        .then(function success(response) {
+
+                            next(response.data);
+
+                        }, function error(response) {
+
+                            messenger.displayErrorResponse($scope, response);
+
                         });
                 },
 
                 export: function($scope) {
                     var deferred = $q.defer();
 
-                    authService.get(config.foragingExport)
+                    authService.get(config.rookeryCensusExport)
                         .then(function success(response) {
-                           deferred.resolve(response.data); 
-                        }, function error(response) {                            
+                            deferred.resolve(response.data);
+                        }, function error(response) {
                             messenger.displayErrorResponse($scope, response);
                         });
 
