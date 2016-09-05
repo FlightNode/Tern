@@ -4,7 +4,7 @@
 
 angular.module('flightNodeApp')
     .factory('config', function() {
-        var baseHref= 'http://localhost:50323/';
+        var baseHref = 'http://localhost:50323/';
         var baseV1Href = baseHref + 'api/v1/';
         var enums = baseV1Href + 'enums/'
         return {
@@ -20,7 +20,7 @@ angular.module('flightNodeApp')
             exportWorkLogs: baseV1Href + 'worklogs/export/',
             workTypes: baseV1Href + 'worktypes/',
             workTypesSimpleList: baseV1Href + 'worktypes/simple',
-            token:  baseHref + 'oauth/token', // should not have trailing slash
+            token: baseHref + 'oauth/token', // should not have trailing slash
             navigation: baseV1Href + 'nav',
             roles: baseV1Href + 'roles/',
             birdspecies: baseV1Href + 'birdspecies/',
@@ -39,6 +39,8 @@ angular.module('flightNodeApp')
             foragingExport: baseV1Href + 'waterbirdforagingsurvey/export',
             rookeryCensus: baseV1Href + 'rookerycensus/',
             rookeryCensusExport: baseV1Href + 'rookerycensus/export',
-            contact: baseV1Href + 'contact'
+            contact: baseV1Href + 'contact',
+            requestReset: baseV1Href + 'users/requestreset',
+            changePassword: baseV1Href + 'users/changepassword'
         }
     });

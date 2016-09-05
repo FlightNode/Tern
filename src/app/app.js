@@ -61,6 +61,16 @@ angular
         controller: 'UserProfileController',
         title: site + ' - My Profile'
       })
+      .when('/users/forgot', {
+        templateUrl: 'app/views/users/forgot.html',
+        controller: 'UserForgotPasswordController',
+        title: site + ' - Forgotten Password'
+      })
+      .when('/users/changepassword', {
+        templateUrl: 'app/views/users/changePassword.html',
+        controller: 'UserChangePasswordController',
+        title: site + ' - Change Password'
+      })
       .when('/users/:userId', {
         templateUrl: 'app/views/users/edit.html',
         controller: 'UserEditController',
