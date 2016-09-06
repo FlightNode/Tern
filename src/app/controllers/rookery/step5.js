@@ -108,13 +108,13 @@ angular.module('flightNodeApp')
 
             var getAdultsDisplay = function(value) {
                 switch (value) {
-                    case "0":
+                    case 0:
                         return "none";
-                    case "1":
+                    case 1:
                         return "less than 25";
-                    case "2":
+                    case 2:
                         return "25 to 200";
-                    case "3":
+                    case 3:
                         return "more than 200";
                     default:
                         return "invalid";
@@ -128,10 +128,10 @@ angular.module('flightNodeApp')
                         return {
                             birdSpeciesId: item.birdSpeciesId,
                             commonName: $scope.allBirds[item.birdSpeciesId].commonName,
-                            adults: getAdultsDisplay(item.numberOfAdults),
-                            nestsPresent: item.nestsPresent,
-                            chicksPresent: item.chicksPresent,
-                            fledglingsPresent: item.fledglingsPresent
+                            adults: getAdultsDisplay(item.adults),
+                            nestsPresent: item.nestsPresent ? 'x' : '',
+                            chicksPresent: item.chicksPresent ? 'x' : '',
+                            fledglingsPresent: item.fledglingsPresent ? 'x' : ''
                         };
 
                     });

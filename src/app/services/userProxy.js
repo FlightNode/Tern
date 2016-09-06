@@ -177,7 +177,7 @@ angular.module('flightNodeApp')
                         .then(function success() {
                             messenger.showSuccessMessage($scope, msg);
                         }, function error(response) {
-                            messenger.displayErrorResponse($scope, response);
+                            messenger.displayErrorResponse($scope, response.responseText || 'Invalid e-mail address');
                         })
                         .finally(done);
                 },
