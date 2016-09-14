@@ -38,8 +38,8 @@
         </div>
         <div class="form-group">
             <label class="control-label col-sm-3" for="endTime">Time End:</label>
-            <div class="col-sm-3" ng-class="{ 'has-error': !rookeryCensus.endTime }">
-                <uib-timepicker ng-model="rookeryCensus.endTime" hour-step="hstep" minute-step="mstep" show-meridian="true" ng-required="true"></uib-timepicker>
+            <div class="col-sm-3" ng-class="{ 'has-error': !rookeryCensus.endTime || rookeryCensus.startTime > rookeryCensus.endTime }">
+                <uib-timepicker ng-model="rookeryCensus.endTime" hour-step="hstep" minute-step="mstep" show-meridian="true" ng-required="true" ng-change="timeChange()"></uib-timepicker>
             </div>
         </div>
     </form>

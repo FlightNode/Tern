@@ -117,8 +117,13 @@ angular.module('flightNodeApp')
             }
 
             //
-            // Configure button actions
+            // Configure actions
             //
+
+            $scope.timeChange = function() {
+                $scope.invalid = $scope.rookeryCensus.startTime > $scope.rookeryCensus.endTime;
+            };
+
             $scope.next = function() {
                 $scope.loading = true;
 

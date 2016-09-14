@@ -94,7 +94,7 @@ angular.module('flightNodeApp')
                     $scope.locations = data;
                 });
             };
-            
+
             var storeSelectedLocationNameInSession = function() {
                 var location = _.keyBy($scope.locations, function(l) {
                     return l.id;
@@ -114,11 +114,16 @@ angular.module('flightNodeApp')
 
                     $scope.loading = false;
                 });
-            }
+            };
 
             //
-            // Configure button actions
+            // Configure actions
             //
+
+            $scope.timeChange = function() {
+                $scope.invalid = $scope.foragingSurvey.startTime > $scope.foragingSurvey.endTime;
+            };
+
             $scope.next = function() {
                 $scope.loading = true;
 
