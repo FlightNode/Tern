@@ -98,7 +98,7 @@ angular.module('flightNodeApp')
             var storeSelectedLocationNameInSession = function() {
                 var location = _.keyBy($scope.locations, function(l) {
                     return l.id;
-                })[$scope.rookeryCensus.locationId];
+                })[$scope.foragingSurvey.locationId];
                 var locationName = location.siteCode + ' - ' + location.siteName;
 
                 saveToSession({ locationName: locationName }, locationNameKey);
