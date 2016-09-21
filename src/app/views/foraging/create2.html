@@ -44,6 +44,17 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="control-label col-sm-3">Water Height:</label>
+            <div class="col-sm-9">
+                <div class="checkbox">
+                    <div ng-repeat="enum in enums.waterHeights">
+                        <input type="radio" id="waterheight-{{enum.id}}" name="waterHeight" ng-model="foragingSurvey.waterHeightId" value="{{enum.id}}">
+                        <label for="waterheight-{{enum.id}}">{{enum.description}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
             <label class="control-label col-sm-3">Weather:</label>
             <div class="col-sm-9">
                 <div class="checkbox">

@@ -93,6 +93,15 @@ angular.module('flightNodeApp')
                     return '';
                 }
             };
+            var getWaterHeight = function() {
+                var id = +$scope.foragingSurvey.waterHeightId;
+                var waterHeight = _.find($scope.enums.waterHeights, { id: id });
+                if (waterHeight) {
+                    return waterHeight.description;
+                } else {
+                    return '';
+                }
+            };
             var getWeather = function() {
                 var id = +$scope.foragingSurvey.weatherId;
                 var weather = _.find($scope.enums.weatherInfo, { id: id });
@@ -186,12 +195,15 @@ angular.module('flightNodeApp')
                     accessPoint: getAccessPoint(),
                     observations: getObservations(),
                     disturbances: getDisturbances(),
-                    tide: getTide()
+                    tide: getTide(),
+                    waterHeight: getWaterHeight()
                 };
             };
 
             var disableFinishButtonIfModelNotFullyValid = function() {
                 var f = $scope.foragingSurvey;
+                // can't user ! because 0 is legitimate value. These values should 
+                // never be undefined.
                 $scope.reviewInvalid = f.siteTypeId === null ||
                     f.temperature === null ||
                     f.windSpeed === null ||
@@ -199,7 +211,8 @@ angular.module('flightNodeApp')
                     f.weather === null ||
                     f.observers === null ||
                     f.vantagePointId === null ||
-                    f.accessPointId === null;
+                    f.accessPointId === null ||
+                    f.waterHeightId === null;
             };
 
             //

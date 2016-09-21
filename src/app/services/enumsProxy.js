@@ -31,7 +31,7 @@ angular.module('flightNodeApp')
 
                         next({
                             weatherInfo: responses[0].data,
-                            waterheights: responses[1].data,
+                            waterHeights: responses[1].data,
                             tideInfo: responses[2].data,
                             disturbanceTypeInfo: responses[3].data,
                             habitatInfo: responses[4].data,
