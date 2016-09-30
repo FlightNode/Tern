@@ -150,11 +150,10 @@ angular.module('flightNodeApp')
             }
 
 
-            if (!(authService.isAdministrator() ||
-                    authService.isCoordinator())) {
+            if (!authService.isAdministrator()) {
 
                 // Non-administrative users must be reporters and can only edit their own data
-                if (!authService.isReporter() || $scope.workday.userId !== authService.getUserId()) {
+                if (!authService.isAuthorized() || $scope.workday.userId !== authService.getUserId()) {
 
                     $log.warn('not authorized to access this path');
                     $location.path('/');

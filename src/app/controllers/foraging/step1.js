@@ -16,7 +16,7 @@ angular.module('flightNodeApp')
             $route, $uibModal, birdsProxy, $routeParams) {
 
 
-            if (!(authService.isReporter())) {
+            if (!(authService.isAuthorized())) {
                 $log.warn('not authorized to access this path');
                 $location.path('/');
                 return;
@@ -90,7 +90,7 @@ angular.module('flightNodeApp')
             }
 
             var loadLocations = function() {
-                locationProxy.get($scope, function(data) {
+                locationProxy.getSimpleList($scope, function(data) {
                     $scope.locations = data;
                 });
             };
@@ -99,7 +99,7 @@ angular.module('flightNodeApp')
                 var location = _.keyBy($scope.locations, function(l) {
                     return l.id;
                 })[$scope.foragingSurvey.locationId];
-                var locationName = location.siteCode + ' - ' + location.siteName;
+                var locationName = location.value;
 
                 saveToSession({ locationName: locationName }, locationNameKey);
             };

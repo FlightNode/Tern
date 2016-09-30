@@ -2,7 +2,7 @@
 
 flnd.workTypeEdit = {
     retrieveRecord: function(id, config, $scope, messenger, authService) {
-        var url =  config.workTypes +id;
+        var url = config.workTypes + id;
 
         authService.get(url)
             .then(function success(response) {
@@ -13,10 +13,10 @@ flnd.workTypeEdit = {
             });
     },
     configureSubmit: function(id, config, $scope, messenger, authService, $uibModalInstance) {
-        return function () {
+        return function() {
             $scope.loading = true;
 
-            var url =  config.workTypes + id;
+            var url = config.workTypes + id;
             authService.put(url, $scope.worktype)
                 .then(function success() {
 
@@ -25,12 +25,12 @@ flnd.workTypeEdit = {
                 }, function error(response) {
                     messenger.displayErrorResponse($scope, response);
                 })
-                .finally(function(){
+                .finally(function() {
                     $scope.loading = false;
                 });
         };
     }
- };
+};
 
 /**
  * @ngdoc function
@@ -40,31 +40,30 @@ flnd.workTypeEdit = {
  * Controller for the edit work type page.
  */
 angular.module('flightNodeApp')
-    .controller('WorktypeEditController',
-        ['$scope', '$http', '$log', '$location', 'messenger', 'authService', '$routeParams', 'config', 'id', '$uibModalInstance',
-            function ($scope, $http, $log, $location, messenger, authService, $routeParams, config, id, $uibModalInstance) {
+    .controller('WorktypeEditController', ['$scope', '$http', '$log', '$location', 'messenger', 'authService', '$routeParams', 'config', 'id', '$uibModalInstance',
+        function($scope, $http, $log, $location, messenger, authService, $routeParams, config, id, $uibModalInstance) {
 
-                if (!(authService.isAdministrator() ||
-                      authService.isCoordinator())) {
-                    $log.warn('not authorized to access this path');
-                    $location.path('/');
-                    return;
-                }
+            if (!authService.isAdministrator()) {
+                $log.warn('not authorized to access this path');
+                $location.path('/');
+                return;
+            }
 
-                $scope.loading = true;
+            $scope.loading = true;
 
-                if (!isFinite(id)) {
-                    // garbage input
-                    return;
-                }
+            if (!isFinite(id)) {
+                // garbage input
+                return;
+            }
 
-                flnd.workTypeEdit.retrieveRecord(id, config, $scope, messenger, authService);
+            flnd.workTypeEdit.retrieveRecord(id, config, $scope, messenger, authService);
 
-                $scope.cancel = function () {
-                    $uibModalInstance.dismiss('cancel');
-                };
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
 
-                $scope.submit = flnd.workTypeEdit.configureSubmit(id, config, $scope, messenger, authService, $uibModalInstance);
+            $scope.submit = flnd.workTypeEdit.configureSubmit(id, config, $scope, messenger, authService, $uibModalInstance);
 
-                $scope.loading = false;
-            }]);
+            $scope.loading = false;
+        }
+    ]);

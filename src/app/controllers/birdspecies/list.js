@@ -18,8 +18,8 @@ angular.module('flightNodeApp')
             //  the view before changing the location path. Is there a
             //  better place to put this? Perhaps something in the routing
             //  to intercept the route and direct traffic by permission?
-            if (!(authService.isAdministrator() ||
-                    authService.isCoordinator())) {
+
+            if (!authService.isAdministrator()) {
                 $log.warn('not authorized to access this path');
                 $location.path('/');
                 return;

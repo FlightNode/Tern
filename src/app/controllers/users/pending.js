@@ -8,12 +8,10 @@
  * Controller for the user list page.
  */
 angular.module('flightNodeApp')
-    .controller('UserPendingController',
-     ['$scope', '$http', '$log', 'messenger', '$location', 'authService', 'config', 'userProxy',
-        function ($scope, $http, $log, messenger, $location, authService, config, userProxy) {
+    .controller('UserPendingController', ['$scope', '$http', '$log', 'messenger', '$location', 'authService', 'config', 'userProxy',
+        function($scope, $http, $log, messenger, $location, authService, config, userProxy) {
 
-            if (!(authService.isAdministrator() ||
-                  authService.isCoordinator())) {
+            if (!authService.isAdministrator()) {
                 $log.warn('not authorized to access this path');
                 $location.path('/');
                 return;
@@ -32,16 +30,15 @@ angular.module('flightNodeApp')
                 selectionRowHeaderWidth: 35,
                 multiSelect: true,
                 enableFiltering: true,
-                showGridFooter:true,
+                showGridFooter: true,
                 rowTemplate: 'app/views/row.html',
-                onRegisterApi: function (gridApi) {
+                onRegisterApi: function(gridApi) {
                     $scope.gridApi = gridApi;
                 },
                 data: 'users',
                 columnDefs: [
                     { field: 'userId', visible: false },
-                    { field: 'displayName', displayName: 'Full Name' },
-                    {
+                    { field: 'displayName', displayName: 'Full Name' }, {
                         field: 'email',
                         displayName: 'E-mail Address',
                         cellTemplate: '\
@@ -54,7 +51,7 @@ angular.module('flightNodeApp')
                 ]
             };
 
-            $scope.approve = function () {
+            $scope.approve = function() {
                 var rows = $scope.gridApi.selection.getSelectedRows();
                 var ids = _.map(rows, function(row) {
                     return row.userId;
@@ -62,7 +59,7 @@ angular.module('flightNodeApp')
 
                 var msg = 'The following new users have been activated: ';
                 _.forEach(rows, function(row) {
-                    msg +=  row.displayName + ', ';
+                    msg += row.displayName + ', ';
                 });
                 msg = msg.substring(0, msg.length - 2);
 
@@ -75,4 +72,5 @@ angular.module('flightNodeApp')
 
             $scope.loading = false;
 
-        }]);
+        }
+    ]);

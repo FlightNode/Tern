@@ -30,24 +30,24 @@ flnd.locationCreate = {
  * Controller for the create work type page.
  */
 angular.module('flightNodeApp')
-    .controller('LocationCreateController',
-        ['$scope', '$http', '$log', '$location', 'messenger', 'authService', 'config', '$uibModalInstance',
-            function ($scope, $http, $log, $location, messenger, authService, config, $uibModalInstance) {
+    .controller('LocationCreateController', ['$scope', '$http', '$log', '$location', 'messenger', 'authService', 'config', '$uibModalInstance',
+        function($scope, $http, $log, $location, messenger, authService, config, $uibModalInstance) {
 
-                if (!(authService.isAdministrator() ||
-                   authService.isCoordinator())) {
-                 $log.warn('not authorized to access this path');
-                 $location.path('/');
-                 return;
-                }
 
-                $scope.loading = true;
+            if (!authService.isAdministrator()) {
+                $log.warn('not authorized to access this path');
+                $location.path('/');
+                return;
+            }
 
-                $scope.cancel = function () {
-                    $uibModalInstance.dismiss('cancel');
-                };
+            $scope.loading = true;
 
-                $scope.submit = flnd.locationCreate.configureSubmit($scope, config, messenger, authService, $uibModalInstance);
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
 
-                $scope.loading = false;
-            }]);
+            $scope.submit = flnd.locationCreate.configureSubmit($scope, config, messenger, authService, $uibModalInstance);
+
+            $scope.loading = false;
+        }
+    ]);

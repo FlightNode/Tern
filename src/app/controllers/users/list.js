@@ -1,24 +1,24 @@
 'use strict';
 
 flnd.userList = {
-  retrieve: function(authService, config, $scope, messenger) {
-		authService.get(config.users)
-			.then(function success(response) {
+    retrieve: function(authService, config, $scope, messenger) {
+        authService.get(config.users)
+            .then(function success(response) {
 
-				$scope.userList = _.map(response.data, function (user) {
-					return {
-						fullName: user.givenName + ' ' + user.familyName,
-						email: user.email,
-						phone: user.primaryPhoneNumber,
-						id: user.userId
-					};
-				});
+                $scope.userList = _.map(response.data, function(user) {
+                    return {
+                        fullName: user.givenName + ' ' + user.familyName,
+                        email: user.email,
+                        phone: user.primaryPhoneNumber,
+                        id: user.userId
+                    };
+                });
 
-			}, function error(response) {
+            }, function error(response) {
 
                 messenger.displayErrorResponse($scope, response);
-			});
-  }
+            });
+    }
 };
 
 /**
@@ -29,33 +29,31 @@ flnd.userList = {
  * Controller for the user list page.
  */
 angular.module('flightNodeApp')
-	.controller('UserListController',
-	 ['$scope', '$http', '$log', 'messenger', '$location', 'authService', 'config', '$uibModal',
-		function ($scope, $http, $log, messenger, $location, authService, config, $uibModal) {
+    .controller('UserListController', ['$scope', '$http', '$log', 'messenger', '$location', 'authService', 'config', '$uibModal',
+        function($scope, $http, $log, messenger, $location, authService, config, $uibModal) {
 
-			if (!(authService.isAdministrator() ||
-				  authService.isCoordinator())) {
-				$log.warn('not authorized to access this path');
-				$location.path('/');
-				return;
-			}
 
-			$scope.loading = true;
+            if (!authService.isAdministrator()) {
+                $log.warn('not authorized to access this path');
+                $location.path('/');
+                return;
+            }
 
-			$scope.userList = [];
+            $scope.loading = true;
 
-			flnd.userList.retrieve(authService, config, $scope, messenger);
+            $scope.userList = [];
 
-			$scope.gridOptions = {
-				enableFiltering: true,
-				rowTemplate: 'app/views/row.html',
-				onRegisterApi: function (gridApi) {
-					$scope.gridApi = gridApi;
-				},
-				data: 'userList',
-				columnDefs: [
-					{ field: 'fullName', displayName: 'Full Name' },
-                    {
+            flnd.userList.retrieve(authService, config, $scope, messenger);
+
+            $scope.gridOptions = {
+                enableFiltering: true,
+                rowTemplate: 'app/views/row.html',
+                onRegisterApi: function(gridApi) {
+                    $scope.gridApi = gridApi;
+                },
+                data: 'userList',
+                columnDefs: [
+                    { field: 'fullName', displayName: 'Full Name' }, {
                         field: 'email',
                         displayName: 'E-mail Address',
                         cellTemplate: '\
@@ -63,10 +61,9 @@ angular.module('flightNodeApp')
                           <a href="mailto:{{row.entity.email}}">{{row.entity.email}}</a> \
                         </div>',
                     },
-					{ field: 'phone', displayName: 'Phone Number' },
-					{
-						field: 'id',
-						displayName: '',
+                    { field: 'phone', displayName: 'Phone Number' }, {
+                        field: 'id',
+                        displayName: '',
                         cellTemplate: '\
                         <div class="ui-grid-cell-contents" title="Edit">\
                           <button class="btn btn-primary btn-xs" ng-click="grid.appScope.editUser(row.entity.id)" \
@@ -77,11 +74,11 @@ angular.module('flightNodeApp')
                         enableFiltering: false,
                         width: '32',
                         enableColumnMenu: false
-					}
-				]
-			};
+                    }
+                ]
+            };
 
-			$scope.createUser = function () {
+            $scope.createUser = function() {
                 var modal = $uibModal.open({
                     animation: true,
                     templateUrl: '/app/views/users/create.html',
@@ -90,12 +87,12 @@ angular.module('flightNodeApp')
                 });
                 modal.result.then(function ok() {
                     // Re-load the grid
-					flnd.userList.retrieve(authService, config, $scope, messenger);
-                	messenger.showSuccessMessage($scope, 'Saved');
+                    flnd.userList.retrieve(authService, config, $scope, messenger);
+                    messenger.showSuccessMessage($scope, 'Saved');
                 }, function dismissed() {
                     // no action required
                 });
-			};
+            };
 
             $scope.editUser = function(id) {
                 var modal = $uibModal.open({
@@ -111,13 +108,14 @@ angular.module('flightNodeApp')
                 });
                 modal.result.then(function ok() {
                     // Re-load the grid
-					flnd.userList.retrieve(authService, config, $scope, messenger);
-                	messenger.showSuccessMessage($scope, 'Saved');
+                    flnd.userList.retrieve(authService, config, $scope, messenger);
+                    messenger.showSuccessMessage($scope, 'Saved');
                 }, function dismissed() {
                     // no action required
                 });
             };
 
-			$scope.loading = false;
+            $scope.loading = false;
 
-		}]);
+        }
+    ]);

@@ -16,7 +16,7 @@ angular.module('flightNodeApp')
             $route, $uibModal, birdsProxy, $routeParams) {
 
 
-            if (!(authService.isReporter())) {
+            if (!(authService.isAuthorized())) {
                 $log.warn('not authorized to access this path');
                 $location.path('/');
                 return;

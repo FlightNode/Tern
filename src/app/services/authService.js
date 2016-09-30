@@ -150,16 +150,14 @@ angular.module('authService', [])
                     return $this.userName;
                 },
 
+                isAuthorized: function() {
+                    return this.getUserId() > -1;
+                },
+
                 isAdministrator: function() {
                     var $this = this;
 
                     return _.includes($this._getRoles(), 'Administrator');
-                },
-
-                isCoordinator: function() {
-                    var $this = this;
-
-                    return _.includes($this._getRoles(), 'Coordinator');
                 },
 
                 isTeamLead: function() {

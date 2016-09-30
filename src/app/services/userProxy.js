@@ -158,15 +158,6 @@ angular.module('flightNodeApp')
                         });
                 },
 
-                roleInfo: function($scope) {
-
-                    // Hard-code for now, think about alternatives in the future
-                    var header = 'Role Descriptions';
-                    var text = '<p>At this time, it is best to use either "Administrative user" or "Volunteer data reporter". The precise functionality for "Project Coordinator" and "Volunteer Team Lead" has not been fully defined, although "Coordinator" generally has similar rights as "Administrator" (so use with extreme caution).</p>';
-
-
-                },
-
                 initiateReset: function($scope, emailAddress, msg, done) {
                     var model = {
                         emailAddress: emailAddress
@@ -193,16 +184,16 @@ angular.module('flightNodeApp')
                         .then(function success() {
                             messenger.showSuccessMessage($scope, msg);
                         }, function error(response) {
-                                switch(response.status) {
-                                       case 422:
-                                                messenger.displayErrorResponse($scope, 'This link is no longer valid, you will need to request another e-mail');
-                                                break;
-case 404:
-                                                messenger.displayErrorResponse($scope,'E-mail address not found');
-                                                break;
-                                                default:
-                                                messenger.displayErrorResponse($scope, response.responseText);
-                                }
+                            switch (response.status) {
+                                case 422:
+                                    messenger.displayErrorResponse($scope, 'This link is no longer valid, you will need to request another e-mail');
+                                    break;
+                                case 404:
+                                    messenger.displayErrorResponse($scope, 'E-mail address not found');
+                                    break;
+                                default:
+                                    messenger.displayErrorResponse($scope, response.responseText);
+                            }
 
                         })
                         .finally(done);

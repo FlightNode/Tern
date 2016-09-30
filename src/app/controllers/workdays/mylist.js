@@ -34,7 +34,7 @@ angular.module('flightNodeApp')
      ['$scope', '$http', '$log', 'messenger', '$location', 'authService', 'config','$uibModal',
         function ($scope, $http, $log, messenger, $location, authService, config, $uibModal) {
 
-            if (!authService.isReporter()) {
+            if (!authService.isAuthorized()) {
                 $location.path('/login').search('redirect','/workdays/mylist');
                 return;
             }

@@ -16,7 +16,7 @@ angular.module('flightNodeApp')
             $route, $uibModal, uiGridConstants) {
 
 
-            if (!(authService.isReporter())) {
+            if (!(authService.isAuthorized())) {
                 $log.warn('not authorized to access this path');
                 $location.path('/');
                 return;

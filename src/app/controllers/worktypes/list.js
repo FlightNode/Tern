@@ -23,12 +23,10 @@ flnd.workTypeList = {
  * Controller for the user list page.
  */
 angular.module('flightNodeApp')
-    .controller('WorktypeListController',
-     ['$scope', '$http', '$log', 'messenger', '$location', 'authService', 'config', '$uibModal',
-        function ($scope, $http, $log, messenger, $location, authService, config, $uibModal) {
+    .controller('WorktypeListController', ['$scope', '$http', '$log', 'messenger', '$location', 'authService', 'config', '$uibModal',
+        function($scope, $http, $log, messenger, $location, authService, config, $uibModal) {
 
-            if (!(authService.isAdministrator() ||
-                  authService.isCoordinator())) {
+            if (!authService.isAdministrator()) {
                 $log.warn('not authorized to access this path');
                 $location.path('/');
                 return;
@@ -41,13 +39,12 @@ angular.module('flightNodeApp')
             $scope.gridOptions = {
                 enableFiltering: true,
                 rowTemplate: 'app/views/row.html',
-                onRegisterApi: function (gridApi) {
+                onRegisterApi: function(gridApi) {
                     $scope.gridApi = gridApi;
                 },
                 data: 'list',
                 columnDefs: [
-                    { name: 'description', displayName: 'Description' },
-                    {
+                    { name: 'description', displayName: 'Description' }, {
                         field: 'id',
                         displayName: '',
                         cellTemplate: '\
@@ -74,7 +71,7 @@ angular.module('flightNodeApp')
                 // no action required
             };
 
-            $scope.creatWorkType = function () {
+            $scope.creatWorkType = function() {
                 var modal = $uibModal.open({
                     animation: true,
                     templateUrl: '/app/views/worktypes/create.html',
@@ -101,4 +98,5 @@ angular.module('flightNodeApp')
 
             $scope.loading = false;
 
-        }]);
+        }
+    ]);

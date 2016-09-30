@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="col-sm-12">
-		<h1>My Work Days</h1>
+		<h1>My Activity Log</h1>
 	</div>
 </div>
 <alert>
@@ -12,7 +12,7 @@
 </div>
 <div class="row" style="margin-top: 1em; margin-bottom: 1em;">
 	<div class="col-sm-12 text-right">
-		<button class="btn btn-default" ng-click="createWorkDay()"><span class="glyphicon glyphicon-plus"></span> Log a Work Day</button>
+		<button class="btn btn-default" ng-click="createWorkDay()"><span class="glyphicon glyphicon-plus"></span> Log an Activity</button>
 		<button class="btn btn-default" ng-csv="exportData()" filename="workDayReport.csv"
 		field-separator="," add-bom="true"
 		csv-header="getHeader()"><span class="glyphicon glyphicon-download-alt"></span> Export Data</button>

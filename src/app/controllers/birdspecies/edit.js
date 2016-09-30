@@ -51,8 +51,8 @@ angular.module('flightNodeApp')
             config, $uibModalInstance, id, birdsProxy) {
 
 
-            if (!(authService.isAdministrator() ||
-                    authService.isCoordinator())) {
+
+            if (!authService.isAdministrator()) {
                 $log.warn('not authorized to access this path');
                 $location.path('/');
                 return;

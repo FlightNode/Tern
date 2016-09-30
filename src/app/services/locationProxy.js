@@ -23,7 +23,20 @@ angular.module('flightNodeApp')
                             messenger.displayErrorResponse($scope, response);
 
                         });
+                },
+                getSimpleList: function($scope, next) {
+
+                    authService.get(config.locationsSimpleList)
+                        .then(function success(response) {
+
+                            next(response.data);
+
+                        }, function error(response) {
+
+                            messenger.displayErrorResponse($scope, response);
+
+                        });
                 }
-            }
+            };
         }
     ]);

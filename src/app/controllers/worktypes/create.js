@@ -2,17 +2,17 @@
 
 flnd.workTypeCreate = {
     configureSubmit: function(config, $scope, messenger, authService, $uibModalInstance) {
-        return function () {
+        return function() {
             $scope.loading = true;
 
             authService.post(config.workTypes, $scope.worktype)
                 .then(function success() {
 
-                $uibModalInstance.close();
+                    $uibModalInstance.close();
                 }, function error(response) {
                     messenger.displayErrorResponse($scope, response);
                 })
-                .finally(function(){
+                .finally(function() {
                     $scope.loading = false;
                 });
         };
@@ -27,24 +27,24 @@ flnd.workTypeCreate = {
  * Controller for the create work type page.
  */
 angular.module('flightNodeApp')
-    .controller('WorktypeCreateController',
-        ['$scope', '$http', '$log', '$location', 'messenger', 'authService', 'config', '$uibModalInstance',
-            function ($scope, $http, $log, $location, messenger, authService, config, $uibModalInstance) {
+    .controller('WorktypeCreateController', ['$scope', '$http', '$log', '$location', 'messenger', 'authService', 'config', '$uibModalInstance',
+        function($scope, $http, $log, $location, messenger, authService, config, $uibModalInstance) {
 
-                if (!(authService.isAdministrator() ||
-                      authService.isCoordinator())) {
-                    $log.warn('not authorized to access this path');
-                    $location.path('/');
-                    return;
-                }
 
-                $scope.loading = true;
+            if (!authService.isAdministrator()) {
+                $log.warn('not authorized to access this path');
+                $location.path('/');
+                return;
+            }
 
-                $scope.cancel = function () {
-                    $uibModalInstance.dismiss('cancel');
-                };
+            $scope.loading = true;
 
-                $scope.submit = flnd.workTypeCreate.configureSubmit(config, $scope, messenger, authService, $uibModalInstance);
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
 
-                $scope.loading = false;
-            }]);
+            $scope.submit = flnd.workTypeCreate.configureSubmit(config, $scope, messenger, authService, $uibModalInstance);
+
+            $scope.loading = false;
+        }
+    ]);

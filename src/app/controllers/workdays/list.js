@@ -26,12 +26,10 @@ flnd.workDayList = {
  * Controller for the user list page.
  */
 angular.module('flightNodeApp')
-    .controller('WorkdayListController',
-     ['$scope', '$http', '$log', 'messenger', '$location', 'authService', 'config','$uibModal',
-        function ($scope, $http, $log, messenger, $location, authService, config, $uibModal) {
+    .controller('WorkdayListController', ['$scope', '$http', '$log', 'messenger', '$location', 'authService', 'config', '$uibModal',
+        function($scope, $http, $log, messenger, $location, authService, config, $uibModal) {
 
-            if (!(authService.isAdministrator() ||
-                  authService.isCoordinator())) {
+            if (!authService.isAdministrator()) {
                 $log.warn('not authorized to access this path');
                 $location.path('/');
                 return;
@@ -44,19 +42,18 @@ angular.module('flightNodeApp')
             $scope.gridOptions = {
                 enableFiltering: true,
                 rowTemplate: 'app/views/row.html',
-                onRegisterApi: function (gridApi) {
+                onRegisterApi: function(gridApi) {
                     $scope.gridApi = gridApi;
                 },
                 data: 'list',
                 columnDefs: [
                     { name: 'workDate', display: 'Date' },
-                    { name: 'county', displayName: 'County'},
+                    { name: 'county', displayName: 'County' },
                     { name: 'siteName', displayName: 'Site Name' },
-                    { name: 'numberOfVolunteers', displayName: '# Volunteers'},
+                    { name: 'numberOfVolunteers', displayName: '# Volunteers' },
                     { name: 'workHours', displayName: 'Work Hours' },
                     { name: 'travelTimeHours', displayName: 'Travel Hours' },
-                    { name: 'volunteer', displayName: 'Volunteer' },
-                    {
+                    { name: 'volunteer', displayName: 'Volunteer' }, {
                         name: 'id',
                         displayName: '',
                         cellTemplate: '\
@@ -89,7 +86,7 @@ angular.module('flightNodeApp')
                 // no action required
             };
 
-            $scope.createWorkDay = function () {
+            $scope.createWorkDay = function() {
                 var modal = $uibModal.open({
                     animation: true,
                     templateUrl: '/app/views/workdays/createForUser.html',
@@ -115,7 +112,8 @@ angular.module('flightNodeApp')
             };
 
             $scope.getHeader = function() {
-                return [ 'Id', 'WorkDate', 'Activity', 'County', 'SiteName', 'NumberOfVolunteers', 'WorkHours', 'TravelTimeHours', 'Volunteer', 'TasksCompleted', 'UserId' ];
+                return ['Id', 'WorkDate', 'Activity', 'County', 'SiteName', 'NumberOfVolunteers', 'WorkHours', 'TravelTimeHours', 'Volunteer', 'TasksCompleted', 'UserId'];
             };
 
-        }]);
+        }
+    ]);

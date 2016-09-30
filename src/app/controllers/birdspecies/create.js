@@ -45,8 +45,7 @@ angular.module('flightNodeApp')
     .controller('BirdSpeciesCreateController', ['$scope', '$http', '$log', '$location', 'messenger', 'authService', 'config', '$uibModalInstance',
         function($scope, $http, $log, $location, messenger, authService, config, $uibModalInstance) {
 
-            if (!(authService.isAdministrator() ||
-                    authService.isCoordinator())) {
+            if (!authService.isAdministrator()) {
                 $log.warn('not authorized to access this path');
                 $location.path('/');
                 return;

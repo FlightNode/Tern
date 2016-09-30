@@ -1,6 +1,6 @@
 <div class="modal-header">
-    <h2>Edit Workday Logging</h2>
-    <p><span class="text-danger">*</span> indicates a ng-required="true" field.</p>
+    <h2>Edit Activity Log</h2>
+    <p><span class="text-danger">*</span> indicates a required field.</p>
 </div>
 <form ng-submit="submit()" name="workdayForm" class="form-horizontal">
     <div class="modal-body">
@@ -9,7 +9,7 @@
         <div class="form-group">
             <label for="workDate" class="col-sm-3 control-label">Date <span class="text-danger">*</span></label>
             <div class="col-sm-9" 
-                ng-class="{'has-error': workdayForm.workDate.$error.ng-required="true" || workdayForm.workDate.$error.date}">
+                ng-class="{'has-error': workdayForm.workDate.$error.required || workdayForm.workDate.$error.date}">
                <div class="input-group">
                     <input type="text" class="form-control" ng-required="true" ng-model="workday.workDateManual" ng-pattern="/(\d{4}-\d{2}\-\d{2})|(\d{2}/\d{2}/\d{4})/" placeholder="mm/dd/yyyy" ng-change="updateWorkDate()" />
                     <span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="showDatePicker()"><i class="glyphicon glyphicon-calendar"></i></button></span>
@@ -61,7 +61,7 @@
         </div>
         <div class="form-group">
             <label for="numberOfVolunteers" class="col-sm-3 control-label">Number of Volunteers <span class="text-danger">*</span></label>
-            <div class="col-sm-9" ng-class="{'has-error': workdayForm.numberOfVolunteers.$error.ng-required="true" || workdayForm.numberOfVolunteers.$error.pattern }">
+            <div class="col-sm-9" ng-class="{'has-error': workdayForm.numberOfVolunteers.$error.required || workdayForm.numberOfVolunteers.$error.pattern }">
                 <input type="number" name="numberOfVolunteers" id="numberOfVolunteers" value="1"
                 ng-required="true" ng-pattern="/\d+/" ng-model="workday.numberOfVolunteers" class="form-control">
             </div>
