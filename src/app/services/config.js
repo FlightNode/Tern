@@ -28,7 +28,6 @@ angular.module('flightNodeApp')
             surveyTypes: baseV1Href + 'surveytypes/',
             weather: enums + 'weather',
             waterheights: enums + 'waterheights',
-            tides: enums + 'tides',
             disturbancetypes: enums + 'disturbancetypes',
             habitattypes: enums + 'habitattypes',
             feedingsuccessrates: enums + 'feedingsuccessrates',

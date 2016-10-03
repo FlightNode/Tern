@@ -69,24 +69,16 @@
                             </div>
                     </div>
                     <div class="row">
-                        <div ng-class="{'has-error': foragingSurvey.tideId === null}">
-                            <div class="control-label col-sm-3">Tides <span class="text-danger" ng-class="{invisible: foragingSurvey.tideId !== null}">*</span></div>
-                            <div class="col-sm-3">
-                                <input class="form-control" ng-value="review.tide">
-                            </div>
-                        </div>
                         <div ng-class="{'has-error': foragingSurvey.waterHeightId === null}">
                             <div class="control-label col-sm-3">Water Height <span class="text-danger" ng-class="{invisible: foragingSurvey.waterHeightId !== null}">*</span></div>
                             <div class="col-sm-3">
                                 <input class="form-control" ng-value="review.waterHeight">
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div ng-class="{'has-error': foragingSurvey.observers === null || foragingSurveys.observers === ''}">
-                            <div class="control-label col-sm-3" for="observers">Observer(s) <span class="text-danger" ng-class="{invisible: foragingSurvey.observers !== null}">*</span></div>
-                            <div class="col-sm-9">
-                                <input class="form-control" ng-value="review.observers">
+                        <div ng-class="{'has-error': foragingSurvey.timeLowTide === null}">
+                            <div class="control-label col-sm-3">Nearest Low Tide <span class="text-danger" ng-class="{invisible: foragingSurvey.timeLowTide !== null}">*</span></div>
+                            <div class="col-sm-3">
+                                <input class="form-control" ng-value="review.timeLowTide">
                             </div>
                         </div>
                     </div>
@@ -101,6 +93,14 @@
                             <div class="control-label col-sm-3">Survey Access Point <span class="text-danger" ng-class="{invisible: foragingSurvey.accessPointId !== null}">*</span></div>
                             <div class="col-sm-3">
                                 <input class="form-control" ng-value="review.accessPoint">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div ng-class="{'has-error': foragingSurvey.observers === null || foragingSurveys.observers === ''}">
+                            <div class="control-label col-sm-3" for="observers">Observer(s) <span class="text-danger" ng-class="{invisible: foragingSurvey.observers !== null}">*</span></div>
+                            <div class="col-sm-9">
+                                <input class="form-control" ng-value="review.observers">
                             </div>
                         </div>
                     </div>

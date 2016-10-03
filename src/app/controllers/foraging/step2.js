@@ -43,6 +43,20 @@ angular.module('flightNodeApp')
                 return null;
             };
 
+            var setupDateAndTimeControls = function() {
+                $scope.hstep = 1;
+                $scope.mstep = 1;
+            };
+
+
+            var prepareTimeForUi = function(model) {
+                // need to convert to a a real Date object to support timepicker
+                var format = 'MM/DD/YYYY hh:mm a';
+                if (model.timeLowTide && model.timeLowTide.includes('M')) {
+                    model.timeLowTide = moment(model.startDate + ' ' + model.timeLowTide, format).toDate();
+                }
+            }
+
             var loadEnums = function() {
                 // TODO: look into caching this cleanly
                 if (!$scope.enums) {
@@ -102,12 +116,14 @@ angular.module('flightNodeApp')
             //
             // Main program flow
             //
-            $scope.loading = true;
+            $scope.loading = true
 
             loadEnums();
             $scope.foragingSurvey = pullFromSession();
             $scope.locationName = pullFromSession(locationNameKey).locationName;
 
+            setupDateAndTimeControls();
+            prepareTimeForUi($scope.foragingSurvey);
 
             $scope.step = 2;
             // Configure shared "bottomBar" components

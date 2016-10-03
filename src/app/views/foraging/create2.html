@@ -33,14 +33,9 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-sm-3">Tides:</label>
-            <div class="col-sm-9">
-                <div class="checkbox">
-                    <div ng-repeat="enum in enums.tideInfo">
-                        <input type="radio" id="tide-{{enum.id}}" name="tideInfo" ng-model="foragingSurvey.tideId" value="{{enum.id}}">
-                        <label for="tide-{{enum.id}}">{{enum.description}}</label>
-                    </div>
-                </div>
+            <label class="control-label col-sm-3">Nearest Low Tide:</label>
+             <div class="col-sm-3">
+                <uib-timepicker ng-model="foragingSurvey.timeLowTide" hour-step="hstep" minute-step="mstep" show-meridian="true"></uib-timepicker>
             </div>
         </div>
         <div class="form-group">
@@ -52,6 +47,11 @@
                         <label for="waterheight-{{enum.id}}">{{enum.description}}</label>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-9 col-sm-offset-3">
+                <label for="windDriven"><input type="checkbox" name="windDrivenTide" id="windDriven" ng-model="foragingSurvey.windDrivenTide">&nbsp;Tide Is Wind Driven</label>
             </div>
         </div>
         <div class="form-group">

@@ -84,15 +84,6 @@ angular.module('flightNodeApp')
                     return '';
                 }
             };
-            var getTide = function() {
-                var id = +$scope.foragingSurvey.tideId;
-                var tide = _.find($scope.enums.tideInfo, { id: id });
-                if (tide) {
-                    return tide.description;
-                } else {
-                    return '';
-                }
-            };
             var getWaterHeight = function() {
                 var id = +$scope.foragingSurvey.waterHeightId;
                 var waterHeight = _.find($scope.enums.waterHeights, { id: id });
@@ -195,8 +186,8 @@ angular.module('flightNodeApp')
                     accessPoint: getAccessPoint(),
                     observations: getObservations(),
                     disturbances: getDisturbances(),
-                    tide: getTide(),
-                    waterHeight: getWaterHeight()
+                    waterHeight: getWaterHeight() + ($scope.foragingSurvey.windDrivenTide ? ', Wind-Driven' : ''),
+                    timeLowTide: $scope.foragingSurvey.timeLowTide
                 };
             };
 
@@ -207,12 +198,13 @@ angular.module('flightNodeApp')
                 $scope.reviewInvalid = f.siteTypeId === null ||
                     f.temperature === null ||
                     f.windSpeed === null ||
-                    f.tide === null ||
+                    f.windDrivenTide === null ||
                     f.weather === null ||
                     f.observers === null ||
                     f.vantagePointId === null ||
                     f.accessPointId === null ||
-                    f.waterHeightId === null;
+                    f.waterHeightId === null
+                    f.timeLowTide === null;
             };
 
             //

@@ -18,7 +18,6 @@ angular.module('flightNodeApp')
                     $q.all([
                         authService.get(config.weather),
                         authService.get(config.waterheights),
-                        authService.get(config.tides),
                         authService.get(config.disturbancetypes),
                         authService.get(config.habitattypes),
                         authService.get(config.feedingsuccessrates),
@@ -32,14 +31,13 @@ angular.module('flightNodeApp')
                         next({
                             weatherInfo: responses[0].data,
                             waterHeights: responses[1].data,
-                            tideInfo: responses[2].data,
-                            disturbanceTypeInfo: responses[3].data,
-                            habitatInfo: responses[4].data,
-                            feedingRateInfo: responses[5].data,
-                            behaviorTypeInfo: responses[6].data,
-                            siteTypeInfo: responses[7].data,
-                            vantagePointInfo: responses[8].data,
-                            accessPointInfo: responses[9].data
+                            disturbanceTypeInfo: responses[2].data,
+                            habitatInfo: responses[3].data,
+                            feedingRateInfo: responses[4].data,
+                            behaviorTypeInfo: responses[5].data,
+                            siteTypeInfo: responses[6].data,
+                            vantagePointInfo: responses[7].data,
+                            accessPointInfo: responses[8].data
                         });
 
                     }, function error(responses) {
