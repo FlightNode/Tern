@@ -26,6 +26,7 @@ angular.module('flightNodeApp')
             birdspecies: baseV1Href + 'birdspecies/',
             waterbirdForagingSurvey: baseV1Href + 'waterbirdforagingsurvey/',
             surveyTypes: baseV1Href + 'surveytypes/',
+
             weather: enums + 'weather',
             waterheights: enums + 'waterheights',
             disturbancetypes: enums + 'disturbancetypes',
@@ -35,6 +36,9 @@ angular.module('flightNodeApp')
             siteassessments: enums + 'siteassessments',
             vantagepoints: enums + 'vantagepoints',
             accesspoints: enums + 'accesspoints',
+            windspeeds: enums + 'windspeeds',
+            winddirections: enums + 'winddirections',
+
             foragingExport: baseV1Href + 'waterbirdforagingsurvey/export',
             rookeryCensus: baseV1Href + 'rookerycensus/',
             rookeryCensusExport: baseV1Href + 'rookerycensus/export',

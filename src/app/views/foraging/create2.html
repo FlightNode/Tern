@@ -29,7 +29,13 @@
         <div class="form-group">
             <label class="control-label col-sm-3" for="windSpeed">Average Wind Speed:</label>
             <div class="col-sm-2">
-                <input type="number" class="form-control" name="windSpeed" placeholder="0" min="0" ng-model="foragingSurvey.windSpeed">
+                <select id="windSpeed" name="windSpeed" class="form-control" ng-model="foragingSurvey.windSpeed" ng-options="item.id as item.description for item in enums.windSpeeds">
+                </select>
+            </div>
+            <label class="control-label col-sm-1" for="direction">Direction:</label>
+            <div class="col-sm-2">
+                <select id="windDirection" name="windDirection" class="form-control" ng-model="foragingSurvey.windDirection" ng-options="item.id as item.description for item in enums.windDirections">
+                </select>
             </div>
         </div>
         <div class="form-group">

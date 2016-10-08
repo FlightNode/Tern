@@ -15,7 +15,7 @@ angular.module('flightNodeApp')
             $scope.loading = true;
 
             $scope.reasons = [
-                'Someone needs to provide Stephen with the options'
+                'Problem using the TERN data collection web site'
             ];
 
             $scope.submit = function() {

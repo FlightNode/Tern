@@ -132,6 +132,12 @@ angular.module('flightNodeApp')
             var getFeeding = function(id) {
                 return _.find($scope.enums.feedingRateInfo, { id: +id }).description;
             };
+            var getWindSpeed = function(id) {
+                return _.find($scope.enums.windSpeeds, { id: +id }).description;
+            };
+            var getWindDirection = function(id) {
+                return _.find($scope.enums.windDirections, { id: +id }).description;
+            };
 
             var getObservations = function() {
                 var o =
@@ -179,7 +185,7 @@ angular.module('flightNodeApp')
                     endTime: $scope.foragingSurvey.endTime,
                     siteType: getSiteType(),
                     temperature: $scope.foragingSurvey.temperature,
-                    windSpeed: $scope.foragingSurvey.windSpeed,
+                    windSpeed: getWindSpeed($scope.foragingSurvey.windSpeed) + " " + getWindDirection($scope.foragingSurvey.windDirection),
                     weather: getWeather(),
                     observers: $scope.foragingSurvey.observers,
                     vantagePoint: getVantagePoint(),

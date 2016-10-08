@@ -40,8 +40,8 @@
                 <div class="col-sm-3 text-right">
                     <label for="role" class="control-label">Role <span class="text-danger">*</span></label>
                 </div>
-                <div class="col-sm-9" ng-class="{'has-error': userForm.roles.$error.required}">
-                    <select name="role" class="form-control" ng-model="user.role" required  ng-options="item.id as item.name for item in data.roles">
+                <div class="col-sm-9">
+                    <select name="role" class="form-control" ng-model="user.role" ng-options="item.id as item.name for item in data.roles">
                     </select>
                 </div>
             </div>

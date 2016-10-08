@@ -24,7 +24,9 @@ angular.module('flightNodeApp')
                         authService.get(config.activitytypes),
                         authService.get(config.siteassessments),
                         authService.get(config.vantagepoints),
-                        authService.get(config.accesspoints)
+                        authService.get(config.accesspoints),
+                        authService.get(config.windspeeds),
+                        authService.get(config.winddirections)
                     ])
                     .then(function success(responses) {
 
@@ -37,7 +39,9 @@ angular.module('flightNodeApp')
                             behaviorTypeInfo: responses[5].data,
                             siteTypeInfo: responses[6].data,
                             vantagePointInfo: responses[7].data,
-                            accessPointInfo: responses[8].data
+                            accessPointInfo: responses[8].data,
+                            windSpeeds: responses[9].data,
+                            windDirections: responses[10].data
                         });
 
                     }, function error(responses) {
