@@ -203,6 +203,14 @@ angular.module('flightNodeApp')
                 }
             };
 
+            $scope.save = function() {
+               $scope.loading = true;
+
+                foragingSurveyProxy.update($scope, $scope.foragingSurvey, function() {
+                    $scope.loading = false;
+                });
+            };
+
             $scope.next = function() {
                 // need to pass the survey identifier on to step 3
                 saveAndMoveTo('/foraging/step4/');

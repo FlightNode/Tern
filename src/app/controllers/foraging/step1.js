@@ -124,6 +124,27 @@ angular.module('flightNodeApp')
                 $scope.invalid = $scope.foragingSurvey.startTime > $scope.foragingSurvey.endTime;
             };
 
+            $scope.save = function() {
+                $scope.loading = true;
+
+                // Create or update the survey as appropriate
+                if (!$scope.foragingSurvey.surveyIdentifier) {
+
+                    $scope.foragingSurvey.submittedBy = authService.getUserId();
+
+                    foragingSurveyProxy.create($scope, $scope.foragingSurvey, function(data) {
+                        $scope.foragingSurvey = data;
+                        $scope.loading = false;
+                    });
+                } else {
+                    foragingSurveyProxy.update($scope, $scope.foragingSurvey, function(data) {
+                        $scope.foragingSurvey = data;
+                        $scope.loading = false;
+                    });
+                }
+
+            };
+
             $scope.next = function() {
                 $scope.loading = true;
 
@@ -139,6 +160,9 @@ angular.module('flightNodeApp')
 
                 // Create or update the survey as appropriate
                 if (!$scope.foragingSurvey.surveyIdentifier) {
+
+                    $scope.foragingSurvey.submittedBy = authService.getUserId();
+
                     foragingSurveyProxy.create($scope, $scope.foragingSurvey, function(data) {
                         next(data);
                     });

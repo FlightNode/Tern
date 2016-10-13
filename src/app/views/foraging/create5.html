@@ -75,8 +75,8 @@
                                 <input class="form-control" ng-value="review.waterHeight">
                             </div>
                         </div>
-                        <div ng-class="{'has-error': foragingSurvey.timeLowTide === null}">
-                            <div class="control-label col-sm-3">Nearest Low Tide <span class="text-danger" ng-class="{invisible: foragingSurvey.timeLowTide !== null}">*</span></div>
+                        <div ng-class="{'has-error': !foragingSurvey.timeLowTide}">
+                            <div class="control-label col-sm-3">Nearest Low Tide <span class="text-danger" ng-class="{invisible: foragingSurvey.timeLowTide}">*</span></div>
                             <div class="col-sm-3">
                                 <input class="form-control" ng-value="review.timeLowTide">
                             </div>

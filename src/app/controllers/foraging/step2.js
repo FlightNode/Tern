@@ -69,6 +69,8 @@ angular.module('flightNodeApp')
             var saveAndMoveTo = function(nextPath) {
                 $scope.loading = true;
 
+                $scope.foragingSurvey.windDrivenTide = $scope.foragingSurvey.windDrivenTide || false;
+
                 foragingSurveyProxy.update($scope, $scope.foragingSurvey, function(data) {
 
                     saveToSession(data);
@@ -87,6 +89,16 @@ angular.module('flightNodeApp')
                 saveAndMoveTo('/foraging/step3/');
             };
 
+
+            $scope.save = function() {
+                $scope.loading = true;
+
+                $scope.foragingSurvey.windDrivenTide = $scope.foragingSurvey.windDrivenTide || false;
+
+                foragingSurveyProxy.update($scope, $scope.foragingSurvey, function() {
+                    $scope.loading = false;
+                });
+            };
 
             $scope.back = function() {
                 // need to pass the survey identifier on to step 1
