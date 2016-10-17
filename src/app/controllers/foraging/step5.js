@@ -120,6 +120,24 @@ angular.module('flightNodeApp')
                     return '';
                 }
             };
+            var getWindSpeed = function() {
+                var id = +$scope.foragingSurvey.windSpeed;
+                var speed = _.find($scope.enums.windSpeeds, { id: id });
+                if (speed) {
+                    return speed.description;
+                } else {
+                    return '(missing speed)';
+                }
+            };
+            var getWindDirection = function() {
+                var id = +$scope.foragingSurvey.windDirection;
+                var speed = _.find($scope.enums.windDirections, { id: id });
+                if (speed) {
+                    return speed.description;
+                } else {
+                    return '(missing direction)';
+                }
+            };
             var getCommonName = function(id) {
                 return _.find($scope.birdSpeciesList, { id: id }).commonName;
             };
@@ -131,12 +149,6 @@ angular.module('flightNodeApp')
             };
             var getFeeding = function(id) {
                 return _.find($scope.enums.feedingRateInfo, { id: +id }).description;
-            };
-            var getWindSpeed = function(id) {
-                return _.find($scope.enums.windSpeeds, { id: +id }).description;
-            };
-            var getWindDirection = function(id) {
-                return _.find($scope.enums.windDirections, { id: +id }).description;
             };
 
             var getObservations = function() {
@@ -185,7 +197,8 @@ angular.module('flightNodeApp')
                     endTime: $scope.foragingSurvey.endTime,
                     siteType: getSiteType(),
                     temperature: $scope.foragingSurvey.temperature,
-                    windSpeed: getWindSpeed($scope.foragingSurvey.windSpeed) + " " + getWindDirection($scope.foragingSurvey.windDirection),
+                    windSpeed: getWindSpeed(),
+                    windDirection: getWindDirection(),
                     weather: getWeather(),
                     observers: $scope.foragingSurvey.observers,
                     vantagePoint: getVantagePoint(),
@@ -193,7 +206,8 @@ angular.module('flightNodeApp')
                     observations: getObservations(),
                     disturbances: getDisturbances(),
                     waterHeight: getWaterHeight() + ($scope.foragingSurvey.windDrivenTide ? ', Wind-Driven' : ''),
-                    timeLowTide: $scope.foragingSurvey.timeLowTide
+                    timeLowTide: $scope.foragingSurvey.timeLowTide,
+                    prepTimeHours: $scope.foragingSurvey.prepTimeHours
                 };
             };
 
@@ -204,6 +218,7 @@ angular.module('flightNodeApp')
                 $scope.reviewInvalid = f.siteTypeId === null ||
                     f.temperature === null ||
                     f.windSpeed === null ||
+                    f.windDirection === null ||
                     f.windDrivenTide === null ||
                     f.weather === null ||
                     f.observers === null ||

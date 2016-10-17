@@ -120,8 +120,36 @@ angular.module('flightNodeApp')
             // Configure actions
             //
 
-            $scope.timeChange = function() {
-                $scope.invalid = $scope.rookeryCensus.startTime > $scope.rookeryCensus.endTime;
+            $scope.checkValidity = function() {
+                $scope.invalid = !(
+                    $scope.rookeryCensus.locationId &&
+                    $scope.rookeryCensus.startDate &&
+                    $scope.rookeryCensus.startTime &&
+                    $scope.rookeryCensus.endTime &&
+                    $scope.rookeryCensus.prepTimeHours &&
+                    $scope.rookeryCensus.startTime < $scope.rookeryCensus.endTime
+                );
+            };
+
+            $scope.save = function() {
+                $scope.loading = true;
+
+                // Create or update the survey as appropriate
+                if (!$scope.rookeryCensus.surveyIdentifier) {
+
+                    $scope.rookeryCensus.submittedBy = authService.getUserId();
+                    
+                    rookeryCensusProxy.create($scope, $scope.rookeryCensus, function(data) {
+                        $scope.rookeryCensus = data;
+                        $scope.loading = false;
+                    });
+                } else {
+                    rookeryCensusProxy.update($scope, $scope.rookeryCensus, function(data) {
+                        $scope.rookeryCensus = data;
+                        $scope.loading = false;
+                    });
+                }
+
             };
 
             $scope.next = function() {
@@ -139,6 +167,9 @@ angular.module('flightNodeApp')
 
                 // Create or update the survey as appropriate
                 if (!$scope.rookeryCensus.surveyIdentifier) {
+
+                    $scope.rookeryCensus.submittedBy = authService.getUserId();
+
                     rookeryCensusProxy.create($scope, $scope.rookeryCensus, function(data) {
                         next(data);
                     });
@@ -179,6 +210,7 @@ angular.module('flightNodeApp')
             //
             $scope.loading = true;
 
+            $scope.invalid = true;
             setupDateAndTimeControls();
             loadLocations();
 

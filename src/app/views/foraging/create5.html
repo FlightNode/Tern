@@ -33,6 +33,12 @@
                             <input class="form-control" ng-value="review.endTime | date: 'shortTime'">
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="control-label col-sm-3">Prep Time</div>
+                        <div class="col-sm-3">
+                            <input class="form-control" ng-value="review.prepTimeHours + ' hours'">
+                        </div>
+                    </div>
                 </fieldset>
             </div>
         </div>
@@ -55,10 +61,10 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div ng-class="{'has-error': foragingSurvey.windSpeed === null}">
-                            <div class="control-label col-sm-3" for="windSpeed">Average Wind Speed <span class="text-danger" ng-class="{invisible: foragingSurvey.windSpeed !== null}">*</span></div>
+                        <div ng-class="{'has-error': foragingSurvey.windSpeed === null || foragingSurvey.windDirection === null}">
+                            <div class="control-label col-sm-3" for="windSpeed">Average Wind Speed <span class="text-danger" ng-class="{invisible: foragingSurvey.windSpeed !== null && foragingSurvey.windDirection !== null}">*</span></div>
                             <div class="col-sm-3">
-                                <input class="form-control" ng-value="review.windSpeed">
+                                <input class="form-control" ng-value="review.windSpeed + ' ' + review.windDirection">
                             </div>
                         </div>
                             <div ng-class="{'has-error': foragingSurvey.weatherId === null}">

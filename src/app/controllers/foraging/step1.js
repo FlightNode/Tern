@@ -60,12 +60,6 @@ angular.module('flightNodeApp')
                 $scope.showDatePicker = function() {
                     $scope.startDateOpened = !$scope.startDateOpened;
                 };
-                $scope.updateStartDate = function() {
-                    $scope.foragingSurvey.startDate = new Date($scope.foragingSurvey.startDateManual);
-                };
-                $scope.updateStartDateManual = function() {
-                    $scope.foragingSurvey.startDateManual = $filter('date')($scope.foragingSurvey.startDate, 'MM/dd/yyyy');
-                };
                 $scope.hstep = 1;
                 $scope.mstep = 1;
             };
@@ -120,8 +114,25 @@ angular.module('flightNodeApp')
             // Configure actions
             //
 
-            $scope.timeChange = function() {
-                $scope.invalid = $scope.foragingSurvey.startTime > $scope.foragingSurvey.endTime;
+            $scope.checkValidity = function() {
+                $scope.invalid = !(
+                    $scope.foragingSurvey.locationId &&
+                    $scope.foragingSurvey.startDate &&
+                    $scope.foragingSurvey.startTime &&
+                    $scope.foragingSurvey.endTime &&
+                    $scope.foragingSurvey.prepTimeHours &&
+                    $scope.foragingSurvey.startTime < $scope.foragingSurvey.endTime
+                );
+            };
+
+
+            $scope.updateStartDate = function() {
+                $scope.foragingSurvey.startDate = new Date($scope.foragingSurvey.startDateManual);
+                $scope.checkValidity();
+            };
+            $scope.updateStartDateManual = function() {
+                $scope.foragingSurvey.startDateManual = $filter('date')($scope.foragingSurvey.startDate, 'MM/dd/yyyy');
+                $scope.checkValidity();
             };
 
             $scope.save = function() {
@@ -203,6 +214,7 @@ angular.module('flightNodeApp')
             //
             $scope.loading = true;
 
+            $scope.invalid = true;
             setupDateAndTimeControls();
             loadLocations();
 

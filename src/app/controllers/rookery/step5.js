@@ -169,6 +169,7 @@ angular.module('flightNodeApp')
                     accessPoint: getAccessPoint(),
                     observations: getObservations(),
                     disturbances: getDisturbances(),
+                    prepTimeHours: $scope.rookeryCensus.prepTimeHours
                  };
             };
 

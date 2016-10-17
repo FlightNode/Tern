@@ -148,6 +148,15 @@ angular.module('flightNodeApp')
             //
             // Configure button actions
             //
+
+            $scope.save = function(){ 
+                $scope.loading = true;
+
+                rookeryCensusProxy.update($scope, $scope.rookeryCensus, function(data) {
+                    $scope.rookeryCensus = data;
+                    $scope.loading = false;
+                });
+            };
             $scope.next = function() {
                 // need to pass the survey identifier on to step 3
                 saveAndMoveTo('/rookery/step5/');

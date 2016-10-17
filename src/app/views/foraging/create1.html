@@ -2,7 +2,7 @@
 <loading></loading>
 <div ng-include="'/app/views/foraging/progressBar.html'"></div>
 <div class="row">
-    <form class="form-horizontal" id="foragingLocation" name="foragingLocation" role="form">
+    <form class="form-horizontal" id="foragingStep1" name="foragingStep1" role="form">
         <div class="panel panel-info">
             <div class="panel-heading"><span class="icon-info"></span>&nbsp; Instructions</div>
             <div class="panel-body">
@@ -11,15 +11,15 @@
         </div>
         <div class="form-group">
             <label class="control-label col-sm-3" for="location">Location:</label>
-            <div class="col-sm-9" ng-class="{ 'has-error': foragingLocation.location.$error.required }">
+            <div class="col-sm-9" ng-class="{ 'has-error': foragingStep1.location.$error.required }">
                 <select name="location" class="form-control" id="location" ng-model="foragingSurvey.locationId" ng-required="true"
-                ng-options="loc.id as loc.value for loc in locations">
+                ng-options="loc.id as loc.value for loc in locations" ng-change="checkValidity()">
                 </select>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-3" for="startDate">Survey Date:</label>
-            <div class="col-sm-4" ng-class="{ 'has-error': foragingLocation.startDateManual.$error.required }">
+            <div class="col-sm-4" ng-class="{ 'has-error': foragingStep1.startDateManual.$error.required }">
                 <div class="input-group">
                     <input type="text" name="startDateManual" class="form-control" ng-required="true" ng-model="foragingSurvey.startDateManual" placeholder="mm/dd/yyyy" ng-change="updateStartDate()" ng-required="true" />
                     <span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="showDatePicker()"><i class="glyphicon glyphicon-calendar"></i></button></span>
@@ -33,13 +33,20 @@
         <div class="form-group">
             <label class="control-label col-sm-3" for="startTime">Time Start:</label>
             <div class="col-sm-3" ng-class="{ 'has-error': !foragingSurvey.startTime }">
-                <uib-timepicker ng-model="foragingSurvey.startTime" hour-step="hstep" minute-step="mstep" show-meridian="true" ng-required="true"></uib-timepicker>
+                <uib-timepicker ng-model="foragingSurvey.startTime" hour-step="hstep" minute-step="mstep" show-meridian="true" ng-required="true" ng-change="checkValidity()"></uib-timepicker>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-3" for="endTime">Time End:</label>
             <div class="col-sm-3" ng-class="{ 'has-error': !foragingSurvey.endTime || foragingSurvey.startTime > foragingSurvey.endTime }">
-                <uib-timepicker ng-model="foragingSurvey.endTime" hour-step="hstep" minute-step="mstep" show-meridian="true" ng-required="true" ng-change="timeChange()"></uib-timepicker>
+                <uib-timepicker ng-model="foragingSurvey.endTime" hour-step="hstep" minute-step="mstep" show-meridian="true" ng-required="true" ng-change="checkValidity()"></uib-timepicker>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="prepTime" class="col-sm-3 control-label">Prep Time (Hours) <span class="text-danger">*</span></label>
+            <div class="col-sm-2" ng-class="{ 'has-error': foragingStep1.prepTimeHours.$error.required }">
+                <input type="number" id="prepTimeHours" name="prepTimeHours" class="form-control"
+                 min="0.1" max="24.0" step="0.1" ng-model="foragingSurvey.prepTimeHours" ng-required="true" ng-change="checkValidity()">
             </div>
         </div>
     </form>
