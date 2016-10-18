@@ -139,7 +139,7 @@ angular.module('flightNodeApp')
                 }
             };
 
-            flnd.workDayCreateForUser.initializeTimeFields($scope);
+            initializeTimeFields($scope);
 
             $scope.loading = false;
         }

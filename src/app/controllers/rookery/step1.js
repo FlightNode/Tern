@@ -112,6 +112,8 @@ angular.module('flightNodeApp')
                     prepareDateAndTimeForUi(data);
                     $scope.rookeryCensus = data;
 
+                    $scope.checkValidity();
+
                     $scope.loading = false;
                 });
             }
@@ -138,7 +140,7 @@ angular.module('flightNodeApp')
                 if (!$scope.rookeryCensus.surveyIdentifier) {
 
                     $scope.rookeryCensus.submittedBy = authService.getUserId();
-                    
+
                     rookeryCensusProxy.create($scope, $scope.rookeryCensus, function(data) {
                         $scope.rookeryCensus = data;
                         $scope.loading = false;
@@ -210,7 +212,6 @@ angular.module('flightNodeApp')
             //
             $scope.loading = true;
 
-            $scope.invalid = true;
             setupDateAndTimeControls();
             loadLocations();
 

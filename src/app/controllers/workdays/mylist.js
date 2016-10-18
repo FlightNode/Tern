@@ -74,7 +74,6 @@ angular.module('flightNodeApp')
                 ]
             };
 
-$log.info('mylist');
             $scope.exportData = function() {
                 return $scope.list;
             };

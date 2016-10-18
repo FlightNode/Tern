@@ -53,7 +53,8 @@ angular.module('flightNodeApp')
                     { name: 'numberOfVolunteers', displayName: '# Volunteers' },
                     { name: 'workHours', displayName: 'Work Hours' },
                     { name: 'travelTimeHours', displayName: 'Travel Hours' },
-                    { name: 'volunteer', displayName: 'Volunteer' }, {
+                    { name: 'volunteer', displayName: 'Volunteer' }, 
+                    {
                         name: 'id',
                         displayName: '',
                         cellTemplate: '\
@@ -63,7 +64,6 @@ angular.module('flightNodeApp')
                               <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>\
                           </button>\
                         </div>',
-                        //cellTemplate: '<div class="ui-grid-cell-contents" title="Edit"><a ng-href="/#/workdays/{{row.entity.id}}?p={{row.entity.person | htmlEncode}}">Edit</a></div>',
                         enableFiltering: false,
                         width: '32',
                         enableColumnMenu: false

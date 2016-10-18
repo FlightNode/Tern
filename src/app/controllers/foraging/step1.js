@@ -106,6 +106,8 @@ angular.module('flightNodeApp')
                     prepareDateAndTimeForUi(data);
                     $scope.foragingSurvey = data;
 
+                    $scope.checkValidity();
+
                     $scope.loading = false;
                 });
             };
@@ -214,7 +216,7 @@ angular.module('flightNodeApp')
             //
             $scope.loading = true;
 
-            $scope.invalid = true;
+
             setupDateAndTimeControls();
             loadLocations();
 
@@ -225,6 +227,7 @@ angular.module('flightNodeApp')
             if ($routeParams.id) {
                 loadExistingSurvey($routeParams.id);
             }
+
 
             $scope.step = 1;
             $scope.loading = false;

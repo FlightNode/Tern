@@ -7,6 +7,12 @@
         <alert>
         </alert>
         <div class="form-group">
+            <label class="col-sm-3 control-label">Volunteer Name</label>
+            <div class="col-sm-9">
+                <p class="form-control-static">{{workday.volunteerName}}</p>
+            </div>
+        </div>
+        <div class="form-group">
             <label for="workDate" class="col-sm-3 control-label">Date <span class="text-danger">*</span></label>
             <div class="col-sm-9" 
                 ng-class="{'has-error': workdayForm.workDate.$error.required || workdayForm.workDate.$error.date}">

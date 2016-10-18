@@ -129,7 +129,8 @@ angular.module('flightNodeApp')
                             travelTime: timeDateUtility.hoursToDate(response.data.travelTimeHours),
                             numberOfVolunteers: response.data.numberOfVolunteers,
                             tasksCompleted: response.data.tasksCompleted || '',
-                            workDateManual: $filter('date')(response.data.workDate, 'MM/dd/yyyy')
+                            workDateManual: $filter('date')(response.data.workDate, 'MM/dd/yyyy'),
+                            volunteerName: response.data.volunteerName
                         };
 
                     }, function error(response) {
