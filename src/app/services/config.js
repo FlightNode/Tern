@@ -44,6 +44,8 @@ angular.module('flightNodeApp')
             rookeryCensusExport: baseV1Href + 'rookerycensus/export',
             contact: baseV1Href + 'contact',
             requestReset: baseV1Href + 'users/requestreset',
-            changePassword: baseV1Href + 'users/changepassword'
+            changePassword: baseV1Href + 'users/changepassword',
+
+            googleMapsUrl: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAyPcJlSr4PC2k0ek6lLg8W-ScYNFxNpZM'
         }
     });

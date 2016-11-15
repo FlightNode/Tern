@@ -22,7 +22,8 @@ angular
     'ui.bootstrap.modal',
     'ui.bootstrap.timepicker',
     'ui.grid.selection',
-    'ui.bootstrap.typeahead'
+    'ui.bootstrap.typeahead',
+    'ngMap'
   ])
   .config(function ($routeProvider) {
     $routeProvider
