@@ -51,10 +51,10 @@ angular.module('flightNodeApp')
                 };
                 $scope.updateWorkDate = function() {
                     $scope.workday.workDate = new Date($scope.workday.workDateManual);
-                }
+                };
                 $scope.updateWorkDateManual = function() {
                     $scope.workday.workDateManual = $filter('date')($scope.workday.workDate, 'MM/dd/yyyy');
-                }
+                };
             };
 
             var loadLocations = function() {

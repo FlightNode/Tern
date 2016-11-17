@@ -14,10 +14,10 @@ angular.module('userMessage', [])
                 _.forEach(data, function(d) {
                     switch (d.status) {
                         case -1:
-                            d.error = 'Back-end service is offline.'
+                            d.error = 'Back-end service is offline.';
                             break;
                         case 500:
-                            d.error = 'We apologize, but there seems to have been an error on the service. Please try again later, and/or inform the project administrator about what happened.'
+                            d.error = 'We apologize, but there seems to have been an error on the service. Please try again later, and/or inform the project administrator about what happened.';
                             break;
                     }
 

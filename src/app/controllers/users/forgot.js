@@ -18,10 +18,10 @@ angular.module('flightNodeApp')
             $scope.submit = function() {
                 $scope.loading = true;
 
-                var success = "Password reset has been initiatied - look for an e-mail.";
+                var success = 'Password reset has been initiatied - look for an e-mail.';
                 userProxy.initiateReset($scope, $scope.emailAddress, success, function() {
                     $scope.loading = false;
-                })
+                });
             };
 
 

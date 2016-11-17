@@ -29,7 +29,7 @@ angular.module('flightNodeApp')
 
                     var userId = authService.getUserId();
 
-                    authService.get(config.waterbirdForagingSurvey + "?userId=" + userId)
+                    authService.get(config.waterbirdForagingSurvey + '?userId=' + userId)
                         .then(function success(response){
 
                             next(response.data);
@@ -95,6 +95,6 @@ angular.module('flightNodeApp')
 
                     return deferred.promise;
                 }
-            }
+            };
         }
     ]);

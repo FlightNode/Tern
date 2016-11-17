@@ -6,7 +6,7 @@ angular.module('flightNodeApp')
     .factory('config', function() {
         var baseHref = 'http://localhost:50323/';
         var baseV1Href = baseHref + 'api/v1/';
-        var enums = baseV1Href + 'enums/'
+        var enums = baseV1Href + 'enums/';
         return {
             locations: baseV1Href + 'locations/',
             locationsSimpleList: baseV1Href + 'locations/simple',
@@ -47,5 +47,5 @@ angular.module('flightNodeApp')
             changePassword: baseV1Href + 'users/changepassword',
 
             googleMapsUrl: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAyPcJlSr4PC2k0ek6lLg8W-ScYNFxNpZM'
-        }
+        };
     });

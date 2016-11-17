@@ -39,7 +39,7 @@ angular.module('flightNodeApp')
             $scope.checkPasswordMatching = function() {
                 $scope.passwordsDontMatch = $scope.user.password !== $scope.user.password2;
                 $scope.invalid = $scope.user.password && $scope.passwordsDontMatch;
-            }
+            };
 
             $scope.cancel = function() {
                 $location.path('/');

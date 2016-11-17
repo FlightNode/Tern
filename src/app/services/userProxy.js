@@ -179,7 +179,7 @@ angular.module('flightNodeApp')
                         password: password
                     };
 
-                    var url = config.changePassword + "?token=" + token;
+                    var url = config.changePassword + '?token=' + token;
                     authService.post(url, model)
                         .then(function success() {
                             messenger.showSuccessMessage($scope, msg);

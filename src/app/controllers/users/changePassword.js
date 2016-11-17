@@ -22,15 +22,15 @@ angular.module('flightNodeApp')
             $scope.submit = function() {
                 $scope.loading = true;
 
-                var success = "Password has been changed.";
+                var success = 'Password has been changed.';
                 userProxy.changePassword($scope, token, $scope.emailAddress, $scope.password, success, function() {
                     $scope.loading = false;
-                })
+                });
             };
 
             $scope.checkPasswordMatching = function() {
                 $scope.notMatching = $scope.password !== $scope.password2;
-            }
+            };
 
 
             $scope.loading = false;

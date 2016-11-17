@@ -49,10 +49,10 @@ angular.module('flightNodeApp')
                             $log.error(response);
                         });
 
-                        messenger.displayErrorResponse($scope, "Unable to retrieve some or all of the data required for this page.");
+                        messenger.displayErrorResponse($scope, 'Unable to retrieve some or all of the data required for this page.');
 
                     });
                 }
-            }
+            };
         }
     ]);

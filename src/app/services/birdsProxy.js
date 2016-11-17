@@ -8,8 +8,8 @@
  * Proxy service for working with locations
  */
 angular.module('flightNodeApp')
-    .factory('birdsProxy', ['$http', '$log', 'authService', 'config', 'messenger', '$q',
-        function($http, $log, authService, config, messenger, $q) {
+    .factory('birdsProxy', ['$http', '$log', 'authService', 'config', 'messenger',
+        function($http, $log, authService, config, messenger) {
             return {
 
                 getForagingBirds: function($scope, next) {
@@ -66,6 +66,6 @@ angular.module('flightNodeApp')
 
                 }
 
-            }
+            };
         }
     ]);

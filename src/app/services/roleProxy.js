@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('roleProxy', [])
-    .factory('roleProxy', ['$http', 'authService', 'config',
-        function($http, authService, config) {
+    .factory('roleProxy', [
+        function() {
             return {
 
                 getAll: function() {

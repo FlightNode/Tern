@@ -28,7 +28,7 @@ angular.module('flightNodeApp')
             $scope.loading = true;
 
             var retrieveAllRecords = function() {
-                birdsProxy.getAll($scope, function(data) { $scope.list = data });
+                birdsProxy.getAll($scope, function(data) { $scope.list = data; });
             };
             retrieveAllRecords();
 

@@ -56,7 +56,7 @@ angular.module('flightNodeApp')
                     filter: {
                         placeholder: 'equals',
                         condition: function(searchTerm, cellValue) {
-                            searchTerm = searchTerm.replace(/\\/g, '') + "T00:00:00";
+                            searchTerm = searchTerm.replace(/\\/g, '') + 'T00:00:00';
                             var st = new Date(searchTerm).toDateString();
                             var cv = new Date(cellValue).toDateString();
                             return st === cv;
@@ -147,8 +147,8 @@ angular.module('flightNodeApp')
                     'otherDisturbanceQuantity',
                     'otherDisturbanceMinutes',
                     'otherDisturbanceResult'
-                ]
-            }
+                ];
+            };
 
             $scope.editSurvey = function(id) {
                 $location.path('/rookery/step1/' + id);

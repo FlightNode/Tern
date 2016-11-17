@@ -26,22 +26,12 @@ angular.module('flightNodeApp')
             // Helper functions
             //
 
-            var modelKey = "rookeryCensusModel";
-            var locationNameKey = "locationName";
+            var modelKey = 'rookeryCensusModel';
+            var locationNameKey = 'locationName';
 
             var saveToSession = function(data, key) {
                 key = key || modelKey;
                 sessionStorage.setItem(key, JSON.stringify(data));
-            };
-
-            var pullFromSession = function(key) {
-                key = key || modelKey;
-                var stored = sessionStorage.getItem(key);
-                stored = stored === "undefined" ? undefined : stored;
-                if (stored) {
-                    return JSON.parse(stored || {});
-                }
-                return null;
             };
 
             var setupDateAndTimeControls = function() {
@@ -87,7 +77,7 @@ angular.module('flightNodeApp')
                     temp = moment(model.startDate);
                 }
                 model.startDate = temp.toDate();
-            }
+            };
 
             var loadLocations = function() {
                 locationProxy.getSimpleList($scope, function(data) {
@@ -116,7 +106,7 @@ angular.module('flightNodeApp')
 
                     $scope.loading = false;
                 });
-            }
+            };
 
             //
             // Configure actions
@@ -165,7 +155,7 @@ angular.module('flightNodeApp')
 
                     // need to pass the survey identifier on to step 2
                     $location.path('/rookery/step2/' + data.surveyIdentifier);
-                }
+                };
 
                 // Create or update the survey as appropriate
                 if (!$scope.rookeryCensus.surveyIdentifier) {

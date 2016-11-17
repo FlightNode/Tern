@@ -10,10 +10,10 @@
 angular.module('flightNodeApp')
     .controller('RookeryCensusStep2Controller', ['$scope', 'authService', 'config', 'messenger',
         'rookeryCensusProxy', '$filter', '$location', '$log', 'locationProxy', 'enumsProxy',
-        '$route', '$uibModal', 'birdsProxy', '$routeParams',
+        '$route', '$uibModal',
         function($scope, authService, config, messenger,
             rookeryCensusProxy, $filter, $location, $log, locationProxy, enumsProxy,
-            $route, $uibModal, birdsProxy, $routeParams) {
+            $route, $uibModal) {
 
 
             if (!(authService.isAuthorized())) {
@@ -25,8 +25,8 @@ angular.module('flightNodeApp')
             //
             // Helper functions
             //
-            var modelKey = "rookeryCensusModel";
-            var locationNameKey = "locationName";
+            var modelKey = 'rookeryCensusModel';
+            var locationNameKey = 'locationName';
 
             var saveToSession = function(data, key) {
                 key = key || modelKey;
@@ -36,7 +36,7 @@ angular.module('flightNodeApp')
             var pullFromSession = function(key) {
                 key = key || modelKey;
                 var stored = sessionStorage.getItem(key);
-                stored = stored === "undefined" ? undefined : stored;
+                stored = stored === 'undefined' ? undefined : stored;
                 if (stored) {
                     return JSON.parse(stored || {});
                 }

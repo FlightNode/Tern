@@ -10,10 +10,10 @@
 angular.module('flightNodeApp')
     .controller('RookeryCensusStep5Controller', ['$scope', 'authService', 'config', 'messenger',
         'rookeryCensusProxy', '$filter', '$location', '$log', 'locationProxy', 'enumsProxy',
-        '$route', '$uibModal', 'birdsProxy', '$routeParams',
+        '$route', '$uibModal', 'birdsProxy', 
         function($scope, authService, config, messenger,
             rookeryCensusProxy, $filter, $location, $log, locationProxy, enumsProxy,
-            $route, $uibModal, birdsProxy, $routeParams) {
+            $route, $uibModal, birdsProxy) {
 
 
             if (!(authService.isAuthorized())) {
@@ -27,8 +27,8 @@ angular.module('flightNodeApp')
             // Helper functions
             //
 
-            var modelKey = "rookeryCensusModel";
-            var locationNameKey = "locationName";
+            var modelKey = 'rookeryCensusModel';
+            var locationNameKey = 'locationName';
 
             var saveToSession = function(data, key) {
                 key = key || modelKey;
@@ -38,7 +38,7 @@ angular.module('flightNodeApp')
             var pullFromSession = function(key) {
                 key = key || modelKey;
                 var stored = sessionStorage.getItem(key);
-                stored = stored === "undefined" ? undefined : stored;
+                stored = stored === 'undefined' ? undefined : stored;
                 if (stored) {
                     return JSON.parse(stored || {});
                 }
@@ -102,22 +102,20 @@ angular.module('flightNodeApp')
                     return '';
                 }
             };
-            var getCommonName = function(id) {
-                return _.find($scope.birdSpeciesList, { id: id }).commonName;
-            };
+
 
             var getAdultsDisplay = function(value) {
                 switch (value) {
                     case 0:
-                        return "none";
+                        return 'none';
                     case 1:
-                        return "less than 25";
+                        return 'less than 25';
                     case 2:
-                        return "25 to 200";
+                        return '25 to 200';
                     case 3:
-                        return "more than 200";
+                        return 'more than 200';
                     default:
-                        return "invalid";
+                        return 'invalid';
                 }
             };
 
@@ -189,7 +187,7 @@ angular.module('flightNodeApp')
                 $scope.loading = true;
                 $scope.rookeryCensus.finishedEditing = true;
 
-                rookeryCensusProxy.update($scope, $scope.rookeryCensus, function(data) {
+                rookeryCensusProxy.update($scope, $scope.rookeryCensus, function() {
 
                     saveToSession(null); // clear the session
 
@@ -234,7 +232,7 @@ angular.module('flightNodeApp')
                     $scope.rookeryCensus = pullFromSession();
                     prepareReviewModelForViewBinding();
                     disableFinishButtonIfModelNotFullyValid();
-                })
+                });
             });
 
             $scope.step = 5;

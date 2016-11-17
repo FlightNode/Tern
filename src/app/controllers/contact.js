@@ -8,8 +8,8 @@
  * Controller for the contact form
  */
 angular.module('flightNodeApp')
-    .controller('ContactController', ['$scope', '$http', '$log', 'messenger', '$location', 'authService', 'config', 'userProxy',
-        function($scope, $http, $log, messenger, $location, authService, config, userProxy) {
+    .controller('ContactController', ['$scope', '$http', '$log', 'messenger', '$location', 'authService', 'config',
+        function($scope, $http, $log, messenger, $location, authService, config) {
 
 
             $scope.loading = true;
