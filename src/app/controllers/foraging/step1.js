@@ -10,10 +10,10 @@
 angular.module('flightNodeApp')
     .controller('ForagingStep1Controller', ['$scope', 'authService', 'config', 'messenger',
         'foragingSurveyProxy', '$filter', '$location', '$log', 'locationProxy', 'enumsProxy',
-        '$route', '$uibModal', 'birdsProxy', '$routeParams',
+        '$route', '$uibModal', 'birdsProxy', '$routeParams', 'NgMap',
         function($scope, authService, config, messenger,
             foragingSurveyProxy, $filter, $location, $log, locationProxy, enumsProxy,
-            $route, $uibModal, birdsProxy, $routeParams) {
+            $route, $uibModal, birdsProxy, $routeParams, NgMap) {
 
 
             if (!(authService.isAuthorized())) {
@@ -83,9 +83,38 @@ angular.module('flightNodeApp')
                 model.startDate = temp.toDate();
             }
 
+            var configureMapping = function() {
+                    NgMap.getMap().then(function(map) {
+                        $scope.map = map;
+                    });
+
+                    $scope.showLocation = function(evt, id) {
+                        $scope.site = $scope.mappableLocations[id];
+                        $scope.map.showInfoWindow('info', this);
+                    };
+                };
+
             var loadLocations = function() {
-                locationProxy.getSimpleList($scope, function(data) {
-                    $scope.locations = data;
+                locationProxy.get($scope, function(data) {
+                    // For dropdown
+                    $scope.locations = _.map(data, function(location) {
+                        return {
+                            id: location.id,
+                            value: location.siteName
+                        };
+                    });
+                    // For map
+                    $scope.mappableLocations = _.chain(data).map(function(location) {
+                        return {
+                            position: [location.latitude, location.longitude],
+                            name: location.siteName,
+                            siteCode: location.siteCode,
+                            city: location.city,
+                            county: location.county
+                        };
+                    }).value();
+
+
                 });
             };
 
@@ -217,7 +246,10 @@ angular.module('flightNodeApp')
             $scope.loading = true;
 
 
+            $scope.googleMapsUrl = config.googleMapsUrl;
+
             setupDateAndTimeControls();
+            configureMapping();
             loadLocations();
 
             // Configure shared "bottomBar" components
