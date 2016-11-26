@@ -45,21 +45,6 @@ angular.module('flightNodeApp')
             };
 
             var setupDateAndTimeControls = function() {
-                $scope.startDateOpened = false;
-                $scope.datePickerOptions = {
-                    formatYear: 'yy',
-                    formatMonth: 'MM',
-                    maxMode: 'day',
-                    maxDate: new Date(2021, 1, 1),
-                    minDate: new Date(1990, 1, 1),
-                    startingDay: 1
-                };
-                $scope.datePickerModelOptions = {
-                    allowInvalid: true
-                };
-                $scope.showDatePicker = function() {
-                    $scope.startDateOpened = !$scope.startDateOpened;
-                };
                 $scope.hstep = 1;
                 $scope.mstep = 1;
             };
@@ -76,7 +61,7 @@ angular.module('flightNodeApp')
                 }
 
                 $scope.startDateObject = model.startTime;
-            }
+            };
 
             var configureMapping = function() {
                 NgMap.getMap().then(function(map) {

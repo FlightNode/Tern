@@ -10,10 +10,10 @@
 angular.module('flightNodeApp')
     .controller('RookeryCensusStep1Controller', ['$scope', 'authService', 'config', 'messenger',
         'rookeryCensusProxy', '$filter', '$location', '$log', 'locationProxy', 'enumsProxy',
-        '$route', '$uibModal', 'birdsProxy', '$routeParams',
+        '$route', '$uibModal', 'birdsProxy', '$routeParams', 'NgMap',
         function($scope, authService, config, messenger,
             rookeryCensusProxy, $filter, $location, $log, locationProxy, enumsProxy,
-            $route, $uibModal, birdsProxy, $routeParams) {
+            $route, $uibModal, birdsProxy, $routeParams, NgMap) {
 
 
             if (!(authService.isAuthorized())) {
@@ -34,28 +34,18 @@ angular.module('flightNodeApp')
                 sessionStorage.setItem(key, JSON.stringify(data));
             };
 
+            var pullFromSession = function(key) {
+                key = key || modelKey;
+                var stored = sessionStorage.getItem(key);
+                stored = stored === "undefined" ? undefined : stored;
+                if (stored) {
+                    return JSON.parse(stored || {});
+                }
+                return null;
+            };
+
             var setupDateAndTimeControls = function() {
-                $scope.startDateOpened = false;
-                $scope.datePickerOptions = {
-                    formatYear: 'yy',
-                    formatMonth: 'MM',
-                    maxMode: 'day',
-                    maxDate: new Date(2021, 1, 1),
-                    minDate: new Date(1990, 1, 1),
-                    startingDay: 1
-                };
-                $scope.datePickerModelOptions = {
-                    allowInvalid: true
-                };
-                $scope.showDatePicker = function() {
-                    $scope.startDateOpened = !$scope.startDateOpened;
-                };
-                $scope.updateStartDate = function() {
-                    $scope.rookeryCensus.startDate = new Date($scope.rookeryCensus.startDateManual);
-                };
-                $scope.updateStartDateManual = function() {
-                    $scope.rookeryCensus.startDateManual = $filter('date')($scope.rookeryCensus.startDate, 'MM/dd/yyyy');
-                };
+
                 $scope.hstep = 1;
                 $scope.mstep = 1;
             };
@@ -70,18 +60,47 @@ angular.module('flightNodeApp')
                     model.endTime = moment(model.startDate + ' ' + model.endTime, format).toDate();
                 }
 
-                model.startDateManual = model.startDate;
-                // The date in session depends on how it came back from the server after a save
-                var temp = moment(model.startDate, 'MM/DD/YYYY');
-                if (!temp.isValid()) {
-                    temp = moment(model.startDate);
-                }
-                model.startDate = temp.toDate();
+
+                $scope.startDateObject = model.startTime;
             };
 
+            var configureMapping = function() {
+                NgMap.getMap().then(function(map) {
+                    $scope.map = map;
+                });
+
+                $scope.showLocation = function(evt, index) {
+                    $scope.site = $scope.mappableLocations[index];
+                    $scope.index = index;
+                    $scope.map.showInfoWindow('info', this);
+                };
+
+                $scope.useThisSite = function(index) {
+                    $scope.rookeryCensus.locationId = $scope.mappableLocations[index].id;
+                };
+            };
+
+
             var loadLocations = function() {
-                locationProxy.getSimpleList($scope, function(data) {
-                    $scope.locations = data;
+                locationProxy.get($scope, function(data) {
+                    // For dropdown
+                    $scope.locations = _.map(data, function(location) {
+                        return {
+                            id: location.id,
+                            value: location.siteName + ' - ' + location.siteCode + ' - (' + location.latitude + ', ' + location.longitude + ')'
+                        };
+                    });
+                    // For map
+                    $scope.mappableLocations = _.chain(data).map(function(location) {
+                        return {
+                            position: [location.latitude, location.longitude],
+                            name: location.siteName,
+                            siteCode: location.siteCode,
+                            city: location.city,
+                            county: location.county,
+                            id: location.id
+                        };
+                    }).value();
                 });
             };
 
@@ -97,17 +116,35 @@ angular.module('flightNodeApp')
             var loadExistingSurvey = function(id) {
                 $scope.loading = true;
 
-                rookeryCensusProxy.getById($scope, id, function(data) {
-
+                var prepareScope = function(data) {
                     prepareDateAndTimeForUi(data);
                     $scope.rookeryCensus = data;
 
                     $scope.checkValidity();
 
                     $scope.loading = false;
-                });
+                }
+
+                var model = pullFromSession();
+                if (model && model.surveyIdentifier === id) {
+                    prepareScope(model);
+                } else {
+                    rookeryCensusProxy.getById($scope, id, prepareScope);
+                }
             };
 
+
+            var save = function(next) {
+                // Create or update the survey as appropriate
+                if (!$scope.rookeryCensus.surveyIdentifier) {
+
+                    $scope.rookeryCensus.submittedBy = authService.getUserId();
+
+                    rookeryCensusProxy.create($scope, $scope.rookeryCensus, next);
+                } else {
+                    rookeryCensusProxy.update($scope, $scope.rookeryCensus, next);
+                }
+            };
             //
             // Configure actions
             //
@@ -123,54 +160,30 @@ angular.module('flightNodeApp')
                 );
             };
 
+
             $scope.save = function() {
                 $scope.loading = true;
 
-                // Create or update the survey as appropriate
-                if (!$scope.rookeryCensus.surveyIdentifier) {
-
-                    $scope.rookeryCensus.submittedBy = authService.getUserId();
-
-                    rookeryCensusProxy.create($scope, $scope.rookeryCensus, function(data) {
-                        $scope.rookeryCensus = data;
-                        $scope.loading = false;
-                    });
-                } else {
-                    rookeryCensusProxy.update($scope, $scope.rookeryCensus, function(data) {
-                        $scope.rookeryCensus = data;
-                        $scope.loading = false;
-                    });
-                }
-
+                save(function(data) {
+                    prepareDateAndTimeForUi(data);
+                    $scope.rookeryCensus = data;
+                    $scope.loading = false;
+                });
             };
 
             $scope.next = function() {
                 $scope.loading = true;
 
-                var next = function(data) {
+                save(function(data) {
                     $scope.loading = false;
 
                     saveToSession(data);
                     storeSelectedLocationNameInSession();
+                    prepareDateAndTimeForUi(data);
 
                     // need to pass the survey identifier on to step 2
                     $location.path('/rookery/step2/' + data.surveyIdentifier);
-                };
-
-                // Create or update the survey as appropriate
-                if (!$scope.rookeryCensus.surveyIdentifier) {
-
-                    $scope.rookeryCensus.submittedBy = authService.getUserId();
-
-                    rookeryCensusProxy.create($scope, $scope.rookeryCensus, function(data) {
-                        next(data);
-                    });
-                } else {
-                    rookeryCensusProxy.update($scope, $scope.rookeryCensus, function(data) {
-                        next(data);
-                    });
-                }
-
+                });
             };
 
 
@@ -202,7 +215,11 @@ angular.module('flightNodeApp')
             //
             $scope.loading = true;
 
+            $scope.googleMapsUrl = config.googleMapsUrl;
+            $scope.rookeryCensus = {};
+
             setupDateAndTimeControls();
+            configureMapping();
             loadLocations();
 
             // Configure shared "bottomBar" components
