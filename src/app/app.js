@@ -23,7 +23,8 @@ angular
     'ui.bootstrap.timepicker',
     'ui.grid.selection',
     'ui.bootstrap.typeahead',
-    'ngMap'
+    'ngMap',
+    'kendo.directives'
   ])
   .config(function ($routeProvider) {
     $routeProvider

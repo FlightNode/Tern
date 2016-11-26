@@ -65,6 +65,7 @@ angular.module('flightNodeApp')
             };
 
             var prepareDateAndTimeForUi = function(model) {
+
                 // need to convert to a a real Date object to support timepicker
                 var format = 'MM/DD/YYYY hh:mm a';
                 if (model.startTime && model.startTime.includes('M')) {
@@ -74,25 +75,24 @@ angular.module('flightNodeApp')
                     model.endTime = moment(model.startDate + ' ' + model.endTime, format).toDate();
                 }
 
-                model.startDateManual = model.startDate;
-                // The date in session depends on how it came back from the server after a save
-                var temp = moment(model.startDate, 'MM/DD/YYYY');
-                if (!temp.isValid()) {
-                    temp = moment(model.startDate);
-                }
-                model.startDate = temp.toDate();
+                $scope.startDateObject = model.startTime;
             }
 
             var configureMapping = function() {
-                    NgMap.getMap().then(function(map) {
-                        $scope.map = map;
-                    });
+                NgMap.getMap().then(function(map) {
+                    $scope.map = map;
+                });
 
-                    $scope.showLocation = function(evt, id) {
-                        $scope.site = $scope.mappableLocations[id];
-                        $scope.map.showInfoWindow('info', this);
-                    };
+                $scope.showLocation = function(evt, index) {
+                    $scope.site = $scope.mappableLocations[index];
+                    $scope.index = index;
+                    $scope.map.showInfoWindow('info', this);
                 };
+
+                $scope.useThisSite = function(index) {
+                    $scope.foragingSurvey.locationId = $scope.mappableLocations[index].id;
+                };
+            };
 
             var loadLocations = function() {
                 locationProxy.get($scope, function(data) {
@@ -100,7 +100,7 @@ angular.module('flightNodeApp')
                     $scope.locations = _.map(data, function(location) {
                         return {
                             id: location.id,
-                            value: location.siteName
+                            value: location.siteName + ' - ' + location.siteCode + ' - (' + location.latitude + ', ' + location.longitude + ')'
                         };
                     });
                     // For map
@@ -110,11 +110,10 @@ angular.module('flightNodeApp')
                             name: location.siteName,
                             siteCode: location.siteCode,
                             city: location.city,
-                            county: location.county
+                            county: location.county,
+                            id: location.id
                         };
                     }).value();
-
-
                 });
             };
 
@@ -130,15 +129,33 @@ angular.module('flightNodeApp')
             var loadExistingSurvey = function(id) {
                 $scope.loading = true;
 
-                foragingSurveyProxy.getById($scope, id, function(data) {
-
+                var prepareScope = function(data) {
                     prepareDateAndTimeForUi(data);
                     $scope.foragingSurvey = data;
 
                     $scope.checkValidity();
 
                     $scope.loading = false;
-                });
+                }
+
+                var model = pullFromSession();
+                if (model && model.surveyIdentifier === id) {
+                    prepareScope(model);
+                } else {
+                    foragingSurveyProxy.getById($scope, id, prepareScope);
+                }
+            };
+
+            var save = function(next) {
+                // Create or update the survey as appropriate
+                if (!$scope.foragingSurvey.surveyIdentifier) {
+
+                    $scope.foragingSurvey.submittedBy = authService.getUserId();
+
+                    foragingSurveyProxy.create($scope, $scope.foragingSurvey, next);
+                } else {
+                    foragingSurveyProxy.update($scope, $scope.foragingSurvey, next);
+                }
             };
 
             //
@@ -157,62 +174,30 @@ angular.module('flightNodeApp')
             };
 
 
-            $scope.updateStartDate = function() {
-                $scope.foragingSurvey.startDate = new Date($scope.foragingSurvey.startDateManual);
-                $scope.checkValidity();
-            };
-            $scope.updateStartDateManual = function() {
-                $scope.foragingSurvey.startDateManual = $filter('date')($scope.foragingSurvey.startDate, 'MM/dd/yyyy');
-                $scope.checkValidity();
-            };
-
             $scope.save = function() {
                 $scope.loading = true;
 
-                // Create or update the survey as appropriate
-                if (!$scope.foragingSurvey.surveyIdentifier) {
-
-                    $scope.foragingSurvey.submittedBy = authService.getUserId();
-
-                    foragingSurveyProxy.create($scope, $scope.foragingSurvey, function(data) {
-                        $scope.foragingSurvey = data;
-                        $scope.loading = false;
-                    });
-                } else {
-                    foragingSurveyProxy.update($scope, $scope.foragingSurvey, function(data) {
-                        $scope.foragingSurvey = data;
-                        $scope.loading = false;
-                    });
-                }
+                save(function(data) {
+                    prepareDateAndTimeForUi(data);
+                    $scope.foragingSurvey = data;
+                    $scope.loading = false;
+                });
 
             };
 
             $scope.next = function() {
                 $scope.loading = true;
 
-                var next = function(data) {
+                save(function(data) {
                     $scope.loading = false;
 
                     saveToSession(data);
                     storeSelectedLocationNameInSession();
+                    prepareDateAndTimeForUi(data);
 
                     // need to pass the survey identifier on to step 2
                     $location.path('/foraging/step2/' + data.surveyIdentifier);
-                }
-
-                // Create or update the survey as appropriate
-                if (!$scope.foragingSurvey.surveyIdentifier) {
-
-                    $scope.foragingSurvey.submittedBy = authService.getUserId();
-
-                    foragingSurveyProxy.create($scope, $scope.foragingSurvey, function(data) {
-                        next(data);
-                    });
-                } else {
-                    foragingSurveyProxy.update($scope, $scope.foragingSurvey, function(data) {
-                        next(data);
-                    });
-                }
+                });
 
             };
 
