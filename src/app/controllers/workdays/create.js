@@ -11,50 +11,55 @@
  */
 angular.module('flightNodeApp')
     .controller('WorkdayCreateController', ['$scope', '$location', '$http', '$log', 'messenger',
-        'authService', '$uibModalInstance', 'config', '$filter', 'timeDateUtility',
+        'authService', 'config', '$filter', 'timeDateUtility', 'NgMap', 'locationProxy',
         function($scope, $location, $http, $log, messenger,
-            authService, $uibModalInstance, config, $filter, timeDateUtility) {
+            authService, config, $filter, timeDateUtility, NgMap, locationProxy) {
             $scope.loading = true;
             $scope.data = {};
 
             $scope.workday = {};
 
+            //
+            // Helper functions
+            //
 
-            // TODO: remove some code duplication in here, createForuser, and edit
-            var configureDateField = function($scope, $filter) {
-                $scope.startDateOpened = false;
-                $scope.datePickerOptions = {
-                    formatYear: 'yy',
-                    formatMonth: 'MM',
-                    maxMode: 'day',
-                    maxDate: new Date(2021, 1, 1),
-                    minDate: new Date(1990, 1, 1),
-                    startingDay: 1
+            var configureMapping = function() {
+                NgMap.getMap().then(function(map) {
+                    $scope.map = map;
+                });
+
+                $scope.showLocation = function(evt, index) {
+                    $scope.site = $scope.mappableLocations[index];
+                    $scope.index = index;
+                    $scope.map.showInfoWindow('info', this);
                 };
-                $scope.datePickerModelOptions = {
-                    allowInvalid: true
-                };
-                $scope.showDatePicker = function() {
-                    $scope.workDateOpened = !$scope.workDateOpened;
-                };
-                $scope.updateWorkDate = function() {
-                    $scope.workday.workDate = new Date($scope.workday.workDateManual);
-                };
-                $scope.updateWorkDateManual = function() {
-                    $scope.workday.workDateManual = $filter('date')($scope.workday.workDate, 'MM/dd/yyyy');
+
+                $scope.useThisSite = function(index) {
+                    $scope.workday.locationId = $scope.mappableLocations[index].id;
                 };
             };
 
             var loadLocations = function() {
-                authService.get(config.locationsSimpleList)
-                    .then(function success(response) {
-
-                        $scope.data.locations = response.data;
-
-                    }, function error(response) {
-
-                        messenger.displayErrorResponse($scope, response);
+                locationProxy.get($scope, function(data) {
+                    // For dropdown
+                    $scope.data.locations = _.map(data, function(location) {
+                        return {
+                            id: location.id,
+                            value: location.siteName + ' - ' + location.siteCode + ' - (' + location.latitude + ', ' + location.longitude + ')'
+                        };
                     });
+                    // For map
+                    $scope.mappableLocations = _.chain(data).map(function(location) {
+                        return {
+                            position: [location.latitude, location.longitude],
+                            name: location.siteName,
+                            siteCode: location.siteCode,
+                            city: location.city,
+                            county: location.county,
+                            id: location.id
+                        };
+                    }).value();
+                });
             };
 
             var loadWorkTypes = function() {
@@ -70,39 +75,6 @@ angular.module('flightNodeApp')
                     });
             };
 
-            var configureSubmit = function() {
-                $scope.submit = function() {
-                    $scope.loading = true;
-
-                    var msg = {
-                        locationId: $scope.workday.location,
-                        travelTimeHours: timeDateUtility.dateToHours($scope.workday.travelTime),
-                        workDate: $scope.workday.workDate,
-                        workHours: timeDateUtility.dateToHours($scope.workday.workTime),
-                        workTypeId: $scope.workday.workType,
-                        userId: authService.getUserId(),
-                        numberOfVolunteers: $scope.workday.numberOfVolunteers,
-                        tasksCompleted: $scope.workday.tasksCompleted
-                    };
-
-                    authService.post(config.workLogs, msg)
-                        .then(function success() {
-                            if ($uibModalInstance) {
-                                $uibModalInstance.close();
-                            } else {
-                                messenger.showSuccessMessage($scope, 'Saved');
-                            }
-
-                        }, function error(response) {
-                            messenger.displayErrorResponse($scope, response);
-                        })
-                        .finally(function() {
-                            $scope.loading = false;
-                        });
-                };
-            };
-
-
             var initializeTimeFields = function() {
                 $scope.hstep = 1;
                 $scope.mstep = 1;
@@ -111,19 +83,49 @@ angular.module('flightNodeApp')
                 $scope.workday.travelTime = begin;
             };
 
+            //
+            // Configure actions
+            //
 
-            configureDateField($scope, $filter);
-            loadWorkTypes($scope, $log, messenger, authService, config);
-            loadLocations($scope, $log, messenger, authService, config);
-            configureSubmit($scope, $log, messenger, authService, $uibModalInstance, config);
+            $scope.save = function() {
+                $scope.loading = true;
+
+                var msg = {
+                    locationId: $scope.workday.locationId,
+                    travelTimeHours: timeDateUtility.dateToHours($scope.workday.travelTime),
+                    workDate: $scope.workday.workDate,
+                    workHours: timeDateUtility.dateToHours($scope.workday.workTime),
+                    workTypeId: $scope.workday.workType,
+                    userId: authService.getUserId(),
+                    numberOfVolunteers: $scope.workday.numberOfVolunteers,
+                    tasksCompleted: $scope.workday.tasksCompleted
+                };
+
+                authService.post(config.workLogs, msg)
+                    .then(function success() {
+                        messenger.showSuccessMessage($scope, 'Saved');
+                    }, function error(response) {
+                        messenger.displayErrorResponse($scope, response);
+                    })
+                    .finally(function() {
+                        $scope.loading = false;
+                    });
+            };
 
             $scope.cancel = function() {
-                if ($uibModalInstance) {
-                    $uibModalInstance.dismiss();
-                } else {
-                    $location.path('/workdays');
-                }
+                $location.path('/workdays');
             };
+
+            //
+            // Main program flow
+            //
+
+            loadWorkTypes();
+            loadLocations();
+            configureMapping();
+
+            $scope.googleMapsUrl = config.googleMapsUrl;
+
 
             initializeTimeFields($scope);
 

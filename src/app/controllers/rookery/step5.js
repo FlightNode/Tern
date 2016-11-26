@@ -56,7 +56,7 @@ angular.module('flightNodeApp')
                             };
                         })
                         .keyBy(function(b) {
-                            return b.id
+                            return b.id;
                         })
                         .value();
 

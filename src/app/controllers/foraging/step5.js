@@ -10,10 +10,10 @@
 angular.module('flightNodeApp')
     .controller('ForagingStep5Controller', ['$scope', 'authService', 'config', 'messenger',
         'foragingSurveyProxy', '$filter', '$location', '$log', 'locationProxy', 'enumsProxy',
-        '$route', '$uibModal', 'birdsProxy', '$routeParams',
+        '$route', '$uibModal', 'birdsProxy',
         function($scope, authService, config, messenger,
             foragingSurveyProxy, $filter, $location, $log, locationProxy, enumsProxy,
-            $route, $uibModal, birdsProxy, $routeParams) {
+            $route, $uibModal, birdsProxy) {
 
 
             if (!(authService.isAuthorized())) {
@@ -27,8 +27,8 @@ angular.module('flightNodeApp')
             // Helper functions
             //
 
-            var modelKey = "foragingSurveyModel";
-            var locationNameKey = "locationName";
+            var modelKey = 'foragingSurveyModel';
+            var locationNameKey = 'locationName';
 
             var saveToSession = function(data, key) {
                 key = key || modelKey;
@@ -38,7 +38,7 @@ angular.module('flightNodeApp')
             var pullFromSession = function(key) {
                 key = key || modelKey;
                 var stored = sessionStorage.getItem(key);
-                stored = stored === "undefined" ? undefined : stored;
+                stored = stored === 'undefined' ? undefined : stored;
                 if (stored) {
                     return JSON.parse(stored || {});
                 }
@@ -56,7 +56,7 @@ angular.module('flightNodeApp')
                             };
                         })
                         .keyBy(function(b) {
-                            return b.id
+                            return b.id;
                         })
                         .value();
 
@@ -138,9 +138,9 @@ angular.module('flightNodeApp')
                     return '(missing direction)';
                 }
             };
-            var getCommonName = function(id) {
-                return _.find($scope.birdSpeciesList, { id: id }).commonName;
-            };
+            // var getCommonName = function(id) {
+            //     return _.find($scope.birdSpeciesList, { id: id }).commonName;
+            // };
             var getActivity = function(id) {
                 return _.find($scope.enums.behaviorTypeInfo, { id: +id }).description;
             };
@@ -224,7 +224,7 @@ angular.module('flightNodeApp')
                     f.observers === null ||
                     f.vantagePointId === null ||
                     f.accessPointId === null ||
-                    f.waterHeightId === null
+                    f.waterHeightId === null || 
                     f.timeLowTide === null;
             };
 
@@ -236,7 +236,7 @@ angular.module('flightNodeApp')
                 $scope.loading = true;
                 $scope.foragingSurvey.finishedEditing = true;
 
-                foragingSurveyProxy.update($scope, $scope.foragingSurvey, function(data) {
+                foragingSurveyProxy.update($scope, $scope.foragingSurvey, function() {
 
                     saveToSession(null); // clear the session
 
@@ -282,12 +282,12 @@ angular.module('flightNodeApp')
                     $scope.foragingSurvey = pullFromSession();
                     prepareReviewModelForViewBinding();
                     disableFinishButtonIfModelNotFullyValid();
-                })
+                });
             });
 
             $scope.step = 5;
 
-            // Configure shared "bottomBar" components
+            // Configure shared 'bottomBar' components
             $scope.canGoBack = true;
             $scope.canSaveForLater = false;
 

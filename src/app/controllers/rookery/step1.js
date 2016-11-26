@@ -37,7 +37,7 @@ angular.module('flightNodeApp')
             var pullFromSession = function(key) {
                 key = key || modelKey;
                 var stored = sessionStorage.getItem(key);
-                stored = stored === "undefined" ? undefined : stored;
+                stored = stored === 'undefined' ? undefined : stored;
                 if (stored) {
                     return JSON.parse(stored || {});
                 }
@@ -123,7 +123,7 @@ angular.module('flightNodeApp')
                     $scope.checkValidity();
 
                     $scope.loading = false;
-                }
+                };
 
                 var model = pullFromSession();
                 if (model && model.surveyIdentifier === id) {

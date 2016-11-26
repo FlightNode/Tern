@@ -1,22 +1,6 @@
 'use strict';
 
-flnd.workDayList = {
-    retrieveRecords: function(config, $scope, messenger, authService) {
-        $scope.list = [];
 
-        authService.get(config.exportWorkLogs)
-            .then(function success(response) {
-                $scope.list = response.data;
-
-                $scope.loading = false;
-
-            }, function error(response) {
-                messenger.displayErrorResponse($scope, response);
-                $scope.loading = false;
-                return null;
-            });
-    }
-};
 
 /**
  * @ngdoc function
@@ -26,8 +10,8 @@ flnd.workDayList = {
  * Controller for the user list page.
  */
 angular.module('flightNodeApp')
-    .controller('WorkdayListController', ['$scope', '$http', '$log', 'messenger', '$location', 'authService', 'config', '$uibModal',
-        function($scope, $http, $log, messenger, $location, authService, config, $uibModal) {
+    .controller('WorkdayListController', ['$scope', '$http', '$log', 'messenger', '$location', 'authService', 'config',
+        function($scope, $http, $log, messenger, $location, authService, config) {
 
             if (!authService.isAdministrator()) {
                 $log.warn('not authorized to access this path');
@@ -35,10 +19,52 @@ angular.module('flightNodeApp')
                 return;
             }
 
-            $scope.loading = true;
+            //
+            // Helper functions
+            //
 
-            flnd.workDayList.retrieveRecords(config, $scope, messenger, authService);
+            // TODO move this to a proxy service
+            var retrieveRecords = function() {
+                $scope.loading = true;
 
+                authService.get(config.exportWorkLogs)
+                    .then(function success(response) {
+                        $scope.list = response.data;
+
+                        $scope.loading = false;
+
+                    }, function error(response) {
+                        messenger.displayErrorResponse($scope, response);
+                        $scope.loading = false;
+                        return null;
+                    });
+            };
+
+            //
+            // Configure actions
+            //
+
+            $scope.exportData = function() {
+                return $scope.list;
+            };
+
+            $scope.createWorkDay = function() {
+                $location.path('/workdays/newforuser');
+            };
+
+            $scope.editWorkDay = function(id) {
+                $location.path('/workdays/edit/' + id);
+            };
+
+            $scope.getHeader = function() {
+                return ['Id', 'WorkDate', 'Activity', 'County', 'SiteName', 'NumberOfVolunteers', 'WorkHours', 'TravelTimeHours', 'Volunteer', 'TasksCompleted', 'UserId'];
+            };
+
+            //
+            // Main program flow
+            //
+
+            $scope.list = [];
             $scope.gridOptions = {
                 enableFiltering: true,
                 rowTemplate: 'app/views/row.html',
@@ -53,8 +79,7 @@ angular.module('flightNodeApp')
                     { name: 'numberOfVolunteers', displayName: '# Volunteers' },
                     { name: 'workHours', displayName: 'Work Hours' },
                     { name: 'travelTimeHours', displayName: 'Travel Hours' },
-                    { name: 'volunteer', displayName: 'Volunteer' }, 
-                    {
+                    { name: 'volunteer', displayName: 'Volunteer' }, {
                         name: 'id',
                         displayName: '',
                         cellTemplate: '\
@@ -71,49 +96,6 @@ angular.module('flightNodeApp')
                 ]
             };
 
-
-            $scope.exportData = function() {
-                return $scope.list;
-            };
-
-            var success = function() {
-                // Re-load the grid
-                flnd.workDayList.retrieveRecords(config, $scope, messenger, authService);
-                messenger.showSuccessMessage($scope, 'Saved');
-            };
-
-            var dismissed = function() {
-                // no action required
-            };
-
-            $scope.createWorkDay = function() {
-                var modal = $uibModal.open({
-                    animation: true,
-                    templateUrl: '/app/views/workdays/createForUser.html',
-                    controller: 'WorkdayCreateForUserController',
-                    size: 'lg'
-                });
-                modal.result.then(success, dismissed);
-            };
-
-            $scope.editWorkDay = function(id) {
-                var modal = $uibModal.open({
-                    animation: true,
-                    templateUrl: '/app/views/workdays/edit.html',
-                    controller: 'WorkdayEditController',
-                    size: 'lg',
-                    resolve: {
-                        id: function() {
-                            return id;
-                        }
-                    }
-                });
-                modal.result.then(success, dismissed);
-            };
-
-            $scope.getHeader = function() {
-                return ['Id', 'WorkDate', 'Activity', 'County', 'SiteName', 'NumberOfVolunteers', 'WorkHours', 'TravelTimeHours', 'Volunteer', 'TasksCompleted', 'UserId'];
-            };
-
+            retrieveRecords();
         }
     ]);

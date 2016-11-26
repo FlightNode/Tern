@@ -10,10 +10,10 @@
 angular.module('flightNodeApp')
     .controller('ForagingStep4Controller', ['$scope', 'authService', 'config', 'messenger',
         'foragingSurveyProxy', '$filter', '$location', '$log', 'locationProxy', 'enumsProxy',
-        '$route', '$uibModal', 'birdsProxy', '$routeParams',
+        '$route', '$uibModal',
         function($scope, authService, config, messenger,
             foragingSurveyProxy, $filter, $location, $log, locationProxy, enumsProxy,
-            $route, $uibModal, birdsProxy, $routeParams) {
+            $route, $uibModal) {
 
 
             if (!(authService.isAuthorized())) {
@@ -25,8 +25,8 @@ angular.module('flightNodeApp')
             //
             // Helper functions
             //
-            var modelKey = "foragingSurveyModel";
-            var locationNameKey = "locationName";
+            var modelKey = 'foragingSurveyModel';
+            var locationNameKey = 'locationName';
 
             var saveToSession = function(data, key) {
                 key = key || modelKey;
@@ -36,7 +36,7 @@ angular.module('flightNodeApp')
             var pullFromSession = function(key) {
                 key = key || modelKey;
                 var stored = sessionStorage.getItem(key);
-                stored = stored === "undefined" ? undefined : stored;
+                stored = stored === 'undefined' ? undefined : stored;
                 if (stored) {
                     return JSON.parse(stored || {});
                 }
@@ -60,7 +60,7 @@ angular.module('flightNodeApp')
                     item.durationMinutes = disturbed.durationMinutes;
                     item.behavior = disturbed.behavior;
                 });
-            }
+            };
 
 
             var loadEnums = function(next) {
@@ -75,23 +75,17 @@ angular.module('flightNodeApp')
             };
 
             var loadLocations = function(next) {
-                $scope.locations = pullFromSession(locationsKey);
+                $scope.locations = pullFromSession(locationNameKey);
 
                 if (!$scope.locations) {
                     locationProxy.get($scope, function(data) {
                         $scope.locations = data;
-                        saveToSession(data, locationsKey);
+                        saveToSession(data, locationNameKey);
                         next();
                     });
                 } else {
                     next();
                 }
-            };
-
-            var getLocationName = function() {
-                var id = $scope.foragingSurvey.locationId;
-                var location = _.find($scope.locations, { id: id });
-                return location.siteCode + ' - ' + location.siteName;
             };
 
             var syncDisturbancesIntoForagingSurvey = function() {
@@ -199,7 +193,7 @@ angular.module('flightNodeApp')
 
             $scope.step = 4;
 
-            // Configure shared "bottomBar" components
+            // Configure shared 'bottomBar' components
             $scope.canGoBack = true;
             $scope.canSaveForLater = true;
 

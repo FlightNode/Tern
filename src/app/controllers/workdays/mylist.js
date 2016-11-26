@@ -1,26 +1,4 @@
-//WorkdayMyListController
-
 'use strict';
-
-flnd.myWorkDayList = {
-    retrieveRecords: function(config, $scope, messenger, authService) {
-        $scope.list = [];
-
-        // Todo: retrieve the locations, or load them in the data model server side.
-
-        authService.get(config.workLogsForUser)
-            .then(function success(response) {
-                $scope.list = response.data;
-
-                $scope.loading = false;
-
-            }, function error(response) {
-                $scope.loading = false;
-                messenger.displayErrorResponse($scope, response);
-                return null;
-            });
-    }
-};
 
 /**
  * @ngdoc function
@@ -30,34 +8,79 @@ flnd.myWorkDayList = {
  * Controller for the user list page.
  */
 angular.module('flightNodeApp')
-    .controller('WorkdayMyListController',
-     ['$scope', '$http', '$log', 'messenger', '$location', 'authService', 'config','$uibModal',
-        function ($scope, $http, $log, messenger, $location, authService, config, $uibModal) {
+    .controller('WorkdayMyListController', ['$scope', '$http', '$log', 'messenger', '$location', 'authService', 'config',
+        function($scope, $http, $log, messenger, $location, authService, config) {
 
             if (!authService.isAuthorized()) {
-                $location.path('/login').search('redirect','/workdays/mylist');
+                $location.path('/login').search('redirect', '/workdays/mylist');
                 return;
             }
 
-            $scope.loading = true;
 
-            flnd.myWorkDayList.retrieveRecords(config, $scope, messenger, authService);
+
+            //
+            // Helper functions
+            //
+
+            // TODO move this to a proxy service
+            var retrieveRecords = function() {
+
+                $scope.loading = true;
+                
+                authService.get(config.workLogsForUser)
+                    .then(function success(response) {
+                        $scope.list = response.data;
+
+                        $scope.loading = false;
+
+                    }, function error(response) {
+                        $scope.loading = false;
+                        messenger.displayErrorResponse($scope, response);
+                        return null;
+                    });
+            };
+
+            //
+            // Configure actions
+            //
+
+            $scope.exportData = function() {
+                return $scope.list;
+            };
+
+
+            $scope.createWorkDay = function() {
+                $location.path('/workdays/new');
+            };
+
+            $scope.editWorkDay = function(id) {
+                $location.path('/workdays/' + id);
+            };
+
+            $scope.getHeader = function() {
+                return ['Id', 'WorkDate', 'Activity', 'County', 'SiteName', 'NumberOfVolunteers', 'WorkHours', 'TravelTimeHours', 'Volunteer', 'TasksCompleted', 'UserId'];
+            };
+
+            //
+            // Main program flow
+            //
+
+            $scope.list = [];
 
             $scope.gridOptions = {
                 enableFiltering: true,
                 rowTemplate: 'app/views/row.html',
-                onRegisterApi: function (gridApi) {
+                onRegisterApi: function(gridApi) {
                     $scope.gridApi = gridApi;
                 },
                 data: 'list',
                 columnDefs: [
                     { field: 'workDate', display: 'Date' },
-                    { name: 'county', displayName: 'County'},
+                    { name: 'county', displayName: 'County' },
                     { name: 'siteName', displayName: 'Site Name' },
-                    { name: 'numberOfVolunteers', displayName: '# Volunteers'},
+                    { name: 'numberOfVolunteers', displayName: '# Volunteers' },
                     { name: 'workHours', displayName: 'Work Hours' },
-                    { name: 'travelTimeHours', displayName: 'Travel Hours' },
-                    {
+                    { name: 'travelTimeHours', displayName: 'Travel Hours' }, {
                         field: 'id',
                         displayName: '',
                         cellTemplate: '\
@@ -74,47 +97,6 @@ angular.module('flightNodeApp')
                 ]
             };
 
-            $scope.exportData = function() {
-                return $scope.list;
-            };
-
-            var success = function() {
-                // Re-load the grid
-                flnd.myWorkDayList.retrieveRecords(config, $scope, messenger, authService);
-                messenger.showSuccessMessage($scope, 'Saved');
-            };
-
-            var dismissed = function() {
-                // no action required
-            };
-
-            $scope.createWorkDay = function () {
-                var modal = $uibModal.open({
-                    animation: true,
-                    templateUrl: '/app/views/workdays/create.html',
-                    controller: 'WorkdayCreateController',
-                    size: 'lg'
-                });
-                modal.result.then(success, dismissed);
-            };
-
-            $scope.editWorkDay = function(id) {
-                var modal = $uibModal.open({
-                    animation: true,
-                    templateUrl: '/app/views/workdays/edit.html',
-                    controller: 'WorkdayEditController',
-                    size: 'lg',
-                    resolve: {
-                        id: function() {
-                            return id;
-                        }
-                    }
-                });
-                modal.result.then(success, dismissed);
-            };
-
-            $scope.getHeader = function() {
-                return [ 'Id', 'WorkDate', 'Activity', 'County', 'SiteName', 'NumberOfVolunteers', 'WorkHours', 'TravelTimeHours', 'Volunteer', 'TasksCompleted', 'UserId' ];
-            };
-
-        }]);
+            retrieveRecords();
+        }
+    ]);

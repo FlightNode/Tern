@@ -108,6 +108,11 @@ angular
         controller: 'WorkdayEditController',
         title: site + ' - Work Day - Edit'
       })
+      .when('/workdays/edit/:id', {
+        templateUrl: 'app/views/workdays/edit.html',
+        controller: 'WorkdayEditController',
+        title: site + ' - Work Day - Edit'
+      })
       .when('/worktypes', {
         templateUrl: 'app/views/worktypes/list.html',
         controller: 'WorktypeListController',

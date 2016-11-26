@@ -10,10 +10,10 @@
 angular.module('flightNodeApp')
     .controller('ForagingStep2Controller', ['$scope', 'authService', 'config', 'messenger',
         'foragingSurveyProxy', '$filter', '$location', '$log', 'locationProxy', 'enumsProxy',
-        '$route', '$uibModal', 'birdsProxy', '$routeParams',
+        '$route', '$uibModal',
         function($scope, authService, config, messenger,
             foragingSurveyProxy, $filter, $location, $log, locationProxy, enumsProxy,
-            $route, $uibModal, birdsProxy, $routeParams) {
+            $route, $uibModal) {
 
 
             if (!(authService.isAuthorized())) {
@@ -25,8 +25,8 @@ angular.module('flightNodeApp')
             //
             // Helper functions
             //
-            var modelKey = "foragingSurveyModel";
-            var locationNameKey = "locationName";
+            var modelKey = 'foragingSurveyModel';
+            var locationNameKey = 'locationName';
 
             var saveToSession = function(data, key) {
                 key = key || modelKey;
@@ -36,7 +36,7 @@ angular.module('flightNodeApp')
             var pullFromSession = function(key) {
                 key = key || modelKey;
                 var stored = sessionStorage.getItem(key);
-                stored = stored === "undefined" ? undefined : stored;
+                stored = stored === 'undefined' ? undefined : stored;
                 if (stored) {
                     return JSON.parse(stored || {});
                 }
@@ -55,7 +55,7 @@ angular.module('flightNodeApp')
                 if (model.timeLowTide && model.timeLowTide.includes('M')) {
                     model.timeLowTide = moment(model.startDate + ' ' + model.timeLowTide, format).toDate();
                 }
-            }
+            };
 
             var loadEnums = function() {
                 // TODO: look into caching this cleanly
@@ -128,7 +128,7 @@ angular.module('flightNodeApp')
             //
             // Main program flow
             //
-            $scope.loading = true
+            $scope.loading = true;
 
             loadEnums();
             $scope.foragingSurvey = pullFromSession();
@@ -138,7 +138,7 @@ angular.module('flightNodeApp')
             prepareTimeForUi($scope.foragingSurvey);
 
             $scope.step = 2;
-            // Configure shared "bottomBar" components
+            // Configure shared 'bottomBar' components
             $scope.canGoBack = true;
             $scope.canSaveForLater = true;
 

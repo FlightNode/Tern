@@ -9,11 +9,15 @@
  */
 angular.module('flightNodeApp')
     .controller('WorkdayEditController', ['$scope', '$location', '$http', '$log', 'messenger',
-        'authService', '$routeParams', 'id', '$uibModalInstance', 'config', '$filter', 'timeDateUtility',
+        'authService', '$routeParams', 'config', '$filter', 'timeDateUtility', 'NgMap', 'locationProxy',
         function($scope, $location, $http, $log, messenger, authService,
-            $routeParams, id, $uibModalInstance, config, $filter, timeDateUtility) {
+            $routeParams, config, $filter, timeDateUtility, NgMap, locationProxy) {
             $scope.loading = true;
             $scope.data = {};
+
+            var id = $routeParams.id;
+
+
 
             if (!isFinite(id)) {
                 // garbage input
@@ -33,39 +37,48 @@ angular.module('flightNodeApp')
             }
 
 
-            var configureDateField = function() {
-                $scope.startDateOpened = false;
-                $scope.datePickerOptions = {
-                    formatYear: 'yy',
-                    formatMonth: 'MM',
-                    maxMode: 'day',
-                    maxDate: new Date(2021, 1, 1),
-                    minDate: new Date(1990, 1, 1),
-                    startingDay: 1
+            //
+            // Helper functions
+            //
+
+            var configureMapping = function() {
+                NgMap.getMap().then(function(map) {
+                    $scope.map = map;
+                });
+
+                $scope.showLocation = function(evt, index) {
+                    $scope.site = $scope.mappableLocations[index];
+                    $scope.index = index;
+                    $scope.map.showInfoWindow('info', this);
                 };
-                $scope.datePickerModelOptions = {
-                    allowInvalid: true
-                };
-                $scope.showDatePicker = function() {
-                    $scope.workDateOpened = !$scope.workDateOpened;
-                };
-                $scope.updateWorkDate = function() {
-                    $scope.workday.workDate = new Date($scope.workday.workDateManual);
-                };
-                $scope.updateWorkDateManual = function() {
-                    $scope.workday.workDateManual = $filter('date')($scope.workday.workDate, 'MM/dd/yyyy');
+
+                $scope.useThisSite = function(index) {
+                    $scope.workday.locationId = $scope.mappableLocations[index].id;
+                    return false;
                 };
             };
 
             var loadLocations = function() {
-                authService.get(config.locationsSimpleList)
-                    .then(function success(response) {
-
-                        $scope.data.locations = response.data;
-
-                    }, function error(response) {
-                        messenger.displayErrorResponse($scope, response);
+                locationProxy.get($scope, function(data) {
+                    // For dropdown
+                    $scope.data.locations = _.map(data, function(location) {
+                        return {
+                            id: location.id,
+                            value: location.siteName + ' - ' + location.siteCode + ' - (' + location.latitude + ', ' + location.longitude + ')'
+                        };
                     });
+                    // For map
+                    $scope.mappableLocations = _.chain(data).map(function(location) {
+                        return {
+                            position: [location.latitude, location.longitude],
+                            name: location.siteName,
+                            siteCode: location.siteCode,
+                            city: location.city,
+                            county: location.county,
+                            id: location.id
+                        };
+                    }).value();
+                });
             };
 
             var loadWorkTypes = function() {
@@ -79,39 +92,6 @@ angular.module('flightNodeApp')
                     });
             };
 
-            var configureSubmit = function(id) {
-
-                $scope.submit = function() {
-                    $scope.loading = true;
-
-                    var msg = {
-                        locationId: $scope.workday.location,
-                        travelTimeHours: timeDateUtility.dateToHours($scope.workday.travelTime),
-                        workDate: $scope.workday.workDate,
-                        workHours: timeDateUtility.dateToHours($scope.workday.workTime),
-                        workTypeId: $scope.workday.workType,
-                        userId: $scope.workday.userId,
-                        id: $scope.workday.id,
-                        numberOfVolunteers: $scope.workday.numberOfVolunteers,
-                        tasksCompleted: $scope.workday.tasksCompleted
-                    };
-
-                    authService.put(config.workLogs + id, msg)
-                        .then(function success() {
-                            if ($uibModalInstance) {
-                                $uibModalInstance.close();
-                            } else {
-                                messenger.showSuccessMessage($scope, 'Saved');
-                            }
-                        }, function error(response) {
-                            messenger.displayErrorResponse($scope, response);
-                        })
-                        .finally(function() {
-                            $scope.loading = false;
-                        });
-                };
-            };
-
             var loadRecord = function(id) {
 
                 authService.get(config.workLogs + id)
@@ -120,7 +100,7 @@ angular.module('flightNodeApp')
                         $scope.hstep = 1;
                         $scope.mstep = 1;
                         $scope.workday = {
-                            location: response.data.locationId,
+                            locationId: response.data.locationId,
                             workDate: $filter('date')(response.data.workDate, 'MM/dd/yyyy'),
                             workType: response.data.workTypeId,
                             id: response.data.id,
@@ -139,21 +119,57 @@ angular.module('flightNodeApp')
             };
 
 
-            $scope.workday = {};
+            //
+            // Configure actions
+            //
 
-            configureDateField();
-            loadRecord(id);
-            loadLocations();
-            loadWorkTypes();
-            configureSubmit(id);
+            $scope.save = function() {
+                $scope.loading = true;
+
+                var msg = {
+                    locationId: $scope.workday.locationId,
+                    travelTimeHours: timeDateUtility.dateToHours($scope.workday.travelTime),
+                    workDate: $scope.workday.workDate,
+                    workHours: timeDateUtility.dateToHours($scope.workday.workTime),
+                    workTypeId: $scope.workday.workType,
+                    userId: $scope.workday.userId,
+                    id: $scope.workday.id,
+                    numberOfVolunteers: $scope.workday.numberOfVolunteers,
+                    tasksCompleted: $scope.workday.tasksCompleted
+                };
+
+                authService.put(config.workLogs + id, msg)
+                    .then(function success() {
+                        messenger.showSuccessMessage($scope, 'Saved');
+                    }, function error(response) {
+                        messenger.displayErrorResponse($scope, response);
+                    })
+                    .finally(function() {
+                        $scope.loading = false;
+                    });
+            };
 
             $scope.cancel = function() {
-                if ($uibModalInstance) {
-                    $uibModalInstance.dismiss();
+                if ($location.$$path.includes('edit')) {
+                    $location.path('/workdays/all');
                 } else {
                     $location.path('/workdays');
                 }
             };
+
+            //
+            // Main program flow
+            //
+
+            $scope.workday = {};
+
+            loadRecord(id);
+            loadLocations();
+            loadWorkTypes();
+            configureMapping();
+
+            $scope.googleMapsUrl = config.googleMapsUrl;
+
 
             $scope.loading = false;
         }
