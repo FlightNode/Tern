@@ -94,6 +94,20 @@ angular.module('flightNodeApp')
                         });
 
                     return deferred.promise;
+                },
+
+                delete: function($scope, identifier) {
+                    var deferred = $q.defer();
+
+                    authService.delete(config.waterbirdForagingSurvey + identifier)
+                        .then(function success(response) {
+                             messenger.showSuccessMessage($scope, 'Survey has been deleted.');
+                             deferred.resolve();
+                        }, function error(response) {                            
+                            messenger.displayErrorResponse($scope, response);
+                        });
+
+                    return deferred.promise;
                 }
             };
         }

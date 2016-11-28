@@ -69,6 +69,10 @@ angular.module('userMessage', [])
                     case 401:
                         $this.unauthorized($scope);
                         break;
+                    case 404:
+                        var message = 'Record does not exist.';
+                        $this.showErrorMessage($scope, message);
+                        break;
                     case 500:
                         var message = 'A server error occurred. Please try once more. If the problem continues, then contact an administrator.';
                         $this.showErrorMessage($scope, message);
