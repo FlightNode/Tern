@@ -74,20 +74,6 @@ angular.module('flightNodeApp')
                 }
             };
 
-            var loadLocations = function(next) {
-                $scope.locations = pullFromSession(locationNameKey);
-
-                if (!$scope.locations) {
-                    locationProxy.get($scope, function(data) {
-                        $scope.locations = data;
-                        saveToSession(data, locationNameKey);
-                        next();
-                    });
-                } else {
-                    next();
-                }
-            };
-
             var syncDisturbancesIntoForagingSurvey = function() {
                 // Because the disturbance form is bound to $scope.disturbances, instead
                 // of $scope.foragingSurvey.disturbances, we now need to replace the disturbances

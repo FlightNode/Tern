@@ -121,7 +121,7 @@ angular.module('flightNodeApp')
                     $scope.checkValidity();
 
                     $scope.loading = false;
-                }
+                };
 
                 var model = pullFromSession();
                 if (model && model.surveyIdentifier === id) {

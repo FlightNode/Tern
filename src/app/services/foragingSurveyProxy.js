@@ -100,7 +100,7 @@ angular.module('flightNodeApp')
                     var deferred = $q.defer();
 
                     authService.delete(config.waterbirdForagingSurvey + identifier)
-                        .then(function success(response) {
+                        .then(function success() {
                              messenger.showSuccessMessage($scope, 'Survey has been deleted.');
                              deferred.resolve();
                         }, function error(response) {                            
