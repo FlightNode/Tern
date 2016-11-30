@@ -115,14 +115,9 @@ angular.module('flightNodeApp')
                     backdrop: true,
                     size: 'sm',
                     controllerAs: '$ctrl',
-                    resolve: {
-                        survey: function() {
-                            return options;
-                        }
-                    },
-                    controller: function(survey) {
+                    controller: function() {
                         var $ctrl = this;
-                        $ctrl.survey = survey;
+                        $ctrl.survey = options;
                     }
                 });
                 modal.result.then(function success() {
