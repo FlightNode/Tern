@@ -217,6 +217,7 @@ angular.module('flightNodeApp')
 
 
             $scope.googleMapsUrl = config.googleMapsUrl;
+            $scope.foragingSurvey = {};
 
             setupDateAndTimeControls();
             configureMapping();

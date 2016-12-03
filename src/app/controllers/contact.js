@@ -31,8 +31,10 @@ angular.module('flightNodeApp')
 
                 authService.post(url, model)
                     .then(function success() {
+                        $scope.sent = true;
                         messenger.showSuccessMessage($scope, 'Your message has been sent.');
                     }, function error(response) {
+                        $scope.sent = true;
                         messenger.displayErrorResponse($scope, 'There was an error while trying to send your message. Please try again after a short wait.');
                         $log.error(response);
                     });

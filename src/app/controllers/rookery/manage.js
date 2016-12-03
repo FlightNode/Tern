@@ -111,6 +111,7 @@ angular.module('flightNodeApp')
                     'assessment',
                     'startDate',
                     'endDate',
+                    'prepTimeHours',
                     'vantagePoint',
                     'accessPoint',
                     'submittedBy',
