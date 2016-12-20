@@ -2,44 +2,58 @@
 <loading></loading>
 <div ng-include="'/app/views/foraging/progressBar.html'"></div>
 <div class="row">
-    <form class="form-horizontal" id="foragingLocation" name="foragingLocation" role="form">
+    <form class="form-horizontal" id="foragingStep1" name="foragingStep1" role="form">
         <div class="panel panel-info">
             <div class="panel-heading"><span class="icon-info"></span>&nbsp; Instructions</div>
             <div class="panel-body">
-                <p>In order to continue, all fields on this page must be filled in.</p>
+                <p>In order to continue, all fields on this page must be filled in. You can choose a site from the drop-down list or by using the map.</p>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-3" for="location">Location:</label>
-            <div class="col-sm-9" ng-class="{ 'has-error': foragingLocation.location.$error.required }">
-                <select name="location" class="form-control" id="location" ng-model="foragingSurvey.locationId" ng-required="true"
-                ng-options="loc.id as loc.siteCode + ' - ' + loc.siteName for loc in locations">
+            <div class="col-sm-8" ng-class="{ 'has-error': foragingStep1.location.$error.required }">
+                <select name="location" class="form-control" id="location" ng-model="foragingSurvey.locationId" ng-required="true" ng-options="loc.id as loc.value for loc in locations" ng-change="checkValidity()">
                 </select>
+                <!-- Map -->
+                <div map-lazy-load-params="{{googleMapsUrl}}" map-lazy-load="https://maps.google.com/maps/api/js">
+                    <ng-map center="28.943706, -95.360923" zoom="7" default-style="false" map-type-id="SATELLITE" style="display: block; height: 350px; margin-top: 1em;">
+                        <info-window id="info">
+                            <div ng-non-bindable="">
+                                Name: {{site.name}}
+                                <br> Code: {{site.siteCode}}
+                                <br> Lat/Lng: {{anchor.getPosition().lat() | number: 3}}/ {{anchor.getPosition().lng() | number: 3}}
+                                <br>
+                                <button class="btn btn-small btn-default" ng-click="useThisSite({{index}})">Use this site</button>
+                            </div>
+                        </info-window>
+                        <marker ng-repeat="(index, site) in mappableLocations" id="{{index}}" position="{{site.position}}" on-click="showLocation(event, index)"></marker>
+                    </ng-map>
+                </div>
+                <!-- End Map -->
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-3" for="startDate">Survey Date:</label>
-            <div class="col-sm-4" ng-class="{ 'has-error': foragingLocation.startDateManual.$error.required }">
-                <div class="input-group">
-                    <input type="text" name="startDateManual" class="form-control" ng-required="true" ng-model="foragingSurvey.startDateManual" placeholder="mm/dd/yyyy" ng-change="updateStartDate()" ng-required="true" />
-                    <span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="showDatePicker()"><i class="glyphicon glyphicon-calendar"></i></button></span>
-                </div>
-                <uib-datepicker ng-model="foragingSurvey.startDate" class="well well-sm" ng-show="startDateOpened" datepicker-options="datePickerOptions" ng-model-options="datePickerModelOptions" ng-change="updateStartDateManual()"></uib-datepicker>
-                <p class="form-control-static">
-                    {{foragingSurvey.startDate | date:'fullDate' }}
-                </p>
+            <div class="col-sm-4" ng-class="{ 'has-error': foragingStep1.startDate.$error.required }">
+                <input kendo-date-picker ng-model="foragingSurvey.startDate" k-ng-model="startDateObject" style="width: 100%" ng-required="true" ng-change="checkValidity()" id="startDate" name="startDate" />
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-3" for="startTime">Time Start:</label>
             <div class="col-sm-3" ng-class="{ 'has-error': !foragingSurvey.startTime }">
-                <uib-timepicker ng-model="foragingSurvey.startTime" hour-step="hstep" minute-step="mstep" show-meridian="true" ng-required="true"></uib-timepicker>
+                <uib-timepicker ng-model="foragingSurvey.startTime" hour-step="hstep" minute-step="mstep" show-meridian="true" ng-required="true" ng-change="checkValidity()"></uib-timepicker>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-3" for="endTime">Time End:</label>
-            <div class="col-sm-3" ng-class="{ 'has-error': !foragingSurvey.endTime }">
-                <uib-timepicker ng-model="foragingSurvey.endTime" hour-step="hstep" minute-step="mstep" show-meridian="true" ng-required="true"></uib-timepicker>
+            <div class="col-sm-3" ng-class="{ 'has-error': !foragingSurvey.endTime || foragingSurvey.startTime > foragingSurvey.endTime }">
+                <uib-timepicker ng-model="foragingSurvey.endTime" hour-step="hstep" minute-step="mstep" show-meridian="true" ng-required="true" ng-change="checkValidity()"></uib-timepicker>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="prepTime" class="col-sm-3 control-label">Prep Time (Hours) <span class="text-danger">*</span></label>
+            <div class="col-sm-2" ng-class="{ 'has-error': foragingStep1.prepTimeHours.$error.required }">
+                <input type="number" id="prepTimeHours" name="prepTimeHours" class="form-control" min="0.1" max="24.0" step="0.1" ng-model="foragingSurvey.prepTimeHours" ng-required="true" ng-change="checkValidity()">
             </div>
         </div>
     </form>

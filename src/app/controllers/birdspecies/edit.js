@@ -2,41 +2,7 @@
 
 flnd.birdSpeciesEdit = {
 
-    setCurrentSurveyTypes: function(birdspecies, $log) {
-        // var _ = window._;
-        $log.info(birdspecies.surveyTypeNames);
-
-        // This hard-coding is nasty but useful due to time constraints
-        if (_.includes(birdspecies.surveyTypeNames, 'TERN Rookery Survey')) {
-            birdspecies.surveyTypeRookery = true;
-        } else {
-            birdspecies.surveyTypeRookery = false;
-        }
-        if (_.includes(birdspecies.surveyTypeNames, 'TERN Waterbird Foraging Survey')) {
-            birdspecies.surveyTypeForaging = true;
-        } else {
-            birdspecies.surveyTypeForaging = false;
-        }
-    },
-
-    retrieveRecord: function(id, config, $scope, messenger, authService, $log) {
-        var $this = this;
-        
-        var url =  config.birdspecies + id;
-        authService.get(url)
-            .then(function success(response) {
-                var birdspecies = response.data;
-
-                $this.setCurrentSurveyTypes(birdspecies, $log);
-
-                $scope.birdspecies = birdspecies;
-
-            }, function error(response) {
-                messenger.displayErrorResponse($scope, response);
-            });
-    },
-
-    updateSurveyTypes: function (birdspecies) {
+    updateSurveyTypes: function(birdspecies) {
         // This hard-coding is nasty but useful due to time constraints
         birdspecies.surveyTypeNames = [];
         if (birdspecies.surveyTypeRookery) {
@@ -50,12 +16,12 @@ flnd.birdSpeciesEdit = {
     configureSubmit: function(id, config, $scope, messenger, authService, $uibModalInstance) {
         var $this = this;
 
-        return function () {
+        return function() {
             $scope.loading = true;
 
             $this.updateSurveyTypes($scope.birdspecies);
 
-            var url =  config.birdspecies + id;
+            var url = config.birdspecies + id;
             authService.put(url, $scope.birdspecies)
                 .then(function success() {
 
@@ -64,12 +30,12 @@ flnd.birdSpeciesEdit = {
                 }, function error(response) {
                     messenger.displayErrorResponse($scope, response);
                 })
-                .finally(function(){
+                .finally(function() {
                     $scope.loading = false;
                 });
         };
     }
- };
+};
 
 /**
  * @ngdoc function
@@ -79,32 +45,57 @@ flnd.birdSpeciesEdit = {
  * Controller for the edit bird species page.
  */
 angular.module('flightNodeApp')
-    .controller('BirdSpeciesEditController',
-        ['$scope', '$http', '$log', '$location', 'messenger', 'authService', '$routeParams', 'config', '$uibModalInstance', 'id',
-            function ($scope, $http, $log, $location, messenger, authService, $routeParams, config, $uibModalInstance, id) {
+    .controller('BirdSpeciesEditController', ['$scope', '$http', '$log', '$location', 'messenger', 'authService', '$routeParams',
+        'config', '$uibModalInstance', 'id', 'birdsProxy',
+        function($scope, $http, $log, $location, messenger, authService, $routeParams,
+            config, $uibModalInstance, id, birdsProxy) {
 
-                if (!(authService.isAdministrator() ||
-                      authService.isCoordinator())) {
-                    $log.warn('not authorized to access this path');
-                    $location.path('/');
-                    return;
+
+
+            if (!authService.isAdministrator()) {
+                $log.warn('not authorized to access this path');
+                $location.path('/');
+                return;
+            }
+
+            var setCurrentSurveyTypes = function(birdspecies, $log) {
+                // var _ = window._;
+                $log.info(birdspecies.surveyTypeNames);
+
+                // This hard-coding is nasty but useful due to time constraints
+                if (_.includes(birdspecies.surveyTypeNames, 'TERN Rookery Survey')) {
+                    birdspecies.surveyTypeRookery = true;
+                } else {
+                    birdspecies.surveyTypeRookery = false;
                 }
-
-                $scope.loading = true;
-
-                if (!isFinite(id)) {
-                    // garbage input
-                    return;
+                if (_.includes(birdspecies.surveyTypeNames, 'TERN Waterbird Foraging Survey')) {
+                    birdspecies.surveyTypeForaging = true;
+                } else {
+                    birdspecies.surveyTypeForaging = false;
                 }
+            };
 
-                flnd.birdSpeciesEdit.retrieveRecord(id, config, $scope, messenger, authService, $log);
+            $scope.loading = true;
 
-                $scope.cancel = function () {
+            if (!isFinite(id)) {
+                // garbage input
+                return;
+            }
+
+
+            birdsProxy.get($scope, id, function(data) {
+                setCurrentSurveyTypes(data, $log);
+
+                $scope.birdspecies = data;
+            });
+
+            $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
-                };
+            };
 
-                $scope.submit = flnd.birdSpeciesEdit.configureSubmit(id, config, $scope, messenger, authService, $uibModalInstance);
+            $scope.submit = flnd.birdSpeciesEdit.configureSubmit(id, config, $scope, messenger, authService, $uibModalInstance);
 
-                $scope.loading = false;
+            $scope.loading = false;
 
-            }]);
+        }
+    ]);

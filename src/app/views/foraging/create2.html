@@ -29,18 +29,35 @@
         <div class="form-group">
             <label class="control-label col-sm-3" for="windSpeed">Average Wind Speed:</label>
             <div class="col-sm-2">
-                <input type="number" class="form-control" name="windSpeed" placeholder="0" min="0" ng-model="foragingSurvey.windSpeed">
+                <select id="windSpeed" name="windSpeed" class="form-control" ng-model="foragingSurvey.windSpeed" ng-options="item.id as item.description for item in enums.windSpeeds">
+                </select>
+            </div>
+            <label class="control-label col-sm-1" for="direction">Direction:</label>
+            <div class="col-sm-2">
+                <select id="windDirection" name="windDirection" class="form-control" ng-model="foragingSurvey.windDirection" ng-options="item.id as item.description for item in enums.windDirections">
+                </select>
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-sm-3">Tides:</label>
+            <label class="control-label col-sm-3">Nearest Low Tide:</label>
+             <div class="col-sm-3">
+                <uib-timepicker ng-model="foragingSurvey.timeLowTide" hour-step="hstep" minute-step="mstep" show-meridian="true"></uib-timepicker>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3">Water Height:</label>
             <div class="col-sm-9">
                 <div class="checkbox">
-                    <div ng-repeat="enum in enums.tideInfo">
-                        <input type="radio" id="tide-{{enum.id}}" name="tideInfo" ng-model="foragingSurvey.tideId" value="{{enum.id}}">
-                        <label for="tide-{{enum.id}}">{{enum.description}}</label>
+                    <div ng-repeat="enum in enums.waterHeights">
+                        <input type="radio" id="waterheight-{{enum.id}}" name="waterHeight" ng-model="foragingSurvey.waterHeightId" value="{{enum.id}}">
+                        <label for="waterheight-{{enum.id}}">{{enum.description}}</label>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-9 col-sm-offset-3">
+                <label for="windDriven"><input type="checkbox" name="windDrivenTide" id="windDriven" ng-model="foragingSurvey.windDrivenTide">&nbsp;Tide Is Wind Driven</label>
             </div>
         </div>
         <div class="form-group">

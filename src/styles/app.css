@@ -28,8 +28,6 @@ span.error.bg-danger {
   width: 100%;
 }
 
-
-
 /*
  Form customizations
  */
@@ -52,6 +50,16 @@ select.form-inline-small {
 }
 
 
+span.ng-invalid-required .k-state-default { /* copied form bootstrap .has-error */
+    border-color: #a94442!important;
+    border-top-color: rgb(169, 68, 66)!important;
+    border-right-color: rgb(169, 68, 66)!important;
+    border-bottom-color: rgb(169, 68, 66)!important;
+    border-left-color: rgb(169, 68, 66)!important;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075)!important;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075)!important;
+}
+
 
 /* fix an issue with the menu not displaying */
 .dropdown:hover .dropdown-menu {
@@ -69,4 +77,51 @@ body {
 
 .modal-backdrop {
   bottom: 0;
+}
+
+
+
+/* beta banner */
+.ribbon {
+  position: absolute;
+  right: -5px; top: -5px;
+  z-index: 1;
+  overflow: hidden;
+  width: 100px; height: 100px;
+  text-align: right;
+}
+.ribbon span {
+  font-size: 1em;
+  font-weight: bold;
+  color: #FFF;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 20px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  width: 100px;
+  display: block;
+  background: #79A70A;
+  background: linear-gradient(#9BC90D 0%, #79A70A 100%);
+  box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+  position: absolute;
+  top: 19px; right: -21px;
+}
+.ribbon span::before {
+  content: "";
+  position: absolute; left: 0px; top: 100%;
+  z-index: -1;
+  border-left: 3px solid #79A70A;
+  border-right: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid #79A70A;
+}
+.ribbon span::after {
+  content: "";
+  position: absolute; right: 0px; top: 100%;
+  z-index: -1;
+  border-left: 3px solid transparent;
+  border-right: 3px solid #79A70A;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid #79A70A;
 }

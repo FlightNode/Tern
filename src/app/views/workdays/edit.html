@@ -1,93 +1,87 @@
-<div class="modal-header">
-    <h2>Edit Workday Logging</h2>
-    <p><span class="text-danger">*</span> indicates a ng-required="true" field.</p>
-</div>
-<form ng-submit="submit()" name="workdayForm" class="form-horizontal">
-    <div class="modal-body">
-        <alert>
-        </alert>
-        <div class="form-group">
-            <label for="workDate" class="col-sm-3 control-label">Date <span class="text-danger">*</span></label>
-            <div class="col-sm-9" 
-                ng-class="{'has-error': workdayForm.workDate.$error.ng-required="true" || workdayForm.workDate.$error.date}">
-               <div class="input-group">
-                    <input type="text" class="form-control" ng-required="true" ng-model="workday.workDateManual" ng-pattern="/(\d{4}-\d{2}\-\d{2})|(\d{2}/\d{2}/\d{4})/" placeholder="mm/dd/yyyy" ng-change="updateWorkDate()" />
-                    <span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="showDatePicker()"><i class="glyphicon glyphicon-calendar"></i></button></span>
-                </div>
-                <uib-datepicker ng-model="workday.workDate" class="well well-sm" ng-show="workDateOpened" datepicker-options="datePickerOptions" ng-model-options="datePickerModelOptions" ng-change="updateWorkDateManual()"></uib-datepicker>
-                <p class="form-control-static">
-                    {{workday.workDate | date:'fullDate' }}
-                </p>
-            </div>
-            <div role="alert" class="col-sm-9 col-sm-offset-3">
-                <span class="error" ng-show="workdayForm.workDate.$error.pattern">Invalid date: use YYYY-MM-DD or mm/dd/yyyy format</span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="workHours" class="col-sm-3 control-label">Total Work Time (Hours) <span class="text-danger">*</span></label>
-            <div class="col-sm-9">
-                <uib-timepicker ng-model="workday.workTime" hour-step="hstep" minute-step="mstep" show-meridian="false"></uib-timepicker>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="travelHours" class="col-sm-3 control-label">Total Travel Time (Hours) <span class="text-danger">*</span></label>
-            <div class="col-sm-9">
-                <uib-timepicker ng-model="workday.travelTime" hour-step="hstep" minute-step="mstep" show-meridian="false"></uib-timepicker>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="location" class="col-sm-3 control-label">Location <span class="text-danger">*</span></label>
-            <div class="col-sm-9" ng-class="{'has-error': workdayForm.location.$error.required}">
-                <select class="form-control" ng-required="true" name="location"
-                    ng-model="workday.location"
-                    ng-options="item.id as item.value for item in data.locations">
-                </select>
-            </div>
-            <div role="alert" class="col-sm-9 col-sm-offset-3">
-                <span class="error" ng-show="workdayForm.location.$error.required">Required</span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="workType" class="col-sm-3 control-label">Work Type <span class="text-danger">*</span></label>
-            <div class="col-sm-9" ng-class="{'has-error': workdayForm.workType.$error.required}">
-                <select class="form-control" ng-required="true" name="workType"
-                    ng-model="workday.workType"
-                    ng-options="item.id as item.value for item in data.worktypes">
-                </select>
-            </div>
-            <div role="alert" class="col-sm-9 col-sm-offset-3">
-                <span class="error" ng-show="workdayForm.workType.$error.required">Required</span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="numberOfVolunteers" class="col-sm-3 control-label">Number of Volunteers <span class="text-danger">*</span></label>
-            <div class="col-sm-9" ng-class="{'has-error': workdayForm.numberOfVolunteers.$error.ng-required="true" || workdayForm.numberOfVolunteers.$error.pattern }">
-                <input type="number" name="numberOfVolunteers" id="numberOfVolunteers" value="1"
-                ng-required="true" ng-pattern="/\d+/" ng-model="workday.numberOfVolunteers" class="form-control">
-            </div>
-            <div role="alert" class="col-sm-9 col-sm-offset-3">
-                <span class="error" ng-show="workdayForm.numberOfVolunteers.$error.required">Required</span>
-            </div>
-            <div role="alert" class="col-sm-9 col-sm-offset-3">
-                <span class="error" ng-show="workdayForm.numberOfVolunteers.$error.pattern">Must be a positive number</span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="tasksCompleted" class="col-sm-3 control-label">Tasks Completed <span class="text-danger">*</span></label>
-            <div class="col-sm-9" ng-class="{'has-error': workdayForm.tasksCompleted.$error.required}">
-                <textarea name="tasksCompleted" id="tasksCompleted" ng-model="workday.tasksCompleted" ng-required="true" style="height: 6em;" class="form-control">
-                </textarea>
-            </div>
-            <div role="alert" class="col-sm-9 col-sm-offset-3">
-                <span class="error" ng-show="workdayForm.tasksCompleted.$error.required">Required</span>
-            </div>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <input type="hidden" name="id" ng-model="workday.id"></input>
-        <input type="hidden" name="userId" ng-model="workday.userId"></input>
-        <button type="submit" ng-disabled="workdayForm.$invalid" class="btn btn-primary">Save</button>
-        <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
-    </div>
-</form>
+<alert></alert>
 <loading></loading>
+<div class="row">
+    <div class="modal-header">
+        <h2>Edit Activity Log</h2>
+        <p><span class="text-danger">*</span> indicates a required field.</p>
+    </div>
+    <form name="workdayForm" class="form-horizontal">
+        <div class="modal-body">
+            <alert>
+            </alert>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Volunteer Name</label>
+                <div class="col-sm-9">
+                    <p class="form-control-static">{{workday.volunteerName}}</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="workDate" class="col-sm-3 control-label">Date <span class="text-danger">*</span></label>
+                <div class="col-sm-4" ng-class="{'has-error': workdayForm.workDate.$error.required || workdayForm.workDate.$error.date}">
+                    <input kendo-date-picker ng-model="workday.workDate" k-ng-model="workDateObject" style="width: 100%" ng-required="true" id="startDate" name="workDate" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="workHours" class="col-sm-3 control-label">Total Work Time (Hours) <span class="text-danger">*</span></label>
+                <div class="col-sm-9">
+                    <uib-timepicker ng-model="workday.workTime" hour-step="hstep" minute-step="mstep" show-meridian="false" ng-required="true"></uib-timepicker>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="travelHours" class="col-sm-3 control-label">Total Travel Time (Hours) <span class="text-danger">*</span></label>
+                <div class="col-sm-9">
+                    <uib-timepicker ng-model="workday.travelTime" hour-step="hstep" minute-step="mstep" show-meridian="false" ng-required="true"></uib-timepicker>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="location" class="col-sm-3 control-label">Location <span class="text-danger">*</span></label>
+                <div class="col-sm-9" ng-class="{'has-error': workdayForm.location.$error.required}">
+                    <select class="form-control" ng-required="true" name="location" ng-model="workday.locationId" ng-options="item.id as item.value for item in data.locations">
+                    </select>
+                    <!-- Map -->
+                    <div map-lazy-load-params="{{googleMapsUrl}}" map-lazy-load="https://maps.google.com/maps/api/js">
+                        <ng-map center="28.943706, -95.360923" zoom="7" default-style="false" map-type-id="SATELLITE" style="display: block; height: 350px; margin-top: 1em;">
+                            <info-window id="info">
+                                <div ng-non-bindable="">
+                                    Name: {{site.name}}
+                                    <br> Code: {{site.siteCode}}
+                                    <br> Lat/Lng: {{anchor.getPosition().lat() | number: 3}}/ {{anchor.getPosition().lng() | number: 3}}
+                                    <br>
+                                    <button class="btn btn-small btn-default" ng-click="useThisSite({{index}})">Use this site</button>
+                                </div>
+                            </info-window>
+                            <marker ng-repeat="(index, site) in mappableLocations" id="{{index}}" position="{{site.position}}" on-click="showLocation(event, index)"></marker>
+                        </ng-map>
+                    </div>
+                    <!-- End Map -->
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="workType" class="col-sm-3 control-label">Work Type <span class="text-danger">*</span></label>
+                <div class="col-sm-9" ng-class="{'has-error': workdayForm.workType.$error.required}">
+                    <select class="form-control" ng-required="true" name="workType" ng-model="workday.workType" ng-options="item.id as item.value for item in data.worktypes" >
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="numberOfVolunteers" class="col-sm-3 control-label">Number of Volunteers <span class="text-danger">*</span></label>
+                <div class="col-sm-9" ng-class="{'has-error': workdayForm.numberOfVolunteers.$error.required || workdayForm.numberOfVolunteers.$error.pattern }">
+                    <input type="number" class="form-control" name="numberOfVolunteers" id="numberOfVolunteers" value="1" ng-required="true" ng-model="workday.numberOfVolunteers" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="tasksCompleted" class="col-sm-3 control-label">Tasks Completed <span class="text-danger">*</span></label>
+                <div class="col-sm-9" ng-class="{'has-error': workdayForm.tasksCompleted.$error.required}">
+                    <textarea name="tasksCompleted" class="form-control" id="tasksCompleted" ng-model="workday.tasksCompleted" ng-required="true" style="height: 6em;" class="form-control">
+                    </textarea>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <input type="hidden" name="id" ng-model="workday.id"></input>
+            <input type="hidden" name="userId" ng-model="workday.userId"></input>
+            <button class="btn btn-primary" ng-click="save()" ng-disabled="workdayForm.$invalid">Save</button>
+            <button class="btn btn-default" ng-click="cancel()">Back to the List</button>
+        </div>
+    </form>
+</div>

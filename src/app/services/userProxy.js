@@ -143,7 +143,7 @@ angular.module('flightNodeApp')
 
                 approve: function($scope, ids, msg, done) {
                     $scope.loading = true;
-                    var url  = config.usersPending;
+                    var url = config.usersPending;
 
                     authService.post(url, ids)
                         .then(function success() {
@@ -153,17 +153,50 @@ angular.module('flightNodeApp')
                             messenger.displayErrorResponse($scope, response);
                         })
                         .finally(function() {
+                            // TODO: this should really be in the callback
                             $scope.loading = false;
                         });
                 },
 
-                roleInfo: function($scope) {
+                initiateReset: function($scope, emailAddress, msg, done) {
+                    var model = {
+                        emailAddress: emailAddress
+                    };
 
-                    // Hard-code for now, think about alternatives in the future
-                    var header = 'Role Descriptions';
-                    var text = '<p>At this time, it is best to use either "Administrative user" or "Volunteer data reporter". The precise functionality for "Project Coordinator" and "Volunteer Team Lead" has not been fully defined, although "Coordinator" generally has similar rights as "Administrator" (so use with extreme caution).</p>';
-                    
+                    var url = config.requestReset;
+                    authService.post(url, model)
+                        .then(function success() {
+                            messenger.showSuccessMessage($scope, msg);
+                        }, function error(response) {
+                            messenger.displayErrorResponse($scope, response.responseText || 'Invalid e-mail address');
+                        })
+                        .finally(done);
+                },
 
+                changePassword: function($scope, token, emailAddress, password, msg, done) {
+                    var model = {
+                        emailAddress: emailAddress,
+                        password: password
+                    };
+
+                    var url = config.changePassword + '?token=' + token;
+                    authService.post(url, model)
+                        .then(function success() {
+                            messenger.showSuccessMessage($scope, msg);
+                        }, function error(response) {
+                            switch (response.status) {
+                                case 422:
+                                    messenger.displayErrorResponse($scope, 'This link is no longer valid, you will need to request another e-mail');
+                                    break;
+                                case 404:
+                                    messenger.displayErrorResponse($scope, 'E-mail address not found');
+                                    break;
+                                default:
+                                    messenger.displayErrorResponse($scope, response.responseText);
+                            }
+
+                        })
+                        .finally(done);
                 }
             };
         }

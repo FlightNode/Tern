@@ -21,7 +21,10 @@ angular
     'navigationService',
     'ui.bootstrap.modal',
     'ui.bootstrap.timepicker',
-    'ui.grid.selection'
+    'ui.grid.selection',
+    'ui.bootstrap.typeahead',
+    'ngMap',
+    'kendo.directives'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -60,6 +63,16 @@ angular
         controller: 'UserProfileController',
         title: site + ' - My Profile'
       })
+      .when('/users/forgot', {
+        templateUrl: 'app/views/users/forgot.html',
+        controller: 'UserForgotPasswordController',
+        title: site + ' - Forgotten Password'
+      })
+      .when('/users/changepassword', {
+        templateUrl: 'app/views/users/changePassword.html',
+        controller: 'UserChangePasswordController',
+        title: site + ' - Change Password'
+      })
       .when('/users/:userId', {
         templateUrl: 'app/views/users/edit.html',
         controller: 'UserEditController',
@@ -91,6 +104,11 @@ angular
         title: site + ' - User\'s Work Days'
       })
       .when('/workdays/:id', {
+        templateUrl: 'app/views/workdays/edit.html',
+        controller: 'WorkdayEditController',
+        title: site + ' - Work Day - Edit'
+      })
+      .when('/workdays/edit/:id', {
         templateUrl: 'app/views/workdays/edit.html',
         controller: 'WorkdayEditController',
         title: site + ' - Work Day - Edit'
@@ -145,41 +163,104 @@ angular
         controller: 'LogoutController'
       })
       .when('/foraging/', {
-        redirectTo: '/foraging/create1'
+        templateUrl: 'app/views/foraging/list.html',
+        controller: 'ForagingListController',
+        title: 'Manage My Waterbird Foraging Surveys'
       })
-      .when('/foraging/create1', {
+      .when('/foraging/step1/', {
         templateUrl: 'app/views/foraging/create1.html',
-        controller: 'ForagingCreateController',
-        title: site + ' - Waterbird Foraging Survey - New',
+        controller: 'ForagingStep1Controller',
+        title: site + ' - Rookery Census - New',
         step: 1
       })
-      .when('/foraging/create2', {
+      .when('/foraging/step1/:id', {
+        templateUrl: 'app/views/foraging/create1.html',
+        controller: 'ForagingStep1Controller',
+        title: site + ' - Rookery Census - New',
+        step: 1
+      })
+      .when('/foraging/step2/:id', {
         templateUrl: 'app/views/foraging/create2.html',
-        controller: 'ForagingCreateController',
-        title: site + ' - Waterbird Foraging Survey - New',
+        controller: 'ForagingStep2Controller',
+        title: site + ' - Rookery Census - New',
         step: 2
       })
-      .when('/foraging/create3', {
+      .when('/foraging/step3/:id', {
         templateUrl: 'app/views/foraging/create3.html',
-        controller: 'ForagingCreateController',
-        title: site + ' - Waterbird Foraging Survey - New',
+        controller: 'ForagingStep3Controller',
+        title: site + ' - Rookery Census - New',
         step: 3
       })
-      .when('/foraging/create4', {
+      .when('/foraging/step4/:id', {
         templateUrl: 'app/views/foraging/create4.html',
-        controller: 'ForagingCreateController',
-        title: site + ' - Waterbird Foraging Survey - New',
+        controller: 'ForagingStep4Controller',
+        title: site + ' - Rookery Census - New',
         step: 4
       })
-      .when('/foraging/create5', {
+      .when('/foraging/step5/:id', {
         templateUrl: 'app/views/foraging/create5.html',
-        controller: 'ForagingCreateController',
-        title: site + ' - Waterbird Foraging Survey - New',
+        controller: 'ForagingStep5Controller',
+        title: site + ' - Rookery Census - New',
         step: 5
       })
       .when('/foraging/complete', {
         templateUrl: 'app/views/foraging/complete.html',
-        title: site + ' - Waterbird Foraging Survey - Completed'
+        title: site + ' - Rookery Census - Completed'
+      })
+      .when('/data/foraging', {
+        templateUrl: 'app/views/foraging/manage.html',
+        controller: 'ForagingManageController',
+        title: site + ' - Manage Rookery Censuss'
+      })
+      .when('/data/rookery', {
+        templateUrl: 'app/views/rookery/manage.html',
+        controller: 'RookeryCensusManageController',
+        title: site + ' - Manage Rookery Censuses'
+      })
+      .when('/rookery/', {
+        templateUrl: 'app/views/rookery/list.html',
+        controller: 'RookeryListController',
+        title: 'Manage My Rookery Census Surveys'
+      })
+      .when('/rookery/step1/', {
+        templateUrl: 'app/views/rookery/create1.html',
+        controller: 'RookeryCensusStep1Controller',
+        title: site + ' - Rookery Census - New',
+        step: 1
+      })
+      .when('/rookery/step1/:id', {
+        templateUrl: 'app/views/rookery/create1.html',
+        controller: 'RookeryCensusStep1Controller',
+        title: site + ' - Rookery Census - New',
+        step: 1
+      })
+      .when('/rookery/step2/:id', {
+        templateUrl: 'app/views/rookery/create2.html',
+        controller: 'RookeryCensusStep2Controller',
+        title: site + ' - Rookery Census - New',
+        step: 2
+      })
+      .when('/rookery/step3/:id', {
+        templateUrl: 'app/views/rookery/create3.html',
+        controller: 'RookeryCensusStep3Controller',
+        title: site + ' - Rookery Census - New',
+        step: 3
+      })
+      .when('/rookery/step4/:id', {
+        templateUrl: 'app/views/rookery/create4.html',
+        controller: 'RookeryCensusStep4Controller',
+        title: site + ' - Rookery Census - New',
+        step: 4
+      })
+      .when('/rookery/step5/:id', {
+        templateUrl: 'app/views/rookery/create5.html',
+        controller: 'RookeryCensusStep5Controller',
+        title: site + ' - Rookery Census - New',
+        step: 5
+      })
+      .when('/rookery/complete', {
+        templateUrl: 'app/views/rookery/complete.html',
+        title: site + ' - Rookery Census - Completed'
       })
       .when('/violations', {
         templateUrl: 'app/views/violations.html',
@@ -191,6 +272,7 @@ angular
       })
       .when('/contact', {
         templateUrl: 'app/views/contact.html',
+        controller: 'ContactController',
         title: site + ' - Contact Us'
       })
       .when('/data', {

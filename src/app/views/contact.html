@@ -14,51 +14,48 @@
     <div class="col-sm-8 col-offset-sm-1">
         <h2>Send us a message</h2>
         <form ng-submit="submit()" name="contactForm" class="form-vertical">
-            <div class="form-group">
-                <label for="fromName" class="control-label">Name <span class="text-danger">*</span></label>
-                <div ng-class="{'has-error': contactForm.fromName.$error.required || contactForm.fromName.$error.maxlength}">
-                    <input type="text" class="form-control" name="fromName" id="fromName" placeholder="enter full name up to 100 characters" required ng-model="message.fromName" ng-maxlength="100">
-                </div>
-                <div role="alert">
-                    <span class="error" ng-show="contactForm.fromName.$error.maxlength">Max 100 characters</span>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="fromEmail" class="control-label">Email Address <span class="text-danger">*</span></label>
-                <div ng-class="{'has-error': contactForm.fromEmail.$error.required || contactForm.fromEmail.$error.pattern}">
-                    <div class="input-group">
-                        <span class="input-group-addon">@</span>
-                        <input class="form-control" ng-model="message.fromEmail" name="fromEmail" placeholder="enter email upto 250 characters" required ng-maxlength="250" ng-pattern="/.+@.+\..+/">
+            <fieldset ng-disabled="sent">
+                <div class="form-group">
+                    <label for="fromName" class="control-label">Name <span class="text-danger">*</span></label>
+                    <div ng-class="{'has-error': contactForm.fromName.$error.required || contactForm.fromName.$error.maxlength}">
+                        <input type="text" class="form-control" name="fromName" id="fromName" required ng-model="message.fromName" ng-maxlength="100">
+                    </div>
+                    <div role="alert">
+                        <span class="error" ng-show="contactForm.fromName.$error.maxlength">Max 100 characters</span>
                     </div>
                 </div>
-                <div role="alert">
-                    <span class="error" ng-show="contactForm.fromEmail.$error.maxlength">Max 250 characters</span>
-                    <span class="error" ng-show="contactForm.fromEmail.$error.pattern">Does not look like an e-mail address</span>
+                <div class="form-group">
+                    <label for="fromEmail" class="control-label">Email Address <span class="text-danger">*</span></label>
+                    <div ng-class="{'has-error': contactForm.fromEmail.$error.required || contactForm.fromEmail.$error.pattern}">
+                        <div class="input-group">
+                            <span class="input-group-addon">@</span>
+                            <input class="form-control" ng-model="message.fromEmail" name="fromEmail" required ng-maxlength="250" ng-pattern="/.+@.+\..+/">
+                        </div>
+                    </div>
+                    <div role="alert">
+                        <span class="error" ng-show="contactForm.fromEmail.$error.maxlength">Max 250 characters</span>
+                        <span class="error" ng-show="contactForm.fromEmail.$touched && contactForm.fromEmail.$error.pattern">This doesn’t look like an email addres</span>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label for="reason" class="control-label">Reason for Contact <span class="text-danger">*</span></label>
-                <div ng-class="{'has-error': contactForm.reason.$error.required}">
-                    <!-- <select name="reasons" class="form-control" ng-model="reason" required multiple
-                            ng-options="item.name as item.description for item in data.reasons">
-                        </select> -->
-                    <select name="reason" id="reason" class="form-control" required ng-model="message.reason">
-                        <option>What options</option>
-                        <option>Should be provided?</option>
-                    </select>
+                <div class="form-group">
+                    <label for="reason" class="control-label">Reason for Contact <span class="text-danger">*</span></label>
+                    <div ng-class="{'has-error': contactForm.reason.$error.required}">
+                        <select name="reasons" class="form-control" ng-model="message.reason" required ng-options="item for item in reasons">
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label for="message" class="control-label">Message <span class="text-danger">*</span></label>
-                <div ng-class="{'has-error': contactForm.message.$error.required || contactForm.message.$error.maxlength}">
-                    <textarea style="width: 100%; height: 5em;" name="message" id="message" ng-model="message.message" ng-maxlength="1000" required placeholder="Max 1000 characters." class="form-control">
-                    </textarea>
+                <div class="form-group">
+                    <label for="message" class="control-label">Message <span class="text-danger">*</span></label>
+                    <div ng-class="{'has-error': contactForm.message.$error.required || contactForm.message.$error.maxlength}">
+                        <textarea style="width: 100%; height: 5em;" name="message" id="message" ng-model="message.message" ng-maxlength="1000" required placeholder="Max 1000 characters." class="form-control">
+                        </textarea>
+                    </div>
+                    <div role="alert">
+                        <span class="error" ng-show="contactForm.message.$error.maxlength">Max 1000 characters</span>
+                    </div>
                 </div>
-                <div role="alert">
-                    <span class="error" ng-show="contactForm.message.$error.maxlength">Max 1000 characters</span>
-                </div>
-            </div>
-            <button type="submit" ng-disabled="contactForm.$invalid" class="btn btn-primary login-link">Submit</button>
+                <button type="submit" ng-disabled="contactForm.$invalid" class="btn btn-primary login-link" ng-click="submit">Submit</button>
+            </fieldset>
         </form>
     </div>
     <loading></loading>

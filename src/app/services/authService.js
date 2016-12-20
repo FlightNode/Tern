@@ -8,15 +8,10 @@
  * Service for handling authentication and authorization-related functionality.
  */
 angular.module('authService', [])
-    .factory('authService', ['$cookies', '$http', 'jwtHelper', '$rootScope', '$log',
-        function($cookies, $http, jwtHelper, $rootScope, $log) {
+    .factory('authService', ['$cookies', '$http', 'jwtHelper', '$rootScope',
+        function($cookies, $http, jwtHelper, $rootScope) {
 
             var TOKEN_KEY = 'org.flightnode.jwt';
-            var roles;
-            var userId;
-            var userName;
-            var displayName;
-            var payload;
 
             return {
 
@@ -150,16 +145,14 @@ angular.module('authService', [])
                     return $this.userName;
                 },
 
+                isAuthorized: function() {
+                    return this.getUserId() > -1;
+                },
+
                 isAdministrator: function() {
                     var $this = this;
 
                     return _.includes($this._getRoles(), 'Administrator');
-                },
-
-                isCoordinator: function() {
-                    var $this = this;
-
-                    return _.includes($this._getRoles(), 'Coordinator');
                 },
 
                 isTeamLead: function() {

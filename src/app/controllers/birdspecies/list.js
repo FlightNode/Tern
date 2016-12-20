@@ -1,23 +1,5 @@
 'use strict';
 
-flnd.birdSpeciesList = {
-    retrieveRecords: function(config, $scope, messenger, authService) {
-
-        $scope.list = [];
-
-        authService.get(config.birdspecies)
-            .then(function success(response) {
-
-                $scope.list = response.data;
-
-            }, function error(response) {
-
-                messenger.displayErrorResponse($scope, response);
-
-            });
-    }
-};
-
 /**
  * @ngdoc function
  * @name flightNodeApp.controller:BirdSpeciesListController
@@ -26,17 +8,18 @@ flnd.birdSpeciesList = {
  * Controller for the user list page.
  */
 angular.module('flightNodeApp')
-    .controller('BirdSpeciesListController',
-     ['$scope', '$http', '$log', 'messenger', '$location', 'authService', 'config', '$uibModal',
-        function ($scope, $http, $log, messenger, $location, authService, config, $uibModal) {
+    .controller('BirdSpeciesListController', ['$scope', '$http', '$log', 'messenger', '$location', 'authService', 'config',
+        '$uibModal', 'birdsProxy',
+        function($scope, $http, $log, messenger, $location, authService, config,
+            $uibModal, birdsProxy) {
 
             // TODO: when not authorized, an error about uiGrid will
             // appear on the screen, probably because it tries to load
             //  the view before changing the location path. Is there a
             //  better place to put this? Perhaps something in the routing
             //  to intercept the route and direct traffic by permission?
-            if (!(authService.isAdministrator() ||
-                  authService.isCoordinator())) {
+
+            if (!authService.isAdministrator()) {
                 $log.warn('not authorized to access this path');
                 $location.path('/');
                 return;
@@ -44,12 +27,15 @@ angular.module('flightNodeApp')
 
             $scope.loading = true;
 
-            flnd.birdSpeciesList.retrieveRecords(config, $scope, messenger, authService);
+            var retrieveAllRecords = function() {
+                birdsProxy.getAll($scope, function(data) { $scope.list = data; });
+            };
+            retrieveAllRecords();
 
             $scope.gridOptions = {
                 enableFiltering: true,
                 rowTemplate: 'app/views/row.html',
-                onRegisterApi: function (gridApi) {
+                onRegisterApi: function(gridApi) {
                     $scope.gridApi = gridApi;
                 },
                 data: 'list',
@@ -58,13 +44,11 @@ angular.module('flightNodeApp')
                     { field: 'family', displayName: 'Family' },
                     { field: 'subFamily', displayName: 'Sub Family' },
                     { field: 'genus', displayName: 'Genus' },
-                    { field: 'species', displayName: 'Species' },
-                    {
+                    { field: 'species', displayName: 'Species' }, {
                         field: 'commonName',
                         displayName: 'Common Name',
                         width: '200',
-                    },
-                    {
+                    }, {
                         field: 'id',
                         displayName: '',
                         cellTemplate: '\
@@ -83,7 +67,7 @@ angular.module('flightNodeApp')
 
             var success = function() {
                 // Re-load the grid
-                flnd.birdSpeciesList.retrieveRecords(config, $scope, messenger, authService);
+                retrieveAllRecords();
                 messenger.showSuccessMessage($scope, 'Saved');
             };
 
@@ -91,7 +75,7 @@ angular.module('flightNodeApp')
                 // no action required
             };
 
-            $scope.createBirdSpecies = function () {
+            $scope.createBirdSpecies = function() {
                 var modal = $uibModal.open({
                     animation: true,
                     templateUrl: '/app/views/birdspecies/create.html',
@@ -119,4 +103,5 @@ angular.module('flightNodeApp')
 
             $scope.loading = false;
 
-        }]);
+        }
+    ]);

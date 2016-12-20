@@ -8,8 +8,8 @@
  * Service for supporting the Waterbird Foraging Survey
  */
 angular.module('flightNodeApp')
-    .factory('foragingSurveyProxy', ['authService', 'config', 'messenger', '$log',
-        function(authService, config, messenger, $log) {
+    .factory('foragingSurveyProxy', ['authService', 'config', 'messenger', '$log', '$q',
+        function(authService, config, messenger, $log, $q) {
             return {
                 getById: function($scope, id, next) {
 
@@ -25,9 +25,11 @@ angular.module('flightNodeApp')
                         });
                 },
 
-                getByUserId: function($scope, id, next) {
+                getForCurrentUser: function($scope, next) {
 
-                    authService.get(config.waterbirdForagingSurvey + "?userId" + userId)
+                    var userId = authService.getUserId();
+
+                    authService.get(config.waterbirdForagingSurvey + '?userId=' + userId)
                         .then(function success(response){
 
                             next(response.data);
@@ -65,7 +67,48 @@ angular.module('flightNodeApp')
                             messenger.displayErrorResponse($scope, response);
                             
                         });
+                },
+
+                getFullList: function($scope, next) {
+
+                    authService.get(config.waterbirdForagingSurvey)
+                        .then(function success(response){
+
+                            next(response.data);
+
+                        }, function error(response) {
+
+                            messenger.displayErrorResponse($scope, response);
+                            
+                        });
+                },
+
+                export: function($scope) {
+                    var deferred = $q.defer();
+
+                    authService.get(config.foragingExport)
+                        .then(function success(response) {
+                           deferred.resolve(response.data); 
+                        }, function error(response) {                            
+                            messenger.displayErrorResponse($scope, response);
+                        });
+
+                    return deferred.promise;
+                },
+
+                delete: function($scope, identifier) {
+                    var deferred = $q.defer();
+
+                    authService.delete(config.waterbirdForagingSurvey + identifier)
+                        .then(function success() {
+                             messenger.showSuccessMessage($scope, 'Survey has been deleted.');
+                             deferred.resolve();
+                        }, function error(response) {                            
+                            messenger.displayErrorResponse($scope, response);
+                        });
+
+                    return deferred.promise;
                 }
-            }
+            };
         }
     ]);

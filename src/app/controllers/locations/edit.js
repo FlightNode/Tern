@@ -9,12 +9,12 @@ flnd.locationEdit = {
 
             }, function error(response) {
 
-                 messenger.displayErrorResponse($scope, response);
+                messenger.displayErrorResponse($scope, response);
 
             });
     },
 
-    configureSubmit: function(url, $scope, messenger, authService, $uibModalInstance){
+    configureSubmit: function(url, $scope, messenger, authService, $uibModalInstance) {
         return function() {
             $scope.loading = true;
 
@@ -42,33 +42,33 @@ flnd.locationEdit = {
  * Controller for the edit work type page.
  */
 angular.module('flightNodeApp')
-    .controller('LocationEditController',
-        ['$scope', '$http', '$log', '$location', 'messenger', 'authService', '$routeParams', 'config', 'id', '$uibModalInstance',
-            function ($scope, $http, $log, $location, messenger, authService, $routeParams, config, id, $uibModalInstance) {
+    .controller('LocationEditController', ['$scope', '$http', '$log', '$location', 'messenger', 'authService', '$routeParams', 'config', 'id', '$uibModalInstance',
+        function($scope, $http, $log, $location, messenger, authService, $routeParams, config, id, $uibModalInstance) {
 
-                if (!(authService.isAdministrator() ||
-                      authService.isCoordinator())) {
-                    $log.warn('not authorized to access this path');
-                    $location.path('/');
-                    return;
-                }
 
-                $scope.loading = true;
+            if (!authService.isAdministrator()) {
+                $log.warn('not authorized to access this path');
+                $location.path('/');
+                return;
+            }
 
-                if (!isFinite(id)) {
-                    // garbage input
-                    return;
-                }
+            $scope.loading = true;
 
-                var url = config.locations + id;
+            if (!isFinite(id)) {
+                // garbage input
+                return;
+            }
 
-                flnd.locationEdit.retrieveRecord(url, $scope, messenger, authService);
+            var url = config.locations + id;
 
-                $scope.cancel = function () {
-                    $uibModalInstance.dismiss('cancel');
-                };
+            flnd.locationEdit.retrieveRecord(url, $scope, messenger, authService);
 
-                $scope.submit = flnd.locationEdit.configureSubmit(url, $scope, messenger, authService, $uibModalInstance);
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
 
-                $scope.loading = false;
-            }]);
+            $scope.submit = flnd.locationEdit.configureSubmit(url, $scope, messenger, authService, $uibModalInstance);
+
+            $scope.loading = false;
+        }
+    ]);

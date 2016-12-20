@@ -12,8 +12,8 @@ angular.module('flightNodeApp')
         function($scope, $log, messenger, roleProxy, authService, userProxy, $location) {
 
             if (authService.isAnonymous()) {
-	        $location.path('/login');
-	    }
+                $location.path('/login');
+            }
 
             $scope.loading = true;
             $scope.data = {};
@@ -36,11 +36,18 @@ angular.module('flightNodeApp')
                 }
             });
 
+            $scope.checkPasswordMatching = function() {
+                $scope.passwordsDontMatch = $scope.user.password !== $scope.user.password2;
+                $scope.invalid = $scope.user.password && $scope.passwordsDontMatch;
+            };
+
             $scope.cancel = function() {
                 $location.path('/');
             };
 
             $scope.submit = userProxy.putProfile($scope, id);
+
+            $scope.invalid = false;
 
             $scope.loading = false;
         }

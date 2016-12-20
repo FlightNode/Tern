@@ -1,34 +1,25 @@
 'use strict';
 
 angular.module('navigationService', [])
-    .factory('navigationService', ['authService', '$log', 'config', '$rootScope', '$sce', 
+    .factory('navigationService', ['authService', '$log', 'config', '$rootScope', '$sce',
         function(authService, $log, config, $rootScope, $sce) {
             var KEY = 'NAVIGATION_TREE';
 
             return {
                 createTree: function() {
-                    var tree = [
-                        {
-                            entry: {
-                                title: 'Home',
-                                path: '#/'
-                            },
-                            children: []
+                    var tree = [{
+                        entry: {
+                            title: 'Home',
+                            path: '#/'
                         },
-                        {
-                            entry: {
-                                title: 'Contact Us',
-                                path: '#/contact'
-                            },
-                            children: []
+                        children: []
+                    }, {
+                        entry: {
+                            title: 'Contact Us',
+                            path: '#/contact'
                         },
-                        {
-                            entry: {
-                                title: 'FAQ',
-                                path: '#/faq'
-                            },
-                            children: []
-                        }];
+                        children: []
+                    }];
 
                     if (authService.isAnonymous()) {
                         tree.push({
@@ -38,106 +29,114 @@ angular.module('navigationService', [])
                             },
                             children: []
                         });
+                        tree.push({
+                            entry: {
+                                title: 'Submit Data',
+                                path: '#/data'
+                            },
+                            children: []
+                        });
                     } else { // signed-in successfully
-                        if (authService.isReporter()) {
-                            tree.push({
+                        // All authenticated users
+                        tree.push({
+                            entry: {
+                                title: 'Submit Data',
+                                path: ''
+                            },
+                            children: [{
                                 entry: {
-                                    title: 'Submit Data',
-                                    path: ''
+                                    title: 'Data Overview',
+                                    path: '#/data'
                                 },
-                                children: [
-                                    {
-                                        entry: {
-                                            title: 'Data Overview',
-                                            path: '#/data'
-                                        },
-                                        children: []
-                                    },
-                                    {
-                                      entry: {
-                                        title: 'Workday Logging',
-                                        path: '#/workdays'
-                                      },
-                                      children: []
-                                    },
-                                    {
-                                      entry: {
-                                        title: 'Foraging Survey',
-                                        path: '#/foraging'
-                                      },
-                                      children: []
-                                    }
-                                ]
-                            });
-                        }
+                                children: []
+                            }, {
+                                entry: {
+                                    title: 'Activity Log',
+                                    path: '#/workdays'
+                                },
+                                children: []
+                            }, {
+                                entry: {
+                                    title: 'Foraging Survey',
+                                    path: '#/foraging'
+                                },
+                                children: []
+                            }, {
+                                entry: {
+                                    title: 'Rookery Census',
+                                    path: '#/rookery'
+                                },
+                                children: []
+                            }]
+                        });
+                        // Only for admins
                         if (authService.isAdministrator()) {
                             tree.push({
                                 entry: {
                                     title: 'Manage',
                                     path: ''
                                 },
-                                children: [
-                                    {
-                                        entry: {
-                                            title: 'Approved Users',
-                                            path: '#/users'
-                                        }
-                                    },
-                                    {
-                                        entry: {
-                                            title: 'Pending Users',
-                                            path: '#/users/pending'
-                                        }
-                                    },
-                                    {
-                                        entry: {    // will create a divider
-                                            title: '',
-                                            path: ''
-                                        }
-                                    },
-                                    {
-                                        entry: {
-                                            title: 'Volunteer Tracking',
-                                            path: ''    // will create a header
-                                        }
-                                    },
-                                    {
-                                        entry: {
-                                            title: 'Work Days',
-                                            path: '#/workdays/all'
-                                        }
-                                    },
-                                    {
-                                        entry: {
-                                            title: 'Work Types',
-                                            path: '#/worktypes'
-                                        }
-                                    },
-                                    {
-                                        entry: {
-                                            title: 'Locations',
-                                            path: '#/locations'
-                                        }
-                                    },
-                                    {
-                                        entry: {    // will create a divider
-                                            title: '',
-                                            path: ''
-                                        }
-                                    },
-                                    {
-                                        entry: {
-                                            title: 'Bird Surveys',
-                                            path: '' // will create a header
-                                        }
-                                    },
-                                    {
-                                        entry: {
-                                            title: 'Species',
-                                            path: '#/species'
-                                        }
+                                children: [{
+                                    entry: {
+                                        title: 'Approved Users',
+                                        path: '#/users'
                                     }
-                                ]
+                                }, {
+                                    entry: {
+                                        title: 'Pending Users',
+                                        path: '#/users/pending'
+                                    }
+                                }, {
+                                    entry: { // will create a divider
+                                        title: '',
+                                        path: ''
+                                    }
+                                }, {
+                                    entry: {
+                                        title: 'Volunteer Tracking',
+                                        path: '' // will create a header
+                                    }
+                                }, {
+                                    entry: {
+                                        title: 'Activity Log',
+                                        path: '#/workdays/all'
+                                    }
+                                }, {
+                                    entry: {
+                                        title: 'Activity Types',
+                                        path: '#/worktypes'
+                                    }
+                                }, {
+                                    entry: {
+                                        title: 'Locations',
+                                        path: '#/locations'
+                                    }
+                                }, {
+                                    entry: { // will create a divider
+                                        title: '',
+                                        path: ''
+                                    }
+                                }, {
+                                    entry: {
+                                        title: 'Bird Surveys',
+                                        path: '' // will create a header
+                                    }
+                                }, {
+                                    entry: {
+                                        title: 'Species',
+                                        path: '#/species'
+                                    }
+                                }, {
+                                    entry: {
+                                        title: 'Waterbird Foraging Survey',
+                                        path: '#/data/foraging'
+                                    }
+                                }, {
+                                    entry: {
+                                        title: 'Rookery Census',
+                                        path: '#/data/rookery'
+                                    }
+                                }]
                             });
                         }
                     }
@@ -167,8 +166,8 @@ angular.module('navigationService', [])
 
                     if (tree === null || tree === 'null') {
 
-                      tree = this.createTree();
-                      callback(tree);
+                        tree = this.createTree();
+                        callback(tree);
 
                     } else {
                         tree = JSON.parse(tree);

@@ -1,0 +1,16 @@
+<div class="row">
+    <alert>
+    </alert>
+    <div class="col-sm-6 col-sm-offset-3 login">
+        <h2>Initiate Password Reset</h2>
+        <p>If you are an Audubon volunteer or member and have forgotten your password, then please enter your e-mail address and submit. You will receive an e-mail containing a secure link for changing your password. You will have 24 hours to respond to that e-mail, after which the link will expire. You can generate a new link by re-submitting your e-mail address here.</p>
+        <form ng-submit="submit()" name="initiate-reset" >
+            <div class="form-group">
+                <label for="emailAddress" class="control-label">Email Address</label>
+                <input class="form-control" ng-model="emailAddress" id="emailAddress" placeholder="Enter your e-mail address" required ng-disabled="submitted">
+            </div>
+            <button type="submit" ng-disabled="loginForm.$invalid || submitted" class="btn btn-primary login-link">Initiate Reset</button>
+        </form>
+    </div>
+</div>
+<loading></loading>

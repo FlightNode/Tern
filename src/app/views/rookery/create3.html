@@ -1,0 +1,51 @@
+<alert></alert>
+<loading></loading>
+<div ng-include="'/app/views/rookery/progressBar.html'"></div>
+<div class="row" ng-show="invalid">
+    <div class="col-sm-8 col-sm-offset-2">
+        <div class="alert alert-danger" role="alert">
+            One or more observations is incomplete (pink row / species marked with **).
+        </div>
+    </div>
+</div>
+<div class="row">
+    <form class="form-horizontal survey-form" role="form" name="observationForm">
+        <div class="row header-row">
+            <div class="col-sm-3 col-sm-offset-2">Species</div>
+            <div class="col-sm-2">No. of Adults</div>
+            <div class="col-sm-1">Nests Present</div>
+            <div class="col-sm-1">Chicks Present</div>
+            <div class="col-sm-1">Fledglings Present</div>
+        </div>
+        <div ng-class="{ 'row odd-row': $odd, 'row even-row': $even, 'last-row': $last }" ng-repeat="bird in birdSpeciesList | orderBy: 'commonName' track by $index">
+            <div class="col-sm-3 col-sm-offset-2" ng-class="{ 'bg-danger': bird.invalid }">
+                <b ng-bind="bird.commonName"></b>
+                <span ng-show="bird.invalid" class="text-warning">**</span>
+            </div>
+            <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">No. of Adults</div>
+            <div class="col-sm-2" ng-class="{ 'bg-danger': bird.invalid }">
+                 <select id="adults" name="adults" class="form-control" ng-model="bird.adults" ng-options="item.value as item.text for item in numberOfAdults">
+                </select>
+            </div>
+            <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">Nests Present</div>
+            <div class="col-sm-1" ng-class="{ 'bg-danger': bird.invalid }">
+                <input type="checkbox" name="nests" class="form-control" ng-model="bird.nestsPresent">
+            </div>
+            <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">Chicks Present</div>
+            <div class="col-sm-1" ng-class="{ 'bg-danger': bird.invalid }">
+                <input type="checkbox" name="chicks" class="form-control" ng-model="bird.chicksPresent">
+            </div>
+            <div class="visible-sm-12 visible-xs-12 hidden-md hidden-lg small-label">Fleglings Present</div>
+            <div class="col-sm-1" ng-class="{ 'bg-danger': bird.invalid }">
+                <input type="checkbox" name="fledglings" class="form-control" ng-model="bird.fledglingsPresent">
+            </div>
+        </div>
+        <div class="row" style="margin-top: 1em; margin-bottom: 1em;">
+            <label class="control-label col-sm-2" for="surveyComments">Comments</label>
+            <div class="col-sm-9">
+                <textarea type="text" class="form-control" rows="5" id="surveyComments" placeholder="Enter Comments" ng-model="rookeryCensus.surveyComments"></textarea>
+            </div>
+        </div>
+    </form>
+</div>
+<div ng-include="'/app/views/rookery/bottomBar.html'"></div>

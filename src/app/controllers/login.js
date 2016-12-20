@@ -15,7 +15,7 @@ flnd.login = {
 
 
                 var queryString = $location.search();
-                var redirect = queryString['redirect'] || '/';
+                var redirect = queryString.redirect || '/';
 
                 $http({
                         url: config.token,
@@ -55,7 +55,7 @@ flnd.login = {
                         } else {
                             var status = response.status.toString();
 
-                            if (status === "-1") {
+                            if (status === '-1') {
                                 messenger.displayErrorResponse($scope, 'Back-end service is offline, please try again later.');
                             } else {
                                 messenger.displayErrorResponse($scope, status + ': ' + response.statusText);

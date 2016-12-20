@@ -11,20 +11,22 @@
     <!-- <meta property="og:url" content="http://tx.audubon.org/"> -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="/images/favicon.png" type="image/png">
+    <link href="http://kendo.cdn.telerik.com/2016.3.1028/styles/kendo.common.min.css" rel="stylesheet" />
+    <link href="http://kendo.cdn.telerik.com/2016.3.1028/styles/kendo.default.min.css" rel="stylesheet" />
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/angular-ui-grid/ui-grid.css" />
     <!-- endbower -->
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.css"/>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.css" />
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/responsive.css">
     <link rel="stylesheet" href="styles/app.css">
     <link rel="stylesheet" href="styles/tern.css">
     <!-- endbuild -->
-    <link href='https://fonts.googleapis.com/css?family=Noto+Serif' rel='stylesheet' type='text/css'>
-    <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600|Noto+Serif:400,700,400italic" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Noto+Serif" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600|Noto+Serif:400,700,400italic" rel="stylesheet" type="text/css">
 </head>
 
 <body ng-app="flightNodeApp">
@@ -32,6 +34,7 @@
     <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
     <div class="container metastripe">
+        <div class="ribbon"><span>Beta</span></div>
         <div class="row">
             <a href="http://www.audubon.org"><img src="/images/wordmark-white.png" alt="Audubon"></a>
             <ol class="breadcrumb">
@@ -72,7 +75,7 @@
                             </a>
                         </li>
                         <li class="action-nav-item action-nav-item">
-                            <a href="https://give.audubon.org/Giving/Page/121/1/121" class="action-nav-link button small tomato">Donate</a>
+                            <a href="https://give.audubon.org/Giving/Page/121/1/121" class="action-nav-link button small tomato" target="_blank">Donate</a>
                         </li>
                     </ul>
                 </div>
@@ -85,14 +88,11 @@
             </div>
         </div>
     </div>
-    
     <div ng-view="" class="container main"></div>
-    
     <div class="container footer">
         <div class="row">
             <div class="col-md-4">
                 <img src="/images/audubonTexasCoastalConservation.png" style="width: 260px; height: auto; margin-left: -30px;" alt="Audubon Texas Coastal Conservation">
-                <h4>Audubon Texas</h4>
                 <p>Our mission is to conserve and restore natural ecosystems, focusing on birds, other wildlife, and their habitats for the benefit of humanity and the earth’s biological diversity.</p>
             </div>
             <div class="col-md-3 col-md-offset-1">
@@ -114,14 +114,12 @@
             </div>
             <div class="col-md-2">
                 <div class="foot-info where-we-are">
-                    <p><a href="http://tx.audubon.org/aboutus/contact-us" target="_blank">Contact Us</a></p>
                     <p><a href="http://eepurl.com/ONWfT" target="_blank">Newsletter</a></p>
                     <p><a href="http://tx.audubon.org/aboutus/where-we-are" target="_blank">Where We Are</a></p>
-                    <p><a href="https://give.audubon.org/Giving/Page/121/1/121">Donate</a></p>
+                    <p><a href="https://give.audubon.org/Giving/Page/121/1/121" target="_blank">Donate</a></p>
                 </div>
             </div>
         </div>
-       </div>
     </div>
     <div class="container metastripe copyright">
         <div class="row">
@@ -130,13 +128,12 @@
                 <span class="footer-copyright-links">
             <a href="http://www.audubon.org/legal-notice" target="_blank">Legal Notices</a>
             <a href="http://www.audubon.org/privacy-policy" target="_blank">Privacy Policy</a>
-            <a href="http://www.audubon.org/contact-us" target="_blank">Contact National Audubon</a>
           </span>
             </p>
         </div>
-        </section>
-        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
-        <!--<script>
+    </div>
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+    <!--<script>
     !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
     (A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
     r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
@@ -144,70 +141,99 @@
     ga('create', 'UA-XXXXX-X');
     ga('send', 'pageview');
     </script>-->
-        <!-- build:js(.) scripts/vendor.js -->
-        <!-- bower:js -->
-        <script src="bower_components/jquery/dist/jquery.js"></script>
-        <script src="bower_components/moment/moment.js"></script>
-        <script src="bower_components/lodash/lodash.js"></script>
-        <script src="bower_components/angular/angular.js"></script>
-        <script src="bower_components/angular-animate/angular-animate.js"></script>
-        <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-        <script src="bower_components/angular-cookies/angular-cookies.js"></script>
-        <script src="bower_components/angular-resource/angular-resource.js"></script>
-        <script src="bower_components/angular-route/angular-route.js"></script>
-        <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-        <script src="bower_components/angular-touch/angular-touch.js"></script>
-        <script src="bower_components/angular-ui-grid/ui-grid.js"></script>
-        <script src="bower_components/angular-jwt/dist/angular-jwt.js"></script>
-        <script src="bower_components/ui-navbar/release/js/ui-navbar.js"></script>
-        <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-        <script src="bower_components/ng-csv/build/ng-csv.min.js"></script>
-        <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
-        <!-- endbower -->
-        <!-- endbuild -->
-        <!-- build:js(.) scripts/ui-bootstrap.js -->
-        <script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
-        <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-        <!-- endbuild -->
-        <!-- build:js scripts/scripts.js -->
-        <script src="app/app.js"></script>
-        <script src="app/controllers/main.js"></script>
-        <script src="app/controllers/login.js"></script>
-        <script src="app/controllers/users/list.js"></script>
-        <script src="app/controllers/users/create.js"></script>
-        <script src="app/controllers/users/register.js"></script>
-        <script src="app/controllers/users/edit.js"></script>
-        <script src="app/controllers/users/pending.js"></script>
-        <script src="app/controllers/users/profile.js"></script>
-        <script src="app/controllers/workdays/create.js"></script>
-        <script src="app/controllers/workdays/createForUser.js"></script>
-        <script src="app/controllers/workdays/edit.js"></script>
-        <script src="app/controllers/workdays/list.js"></script>
-        <script src="app/controllers/workdays/mylist.js"></script>
-        <script src="app/controllers/worktypes/list.js"></script>
-        <script src="app/controllers/worktypes/create.js"></script>
-        <script src="app/controllers/worktypes/edit.js"></script>
-        <script src="app/controllers/locations/list.js"></script>
-        <script src="app/controllers/locations/create.js"></script>
-        <script src="app/controllers/locations/edit.js"></script>
-        <script src="app/controllers/birdspecies/create.js"></script>
-        <script src="app/controllers/birdspecies/edit.js"></script>
-        <script src="app/controllers/birdspecies/list.js"></script>
-        <script src="app/controllers/foraging/create.js"></script>
-        <script src="app/controllers/logout.js"></script>
-        <script src="app/services/userMessages.js"></script>
-        <script src="app/services/roleProxy.js"></script>
-        <script src="app/services/userProxy.js"></script>
-        <script src="app/services/authService.js"></script>
-        <script src="app/services/foragingSurveyProxy.js"></script>
-        <script src="app/services/navigationService.js"></script>
-        <script src="app/services/config.js"></script>
-        <script src="app/services/surveyTypeService.js"></script>
-        <script src="app/services/locationProxy.js"></script>
-        <script src="app/services/enumsProxy.js"></script>
-        <script src="app/directives/userForm.js"></script>
-        <script src="app/directives/loading.js"></script>
-        <!-- endbuild -->
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
+    <script src="bower_components/lodash/lodash.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/angular-ui-grid/ui-grid.js"></script>
+    <script src="bower_components/angular-jwt/dist/angular-jwt.js"></script>
+    <script src="bower_components/ui-navbar/release/js/ui-navbar.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/ng-csv/build/ng-csv.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/ngmap/build/scripts/ng-map.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:js(.) scripts/ui-bootstrap.js -->
+    <script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <!-- endbuild -->
+    <!-- build:js(.) scripts/kendo.js -->
+    <script src="kendo/kendo.core.js"></script>
+    <script src="kendo/kendo.angular.js"></script>
+    <script src="kendo/kendo.popup.js"></script>
+    <script src="kendo/kendo.calendar.js"></script>
+    <script src="kendo/kendo.datepicker.js"></script>
+    <script src="kendo/kendo.timepicker.js"></script>
+    <!-- endbuild -->
+    <!-- build:js scripts/scripts.js -->
+    <script src="app/polyfill.js"></script>
+    <script src="app/app.js"></script>
+    <script src="app/controllers/main.js"></script>
+    <script src="app/controllers/login.js"></script>
+    <script src="app/controllers/contact.js"></script>
+    <script src="app/controllers/users/list.js"></script>
+    <script src="app/controllers/users/create.js"></script>
+    <script src="app/controllers/users/register.js"></script>
+    <script src="app/controllers/users/edit.js"></script>
+    <script src="app/controllers/users/pending.js"></script>
+    <script src="app/controllers/users/profile.js"></script>
+    <script src="app/controllers/users/forgot.js"></script>
+    <script src="app/controllers/users/changePassword.js"></script>
+    <script src="app/controllers/workdays/create.js"></script>
+    <script src="app/controllers/workdays/createForUser.js"></script>
+    <script src="app/controllers/workdays/edit.js"></script>
+    <script src="app/controllers/workdays/list.js"></script>
+    <script src="app/controllers/workdays/mylist.js"></script>
+    <script src="app/controllers/worktypes/list.js"></script>
+    <script src="app/controllers/worktypes/create.js"></script>
+    <script src="app/controllers/worktypes/edit.js"></script>
+    <script src="app/controllers/locations/list.js"></script>
+    <script src="app/controllers/locations/create.js"></script>
+    <script src="app/controllers/locations/edit.js"></script>
+    <script src="app/controllers/birdspecies/create.js"></script>
+    <script src="app/controllers/birdspecies/edit.js"></script>
+    <script src="app/controllers/birdspecies/list.js"></script>
+    <script src="app/controllers/foraging/manage.js"></script>
+    <script src="app/controllers/foraging/step1.js"></script>
+    <script src="app/controllers/foraging/step2.js"></script>
+    <script src="app/controllers/foraging/step3.js"></script>
+    <script src="app/controllers/foraging/step4.js"></script>
+    <script src="app/controllers/foraging/step5.js"></script>
+    <script src="app/controllers/foraging/list.js"></script>
+    <script src="app/controllers/rookery/manage.js"></script>
+    <script src="app/controllers/rookery/step1.js"></script>
+    <script src="app/controllers/rookery/step2.js"></script>
+    <script src="app/controllers/rookery/step3.js"></script>
+    <script src="app/controllers/rookery/step4.js"></script>
+    <script src="app/controllers/rookery/step5.js"></script>
+    <script src="app/controllers/rookery/list.js"></script>
+    <script src="app/controllers/logout.js"></script>
+    <script src="app/services/userMessages.js"></script>
+    <script src="app/services/roleProxy.js"></script>
+    <script src="app/services/userProxy.js"></script>
+    <script src="app/services/authService.js"></script>
+    <script src="app/services/foragingSurveyProxy.js"></script>
+    <script src="app/services/rookeryCensusProxy.js"></script>
+    <script src="app/services/navigationService.js"></script>
+    <script src="app/services/config.js"></script>
+    <script src="app/services/surveyTypeService.js"></script>
+    <script src="app/services/locationProxy.js"></script>
+    <script src="app/services/enumsProxy.js"></script>
+    <script src="app/services/timeDateUtility.js"></script>
+    <script src="app/services/birdsProxy.js"></script>
+    <script src="app/directives/userForm.js"></script>
+    <script src="app/directives/loading.js"></script>
+    <!-- endbuild -->
 </body>
 
 </html>

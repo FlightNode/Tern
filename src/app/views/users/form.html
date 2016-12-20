@@ -6,34 +6,43 @@
     <div class="modal-body">
         <alert>
         </alert>
-        <fieldset ng-disabled="alreadySaved">
-            <legend>Sign-on Information</legend>
+        <div ng-disabled="alreadySaved">
             <div class="form-group">
                 <label for="userName" class="col-sm-3 control-label">User Name <span class="text-danger">*</span></label>
-                <div class="col-sm-9" ng-class="{'has-error': userForm.userName.$error.required || userForm.userName.$error.pattern}">
-                    <input type="text" class="form-control" ng-model="user.userName" name="userName" placeholder="Min 6, max 256; letters numbers @ and . allowed" required ng-pattern="/^[0-9a-zA-Z@\.]{6,256}$/">
+                <div class="col-sm-9" ng-class="{'has-error': userForm.userName.$error.required || (userForm.userName.$touched && userForm.userName.$error.pattern)}">
+                    <input type="text" class="form-control" ng-model="user.userName" name="userName" required ng-pattern="/^[0-9a-zA-Z@\.]{6,256}$/">
+                    <span class="help-block">Letters, numbers, @, and . allowed</span>
                 </div>
                 <div role="alert" class="col-sm-9 col-sm-offset-3">
-                    <span class="error" ng-show="userForm.userName.$error.pattern">Must contain at 6 to 256 characters. Can be an e-mail address.</span>
+                    <span class="error" ng-show="userForm.userName.$touched && userForm.userName.$error.pattern">Must contain 6 to 256 characters. Can be an e-mail address.</span>
                 </div>
             </div>
             <div class="form-group">
-                <label for="password" class="col-sm-3 control-label">Password <span class="text-danger">*</span></label>
-                <div class="col-sm-9" ng-class="{'has-error': userForm.password.$error.pattern}">
-                    <input type="text" class="form-control" ng-model="user.password" name="password" placeholder="Min 6, max 50; at least 1 digit. Leave blank to keep existing password." ng-pattern="/((?=.*\d){6,50})/">
+                <label for="password" class="col-sm-3 control-label">Password </label>
+                <div class="col-sm-9" ng-class="{'has-error': userForm.password.$error.required || (userForm.password.$touched && userForm.password.$error.pattern)}">
+                    <input type="password" class="form-control" ng-model="user.password" name="password" placeholder="Must be at least 6 characters and contain at least 1 digit" ng-required="!user.userId" ng-pattern="/((?=.*\d){6,50})/" ng-change="checkPasswordMatching()">
+                    <span class="help-block" ng-show="user.userId > 0">Leave blank to keep existing password.</span>
                 </div>
                 <div role="alert" class="col-sm-9 col-sm-offset-3">
-                    <span class="error" ng-show="userForm.password.$error.pattern">Must contain at least one digit and be 6 to 50 characters </span>
+                    <span class="error" ng-show="userForm.password.$touched && userForm.password.$error.pattern">Must contain at least one digit and be 6 to 50 characters </span>
+                </div>
+            </div>
+            <div class="form-group" ng-show="user.password">
+                <label for="password2" class="col-sm-3 control-label"></label>
+                <div class="col-sm-9" ng-class="{'has-error': userForm.password2.$touched && passwordsDontMatch}">
+                    <input type="password" class="form-control" ng-model="user.password2" name="password2" ng-required="!user.userId" placeholder="Re-type your password" ng-change="checkPasswordMatching()">
+                </div>
+                <div role="alert" class="col-sm-9 col-sm-offset-3">
+                    <span class="error" ng-show="userForm.password2.$touched && passwordsDontMatch">Does not match the first password </span>
                 </div>
             </div>
             <div class="form-group" ng-show="{{showRoles}}">
                 <div class="col-sm-3 text-right">
-                    <label for="roles" class="control-label">Roles <span class="text-danger">*</span></label>
+                    <label for="role" class="control-label">Role <span class="text-danger">*</span></label>
                 </div>
-                <div class="col-sm-9" ng-class="{'has-error': userForm.roles.$error.required}">
-                    <select name="roles" class="form-control" ng-model="user.roles" required multiple ng-options="item.name as item.description for item in data.roles">
+                <div class="col-sm-9">
+                    <select name="role" class="form-control" ng-model="user.role" ng-options="item.id as item.name for item in data.roles">
                     </select>
-                    <p><span class="icon-info" aria-hidden="true"></span> At this time, it is best to use either Administrative user or Volunteer data reporter. The precise functionality for Project Coordinator and Volunteer Team Lead has not been fully defined in the code. Right now, assume that Project Coordinator has same rights as Administrative User.
                 </div>
             </div>
             <div class="form-group" ng-show="{{showActiveStatus}}">
@@ -42,50 +51,38 @@
                     <input type="checkbox" ng-model="user.active" name="active">
                 </div>
             </div>
-        </fieldset>
-        <fieldset ng-disabled="alreadySaved">
-            <legend>Name</legend>
             <div class="form-group">
-                <label for="givenName" class="col-sm-3 control-label">Given / First Name <span class="text-danger">*</span></label>
+                <label for="givenName" class="col-sm-3 control-label">First Name <span class="text-danger">*</span></label>
                 <div class="col-sm-9" ng-class="{'has-error': userForm.givenName.$error.required || userForm.givenName.$error.maxlength}">
-                    <input type="text" ng-model="user.givenName" class="form-control" name="givenName" placeholder="Max 50 characters" ng-maxlength="50" required>
+                    <input type="text" ng-model="user.givenName" class="form-control" name="givenName" ng-maxlength="50" required>
                 </div>
                 <div role="alert" class="col-sm-9 col-sm-offset-3">
                     <span class="error" ng-show="userForm.givenName.$error.maxlength">Max 50 characters</span>
                 </div>
             </div>
             <div class="form-group">
-                <label for="familyName" class="col-sm-3 control-label">Family / Last Name <span class="text-danger">*</span></label>
-                <div class="col-sm-9" ng-class="{'has-error': userForm.familyName.$error.required || userForm.familyName.$error.maxlength}">
-                    <input type="text" ng-model="user.familyName" class="form-control" name="familyName" placeholder="Max 50 characters" ng-maxlength="50" required>
+                <label for="familyName" class="col-sm-3 control-label">Last Name <span class="text-danger">*</span></label>
+                <div class="col-sm-9" ng-class="{'has-error':  userForm.familyName.$error.required || userForm.familyName.$error.maxlength}">
+                    <input type="text" ng-model="user.familyName" class="form-control" name="familyName" ng-maxlength="50" required>
                 </div>
                 <div role="alert" class="col-sm-9 col-sm-offset-3">
                     <span class="error" ng-show="userForm.familyName.$error.maxlength">Max 50 characters</span>
                 </div>
             </div>
-        </fieldset>
-        <fieldset ng-disabled="alreadySaved">
-            <legend>Contact Information</legend>
             <div class="form-group">
-                <label for="email" class="col-sm-3 control-label">E-mail Address <span class="text-danger">*</span></label>
-                <div class="col-sm-9" ng-class="{'has-error': userForm.email.$error.required || userForm.email.$error.pattern}">
-                    <div class="input-group">
-                        <span class="input-group-addon">@</span>
-                        <input type="email" ng-model="user.email" class="form-control" name="email" placeholder="Max 256 characters" ng-maxlength="256" ng-pattern="/.+@.+\..+/" required>
-                    </div>
+                <label for="email" class="col-sm-3 control-label">E-mail <span class="text-danger">*</span></label>
+                <div class="col-sm-9" ng-class="{'has-error': userForm.email.$error.required || (userForm.email.$touched &&userForm.email.$error.pattern)}">
+                    <input type="email" ng-model="user.email" class="form-control" name="email" ng-maxlength="256" ng-pattern="/.+@.+\..+/" required>
                 </div>
                 <div role="alert" class="col-sm-9 col-sm-offset-3">
                     <span class="error" ng-show="userForm.email.$error.maxlength">Max 256 characters</span>
-                    <span class="error" ng-show="userForm.email.$error.pattern">Does not look like an e-mail address</span>
+                    <span class="error" ng-show="userForm.email.$touched && userForm.email.$error.pattern">This does not look like an e-mail address</span>
                 </div>
             </div>
             <div class="form-group">
                 <label for="primaryPhoneNumber" class="col-sm-3 control-label">Primary Phone Number <span class="text-danger">*</span></label>
-                <div class="col-sm-9" ng-class="{'has-error': userForm.primaryPhoneNumber.$error.required || userForm.primaryPhoneNumber.$error.pattern}">
-                    <div class="input-group">
-                        <span class="input-group-addon">#</span>
-                        <input type="text" ng-model="user.primaryPhoneNumber" class="form-control" name="primaryPhoneNumber" placeholder="(555) 555-5555  or 555-555-5555 or 5555555555" ng-pattern="/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/" required>
-                    </div>
+                <div class="col-sm-9" ng-class="{'has-error': userForm.primaryPhoneNumber.$error.required || (userForm.primaryPhoneNumber.$touched && userForm.primaryPhoneNumber.$error.pattern)}">
+                    <input type="text" ng-model="user.primaryPhoneNumber" class="form-control" name="primaryPhoneNumber" placeholder="(555) 555-5555  or 555-555-5555 or 5555555555" ng-pattern="/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/" required>
                 </div>
                 <div role="alert" class="col-sm-9 col-sm-offset-3">
                     <span class="error" ng-show="userForm.primaryPhoneNumber.$error.pattern">Invalid phone number</span>
@@ -93,22 +90,17 @@
             </div>
             <div class="form-group">
                 <label for="secondaryPhoneNumber" class="col-sm-3 control-label">Secondary Phone Number</label>
-                <div class="col-sm-9" ng-class="{'has-error': userForm.secondaryPhoneNumber.$error.pattern}">
-                    <div class="input-group">
-                        <span class="input-group-addon">#</span>
-                        <input type="text" ng-model="user.secondaryPhoneNumber" class="form-control" name="secondaryPhoneNumber" placeholder="(555) 555-5555  or 555-555-5555 or 5555555555" ng-pattern="/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/">
-                    </div>
+                <div class="col-sm-9" ng-class="{'has-error': userForm.secondaryPhoneNumber.$touched && userForm.secondaryPhoneNumber.$error.pattern}">
+                    <input type="text" ng-model="user.secondaryPhoneNumber" class="form-control" name="secondaryPhoneNumber" placeholder="(555) 555-5555  or 555-555-5555 or 5555555555" ng-pattern="/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/">
                 </div>
                 <div role="alert" class="col-sm-9 col-sm-offset-3">
                     <span class="error" ng-show="userForm.secondaryPhoneNumber.$error.pattern">Invalid phone number</span>
                 </div>
             </div>
-        </fieldset>
-        <fieldset ng-disabled="alreadySaved">
             <div class="form-group">
                 <label for="county" class="col-sm-3 control-label">County <span class="text-danger">*</span></label>
                 <div class="col-sm-9" ng-class="{'has-error': userForm.county.$error.required || userForm.county.maxlength}">
-                    <input type="text" ng-model="user.county" class="form-control" name="county" placeholder="Max 50 characters" required ng-maxlength="50">
+                    <input type="text" ng-model="user.county" class="form-control" name="county" required ng-maxlength="50">
                 </div>
                 <div role="alert" class="col-sm-9 col-sm-offset-3">
                     <span class="error" ng-show="userForm.county.$error.maxlength">Maximum 50 characters</span>
@@ -117,7 +109,7 @@
             <div class="form-group">
                 <label for="mailingAddress" class="col-sm-3 control-label">Mailing Address</label>
                 <div class="col-sm-9" ng-class="{'has-error': userForm.mailingAddress.maxlength}">
-                    <input type="text" ng-model="user.mailingAddress" class="form-control" name="mailingAddress" placeholder="Max 100 characters" ng-maxlength="100">
+                    <input type="text" ng-model="user.mailingAddress" class="form-control" name="mailingAddress" ng-maxlength="100">
                 </div>
                 <div role="alert" class="col-sm-9 col-sm-offset-3">
                     <span class="error" ng-show="userForm.mailingAddress.$error.maxlength">Maximum 100 characters</span>
@@ -126,7 +118,7 @@
             <div class="form-group">
                 <label for="city" class="col-sm-3 control-label">City</label>
                 <div class="col-sm-9" ng-class="{'has-error': userForm.city.maxlength}">
-                    <input type="text" ng-model="user.city" class="form-control" name="city" placeholder="Max 50 characters" ng-maxlength="50">
+                    <input type="text" ng-model="user.city" class="form-control" name="city" ng-maxlength="50">
                 </div>
                 <div role="alert" class="col-sm-9 col-sm-offset-3">
                     <span class="error" ng-show="userForm.city.$error.maxlength">Maximum 50 characters</span>
@@ -135,7 +127,7 @@
             <div class="form-group">
                 <label for="state" class="col-sm-3 control-label">State</label>
                 <div class="col-sm-9" ng-class="{'has-error': userForm.state.maxlength}">
-                    <input type="text" ng-model="user.state" class="form-control" name="state" placeholder="Max 2 characters" ng-maxlength="2">
+                    <input type="text" ng-model="user.state" class="form-control" name="state" ng-maxlength="2">
                 </div>
                 <div role="alert" class="col-sm-9 col-sm-offset-3">
                     <span class="error" ng-show="userForm.state.$error.maxlength">Maximum 2 characters</span>
@@ -143,17 +135,17 @@
             </div>
             <div class="form-group">
                 <label for="zipCode" class="col-sm-3 control-label">Zip Code</label>
-                <div class="col-sm-9" ng-class="{'has-error': userForm.zip.zipCode}">
+                <div class="col-sm-9" ng-class="{'has-error': userForm.zip.$touched && userForm.zip.zipCode}">
                     <input type="text" ng-model="user.zipCode" class="form-control" name="zipCode" placeholder="5 or 9 digit zip code" ng-pattern="/^\d{5}(-\d{4})?$/">
                 </div>
                 <div role="alert" class="col-sm-9 col-sm-offset-3">
                     <span class="error" ng-show="userForm.zipCode.$error.pattern">Enter either 5 digit or 5+4 zip code</span>
                 </div>
             </div>
-        </fieldset>
+        </div>
     </div>
     <div class="modal-footer">
-        <button type="submit" ng-disabled="userForm.$invalid || alreadySaved" class="btn btn-primary">Save</button>
+            <button type="submit" ng-disabled="invalid || userForm.$invalid || alreadySaved" class="btn btn-primary">Save</button>
         <button type="button" class="btn btn-warning" ng-click="cancel()">Cancel</button>
     </div>
 </form>
