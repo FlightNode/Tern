@@ -46,6 +46,8 @@ angular.module('flightNodeApp')
             requestReset: baseV1Href + 'users/requestreset',
             changePassword: baseV1Href + 'users/changepassword',
 
-            googleMapsUrl: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAyPcJlSr4PC2k0ek6lLg8W-ScYNFxNpZM'
+            googleMapsUrl: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAyPcJlSr4PC2k0ek6lLg8W-ScYNFxNpZM',
+
+            ping: baseV1Href + "ping"
         };
     });
