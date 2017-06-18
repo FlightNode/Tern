@@ -44,26 +44,6 @@ angular.module('flightNodeApp')
                 return null;
             };
 
-            var setupDateAndTimeControls = function() {
-
-                $scope.hstep = 1;
-                $scope.mstep = 1;
-            };
-
-            var prepareDateAndTimeForUi = function(model) {
-                // need to convert to a a real Date object to support timepicker
-                var format = 'MM/DD/YYYY hh:mm a';
-                if (model.startTime && model.startTime.includes('M')) {
-                    model.startTime = moment(model.startDate + ' ' + model.startTime, format).toDate();
-                }
-                if (model.endTime && model.endTime.includes('M')) {
-                    model.endTime = moment(model.startDate + ' ' + model.endTime, format).toDate();
-                }
-
-
-                $scope.startDateObject = model.startTime;
-            };
-
             var configureMapping = function() {
                 NgMap.getMap().then(function(map) {
                     $scope.map = map;
@@ -117,7 +97,6 @@ angular.module('flightNodeApp')
                 $scope.loading = true;
 
                 var prepareScope = function(data) {
-                    prepareDateAndTimeForUi(data);
                     $scope.rookeryCensus = data;
 
                     $scope.checkValidity();
@@ -150,13 +129,17 @@ angular.module('flightNodeApp')
             //
 
             $scope.checkValidity = function() {
+                var format = ['h:m a', 'H:m'];
+                var start = moment($scope.rookeryCensus.startTime, format);
+                var end = moment($scope.rookeryCensus.endTime, format);
+
                 $scope.invalid = !(
                     $scope.rookeryCensus.locationId &&
                     $scope.rookeryCensus.startDate &&
                     $scope.rookeryCensus.startTime &&
                     $scope.rookeryCensus.endTime &&
                     $scope.rookeryCensus.prepTimeHours &&
-                    $scope.rookeryCensus.startTime < $scope.rookeryCensus.endTime
+                    start.isBefore(end)
                 );
             };
 
@@ -165,7 +148,6 @@ angular.module('flightNodeApp')
                 $scope.loading = true;
 
                 save(function(data) {
-                    prepareDateAndTimeForUi(data);
                     $scope.rookeryCensus = data;
                     $scope.loading = false;
                 });
@@ -179,7 +161,6 @@ angular.module('flightNodeApp')
 
                     saveToSession(data);
                     storeSelectedLocationNameInSession();
-                    prepareDateAndTimeForUi(data);
 
                     // need to pass the survey identifier on to step 2
                     $location.path('/rookery/step2/' + data.surveyIdentifier);
@@ -218,7 +199,6 @@ angular.module('flightNodeApp')
             $scope.googleMapsUrl = config.googleMapsUrl;
             $scope.rookeryCensus = {};
 
-            setupDateAndTimeControls();
             configureMapping();
             loadLocations();
 

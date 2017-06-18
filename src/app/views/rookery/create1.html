@@ -35,19 +35,19 @@
         <div class="form-group">
             <label class="control-label col-sm-3" for="startDate">Survey Date:</label>
             <div class="col-sm-4" ng-class="{ 'has-error': rookeryStep1.startDate.$error.required }">
-                <input kendo-date-picker ng-model="rookeryCensus.startDate" k-ng-model="startDateObject" style="width: 100%" ng-required="true" ng-change="checkValidity()" id="startDate" name="startDate" />
+                <input kendo-date-picker ng-model="rookeryCensus.startDate" style="width: 100%" ng-required="true" k-on-change="checkValidity()" id="startDate" name="startDate" />
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-3" for="startTime">Time Start:</label>
             <div class="col-sm-3" ng-class="{ 'has-error': !rookeryCensus.startTime }">
-                <uib-timepicker ng-model="rookeryCensus.startTime" hour-step="hstep" minute-step="mstep" show-meridian="true" ng-required="true"></uib-timepicker>
+                    <input kendo-time-picker ng-model="rookeryCensus.startTime" ng-required="true" k-on-change="checkValidity()" id="startTime" name="startTime">
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-3" for="endTime">Time End:</label>
             <div class="col-sm-3" ng-class="{ 'has-error': !rookeryCensus.endTime || rookeryCensus.startTime > rookeryCensus.endTime }">
-                <uib-timepicker ng-model="rookeryCensus.endTime" hour-step="hstep" minute-step="mstep" show-meridian="true" ng-required="true" ng-change="timeChange()"></uib-timepicker>
+                    <input kendo-time-picker ng-model="rookeryCensus.endTime" ng-required="true" k-on-change="checkValidity()" id="endTime" name="endTime">
             </div>
         </div>
         <div class="form-group">
